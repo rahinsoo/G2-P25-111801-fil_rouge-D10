@@ -1,0 +1,238 @@
+Entreprise DataTime -->
+cahier des charges -> charte graphique --> pas de logo actuelement -> à proposer
+couleurs principale -> orange et blanc -> en cours de l'affaire --> faire une proposition de couleurs
+nombre de salarié :
+4 personnes administration (1rh /
+datas ingénieurs 8CDI --> vers 10
+2 alternance
+5/10 personnes en portages salariale
+4 recruteur placeur
+2 direction -> Nivel gestion tech en régie +
+
+--> attentes principales de l'application :
+problème -> sommes en esn avec des grands compte en régie/ reste dans ka donné du data
+        -> reste difficile d'utiliser la gestion avec Excel
+   --> ils souhaitent gérer ça avec un soft (ici site interet/outil)
+   --> facilite le processus de gestion sans parte de donnée (sécurité)
+   --> plusieurs projets d'un même client-> risque de perdre le suivis de taches/activité
+   --> éviter de perdre de l'argent.
+   ---> en fonction du client arriver à indiquer combiens ils peuvent facturer (bonus)
+   ## --> jour hommme que fait tel individu dans tel boite.
+   --> planning prévisionnel pour voir le futur possible (pas indispensable)
+   --> planning réel fais par le colaborateur (très important)
+
+
+ --> activité est un projet -> formation -> developpement -> techtime, etc, ...
+ ---> taches = une mission que fait la personne dans cette activité -> former tous les utilisateur sur le soft
+
+ recherche --> ???
+
+ Utilisateur de l'utilisation ?
+ --> recruteur --> créer / insert le client et pour ce client on a tel tache
+ ---> idem au dessus ()
+ --->recruteur placeur planning pré
+ --> collaborateur
+ ---> chaque jour -> indique le travail fais ce jour et indique le nb de tps passé sur chaques taches
+ --->
+ --> qui doit voir les chiffres ?
+ chacun dois voir leur propres chiffres.
+ si TJM = XXX€/j homme alors cout = XXX€
+ --> fixer la partie bucget (non prio)
+ --> partie
+
+ --> dev itératif :
+ A louer 1er budget, la V1 (env 10000€) et si ok on vois pour lea suite V2 ou V3
+ fourni plus tard grille tarifaire 400€ à 800€ peut arriver à 1000€
+ devrait être fixer par le recruteur/placeur
+
+ --> gestion des client --> avoir un tableau de bord pour vois combien il doit en fonctione du nombre de collab (non important)
+
+--> technique SCSS PHP JS/TypeScript --> à respecter --> en interne peut faire monter en niveau avec ses compétences
+        Beaucoup en contact d'asso avec PHP en France --> d'ou l'utilisation PHP
+
+--> hébergement -> local ou serveur ?
+---> pas d'avis -> pour le moment le plus simple donc via un ébergement en ligne.
+
+--> création des comptes par les recruteur ou les collab se créé leurs compte
+---> taches fait par les admin qui pourra faire toutes les taches admin notamment création de compte
+---> demande un système de mailing (mais si compliqué pour la V1 -> créer juste le lien avec les identifiant et mdp)
+---> site accessible par tout le monde.
+
+--> reste sur la situation-> gestion chiffrage tps et activité (base)
+---> préciser quand il est abs
+
+--> faire principalement
+-----> toutes les fonctionnalité du collab
+-----> renseigner activité du client et taches
+-----> affecter les collab qui vont dans les taches
+-----> préciser combien de jour ils ont bosser sur tel ou tel tache
+-----> permet de savoir sur quel activité a travailler le collab et préparer les factures
+-----> date de fin --> projet
+------> pas de date de fin -> formation, par exemple ///
+-----> avoir des stats pour connaitre le temps de travail de chaque personne
+---------> idem pour le prévisionnel (V2)
+-----> idem pour les stats globals
+-----> prévoir les journée de travaux de projet de l'entreprise (donc non facturer car déjà payé)
+--> prévoir des % cible (types d'indicateur clé) KPI
+--> prévoir ces bulles de combien elle à fait de l'argent, combien elle nous fait (prévi) et combien elle a rapporté depuis son embauche
+-----> planing réel V1 --> savoir qui a fait quoi pour facturer
+-----> planing prévisionnel V2
+-----> planning budget V3
+
+--> possibilité de rattraper les données de taches déjà fait (c'est une limite donnée par le recruteur/placeur)
+---> rappeler avec un système de notification --> voir si possible en V1 au autre V
+
+--> dead line --> en fonction de nous et emplois du temps
+
+--> intervention de temps de travail minimum par demi journée 1 jour/hommes = 7h par jour donc 35h semaine
+
+--> tache = titre (travail de la base de donnée, ...)* et met un commentaire (modelisation de la BDD, execution, remplir la base , ...)
+
+PO
+product backlog
+Backlog produit
+scrum
+agile
+
+Daily
+nombre de sprint en fonction des fonctionnalitées
+nombre de jour dédié au nombre de projet -> bien déterminer le taff par rapport à cela
+Prévoir si besoin de se préparer à prendre du temps en plus si nécessaire
+bien prévoir les rituels scrum.
+
+préparer son projet en agilité
+time boxing pour minuter son temps et mettre de l'urgence dans le projet --> principe de compression du temps
+sinon Kamban avec les taches à suivre.
+
+préciser l'outils de com dans le CDC (discord ou autre)
+bien séparer les taches à faire -> de façon de temps identique dans la même journée
+ou en asynchrone
+
+penser à bien poser des questions au professeur
+
+-------------- Lecture et modification du projet ---------
+--> application de chiffrage du temps et des activités
+--> à définir
+--> quel type de saisi du temps ? par min, heures, secondes, jour /
+A ajouter :
+- présentation de l'ets -> la notre -> oui
+- Contexte du projet
+- Présentation de l'équipe :
+-- Laetitia, Matteo, Xavier
+--Président Directeur Général (PDG) :
+  Consultant Cadre Technique :
+  Encadrant Fonctionnel :
+  Lead Développeur :
+  Développeur Full stack :
+  Référent de l’Expérience Utilisateur (UX) :
+  PO :
+  -> User stores -> description d'un point de vu utilisateur mais pour les dev
+  SCRUMaster :
+
+A préparer : (objectif)
+  ●	Le tableau de bord
+  ●	Les tâches
+  ●	Les projets
+  ●	Un espace de recherche
+  ●	Les paramètres
+  ●	Le compte du salarié
+
+  Contrainte :
+   - respect -> 3WA DEV WEB
+   - Parametre des limites (MVP -> produit minimum viable)
+   - respect de la sécurité de l'app pour les exigence diplôme
+   - meilleures pratiques -> crédibilité du travail
+
+  Avantages :
+  - meilleure gestion du temps et des projets
+  - facilite la collaboration entre les équipes
+  - communications plus fluides
+  - projets plus gérables
+  - rapport détaillé pour suivre avancement
+
+ Enjeux :
+  - Comprendre le besoin utilisateur finaux --> MVP
+  - concevoir un app qui réponde au attentes (gestion temps et activité)
+  - calcul de la charge de travail -> tailles des fonctions -> sprint, ...
+
+ Gestion du projet
+  - Info des parties prenantes
+  - Utilisateur de références (Valentin mode projet)
+
+  Conception app :
+   Eco-conception:
+   - limitation consommation énergie
+   - eviter la surcharge de l'appli
+   - optimisation des médias (img, scripts)
+   - fluide et à taille d'écran -> responsive design
+   - choix sources d’énergie renouvelable / pratiques de réduction de leur empreinte carbone
+   - cache intelligente pour reduction de la qtt de donnée (discussion entre serveur + légère)
+   - accessibilité universelle -> utilisation de scripts non discriminatoire
+   - conforme  -->  RGAA et WCAG --> handicap
+
+   Structure app:
+    - Nombre de pages ? -> en fonction du projet
+    - certaines dispo qu'après avoir vu une page spécifique ou s'être co
+    - page de connexion -> classique --> unique pour la V1
+    - page du tableau de bord --> qu'est ce qu'on y fait apparaitre ?
+    Visualisation en fonction du statut de la personne ? oui -> en fonction du STD que au dessus
+      -- Logo
+      -- barre de navigation ac diff onglets
+        -- page des tâches,
+        -- des activités,
+        -- des activités par salarié,
+        -- espace de recherche ??? quel type de recherche taches / salarié ?
+        -- du profil utilisateur,
+        -- des paramètres
+      -- une barre de titre
+      -- contenu de la page
+      -- page param
+        -- choix clair / sombre
+        -- page “à propos” --> ne pas faire une page spécifique ? par rapport au outils ? --> FAQ pour les colab techniques, et autres
+        -- mentions légales --> ne pas faire une page spécifique ? V1 -> place holder
+        -- conditions générales d’utilisation --> ne pas faire une page spécifique ? CGU -> V1 -> place holder
+        -- la politique de confidentialité --> ne pas faire une page spécifique ? V1 -> place holder -> à modif en V2 ou V3
+   Tests
+    - à chaque étapes du projets --> conformité --> test de chaque fonction est sous systèmes ?--> carte blanche mais pousse vers la qualité
+    - réalisation rigoureuse-> qualité et la fiabilité prd final
+    - correctif apporté à chaque non conformités -> livraison conforme à lal demande
+
+   Environnement technique :
+    - PHP avec Symphony 6.4 LTS --> capable d'expîque les fonctions utiliser par Symphony
+    - PHP 8
+    - HTML5 / SCSS (variables, les boucles, et mixins)
+    - JS (TypeScript) framwork ? --> Angular nodeJS --> devoir peut-être l'expliquer --> à valider et voir avecles librairie
+    - Bootstrap (utilisation de SCSS)
+    - Web pack ???? -> logitiel pour mélanger les fichier JS --> à regarder
+    - “Rechercher et utiliser une API comme SIREN”
+
+   Postes utilisateurs :
+    - =/ postes utilisateurs (ordi bureau, pc portable, smartphone)
+    - utilisation optimal pour tous
+
+   Périmètre de la V1
+   - gestion de projets
+   - des taches
+   - utilisateurs
+   - génération des rapports et stats sur l'activité
+
+  Contraintes tech
+   - sécurité des données -> protocoles robustes et prévenir des attaques
+   - sécu = priorité
+   - Auth sécurisé des utilisateurs (notamment ac la BDD)
+   - validation strict SQL et protection XSS
+   - Rate Limiting
+
+  JS et TypeScript
+   - stockage sécurisé --> token JWT
+   - Utilisation type HTTPS
+   - Maj régulière (correctif de sécuriser)
+
+  SQL
+   - ORM pour intéraction
+
+  Sensibilisation et transparences
+   - politique de confidantialité claire
+
+  Gestion du nombre conséquent d'utilisateur
+  Compatible avec différents navigateurs
