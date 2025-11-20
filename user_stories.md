@@ -1,6 +1,6 @@
 # User stories : 
 
-**en gras** j’ai mis ce qui pour moi sera des choses à coder mais je ne suis pas rentrée pour le moment dans le détail et je ne suis pas sur de moi.
+**En gras** j’ai mis ce qui pour moi sera des choses à coder mais je ne suis pas rentrée pour le moment dans le détail et je ne suis pas sur de moi.
 
 En tant que Collaborateur, je souhaite :
 1. Me connecter en toute sécurité afin d’accéder aux fonctionnalités de l’appli => page de connexion sécurisée avec en amont la création du compte utilisateur.
