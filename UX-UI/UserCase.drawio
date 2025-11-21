@@ -172,6 +172,18 @@
             <mxPoint x="290" y="610" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="Jb-PxcwBR081DcSBKcZx-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Accéder une fiche infos du collaborateur" vertex="1">
+          <mxGeometry height="70" width="140" x="480" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="Jb-PxcwBR081DcSBKcZx-2" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0.567;entryY=0.971;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" target="Jb-PxcwBR081DcSBKcZx-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="610" as="sourcePoint" />
+            <mxPoint x="680" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Jb-PxcwBR081DcSBKcZx-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="include&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="520" y="580" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
