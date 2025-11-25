@@ -1,11 +1,11 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.1.1">
   <diagram id="DpoQe6rVpp3cbnBihhfZ" name="Page-1">
-    <mxGraphModel dx="786" dy="383" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1245" dy="417" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="PmKHnzF4U-RV25gcDC9i-1" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=140;height=30;" value="Data Punch" vertex="1">
-          <mxGeometry height="1310" width="400" x="260" y="10" as="geometry" />
+          <mxGeometry height="1310" width="450" x="260" y="10" as="geometry" />
         </mxCell>
         <mxCell id="PmKHnzF4U-RV25gcDC9i-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Utilisateur" vertex="1">
           <mxGeometry height="60" width="30" x="80" y="40" as="geometry" />
