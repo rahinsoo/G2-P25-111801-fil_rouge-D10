@@ -1,11 +1,11 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.1.1">
   <diagram id="DpoQe6rVpp3cbnBihhfZ" name="Page-1">
-    <mxGraphModel dx="1367" dy="556" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="786" dy="383" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="PmKHnzF4U-RV25gcDC9i-1" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=140;height=30;" value="Data Punch" vertex="1">
-          <mxGeometry height="1030" width="410" x="260" y="20" as="geometry" />
+          <mxGeometry height="1310" width="400" x="260" y="10" as="geometry" />
         </mxCell>
         <mxCell id="PmKHnzF4U-RV25gcDC9i-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Utilisateur" vertex="1">
           <mxGeometry height="60" width="30" x="80" y="40" as="geometry" />
@@ -67,7 +67,7 @@
         <mxCell id="PmKHnzF4U-RV25gcDC9i-16" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Enregistrer une activité" vertex="1">
           <mxGeometry height="70" width="140" x="310" y="514.5" as="geometry" />
         </mxCell>
-        <mxCell id="PmKHnzF4U-RV25gcDC9i-17" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Créer des taches prévisionnelles" vertex="1">
+        <mxCell id="PmKHnzF4U-RV25gcDC9i-17" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Créer des taches prévisionnelles (V2?)" vertex="1">
           <mxGeometry height="70" width="140" x="320" y="700" as="geometry" />
         </mxCell>
         <mxCell id="PmKHnzF4U-RV25gcDC9i-18" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Affecter un/des collaborateurs" vertex="1">
@@ -205,10 +205,40 @@
         <mxCell id="bzMm57Zj5uu5rWdJOd8d-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Gestion des rôles" vertex="1">
           <mxGeometry height="70" width="140" x="420" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="bzMm57Zj5uu5rWdJOd8d-4" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="bzMm57Zj5uu5rWdJOd8d-1" value="">
+        <mxCell id="bzMm57Zj5uu5rWdJOd8d-4" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" target="bzMm57Zj5uu5rWdJOd8d-1" value="">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="350" y="68.66999999999999" as="sourcePoint" />
             <mxPoint x="510" y="68.66999999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Accéder à un menu de recherche pour filtrer des données" vertex="1">
+          <mxGeometry height="70" width="140" x="310" y="1070" as="geometry" />
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-2" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Paramètrer l&#39;affichage et consulter les infos légales" vertex="1">
+          <mxGeometry height="70" width="140" x="310" y="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-3" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Utilisateur" vertex="1">
+          <mxGeometry height="60" width="30" x="70" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-4" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="EZfkKSvWkZkPDEsbIAYy-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="1119.5" as="sourcePoint" />
+            <mxPoint x="270" y="1119.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-5" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" target="EZfkKSvWkZkPDEsbIAYy-2" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="1120" as="sourcePoint" />
+            <mxPoint x="270" y="1130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-8" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Consulter son profil" vertex="1">
+          <mxGeometry height="70" width="140" x="310" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="EZfkKSvWkZkPDEsbIAYy-9" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="1120" as="sourcePoint" />
+            <mxPoint x="330" y="1240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
