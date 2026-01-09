@@ -5,7 +5,7 @@ namespace Core;
 final class Cors
 {
  public static function handle () :void {
-     $allowedOrigin = 'http://localhost:4200';
+     $allowedOrigin = 'http://127.0.0.1:4200';
      $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
      if ($origin === $allowedOrigin) {

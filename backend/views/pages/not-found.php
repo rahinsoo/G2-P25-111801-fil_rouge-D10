@@ -7,18 +7,17 @@
 
         <h1 class="error-404__title">Page Not Found</h1>
         <p class="sub error-404__text">
-            This route doesn’t exist in the GameCatalog.
+            This route doesn’t exist in DataPunch.
             Check the URL, or go back to safety.
         </p>
 
         <div class="error-404__actions">
             <a class="btn" href="/home">Back Home</a>
-            <a class="btn btn--alt" href="/games">Browse Games</a>
         </div>
 
         <div class="error-404__hint">
             <span class="badge">Tip</span>
-            <span class="error-404__mono">Try: /home, /games, /games/1</span>
+            <span class="error-404__mono">Try: /home</span>
         </div>
     </div>
 </section>
