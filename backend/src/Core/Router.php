@@ -7,13 +7,22 @@ final class Router {
     private array $getRoutes = [];
     private array $postRoutes = [];
     private array $getRegexRoutes = [];
+    private array $postRegexRoutes = [];
 
     public function get(string $path, callable $handler): void {
-        $this->getRoutes[$path] = $handler;
+        if (str_contains($path, '(')) {
+            $this->getRegexRoutes[$path] = $handler;
+        } else {
+            $this->getRoutes[$path] = $handler;
+        }
     }
 
     public function post(string $path, callable $handler) :void {
-        $this->postRoutes[$path] = $handler;
+        if (str_contains($path, '(')) {
+            $this->postRegexRoutes[$path] = $handler;
+        } else {
+            $this->postRoutes[$path] = $handler;
+        }
     }
 
     public function getRegex(string $pattern, callable $handler) : void {
@@ -37,13 +46,31 @@ final class Router {
             return;
         }
 
-        foreach ($this->getRegexRoutes as $pattern => $handler) {
-            if (preg_match($pattern, $path, $matches)) {
-                $handler($request, $response, $matches);
-                return;
+        if ($method === 'GET') {
+            foreach ($this->getRegexRoutes as $pattern => $handler) {
+                // Transforme le pattern en regex valide
+                $regex = '#^' . $pattern . '$#';
+                if (preg_match($regex, $path, $matches)) {
+                    $handler($matches);  // ← Passe les matches à la closure
+                    return;
+                }
             }
         }
 
-        $response->render('not-found', [], 404);
+        if ($method === 'POST') {
+            foreach ($this->postRegexRoutes as $pattern => $handler) {
+                $regex = '#^' . $pattern . '$#';
+                if (preg_match($regex, $path, $matches)) {
+                    $handler($matches);
+                    return;
+                }
+            }
+        }
+
+        http_response_code(404);
+        echo "Page non trouvée";
+
+
+        /*$response->render('not-found', [], 404);*/
     }
 }

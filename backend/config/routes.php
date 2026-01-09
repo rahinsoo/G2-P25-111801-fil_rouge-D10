@@ -6,7 +6,7 @@ use Core\Router;
 return function (Router $router, UserController $userController) {
 
     // Page d'accueil ou dashboard
-    $router->get('/', [$userController, 'index']);
+    /*$router->get('/users', [$userController, 'index']);*/
 
     // CRUD utilisateurs
     $router->get('/users', [$userController, 'index']); // liste

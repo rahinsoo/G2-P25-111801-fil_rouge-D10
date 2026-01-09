@@ -66,7 +66,8 @@ readonly class UserController
             $_POST['prenom'],
             $_POST['identifiant'],
             $user->getPassword(), // Le password n'est pas modifié ici
-            $_POST['role']
+            $_POST['id_user_role'],
+            $user->getNomRole()
         );
 
         $this->userRepository->updateUser($updatedUser);

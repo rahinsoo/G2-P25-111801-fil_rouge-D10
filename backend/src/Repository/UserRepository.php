@@ -63,7 +63,16 @@ readonly class UserRepository
     }
 
     public function readOne(int $id_user) : User | false {
-        $sql = $this->pdo->prepare("SELECT * FROM utilisateur WHERE id_user = :id_user");
+        $sql = $this->pdo->prepare("SELECT
+        u.id_user,
+        u.nom,
+        u.prenom,
+        u.identifiant,
+        u.id_user_role,
+        r.role
+        FROM utilisateur u
+        LEFT JOIN user_role r ON u.id_user_role = r.id_user_role 
+        WHERE id_user = :id_user");
         $sql->execute(['id_user' => $id_user]);
         $row = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -76,8 +85,9 @@ readonly class UserRepository
             $row['nom'],
             $row['prenom'],
             $row['identifiant'],
-            $row['password'],
-            $row['id_user_role']
+            '',
+            $row['id_user_role'],
+            $row['role']
         );
     }
 
