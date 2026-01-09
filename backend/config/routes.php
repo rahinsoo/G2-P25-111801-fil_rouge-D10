@@ -12,6 +12,7 @@ return function (Router $router, AppController $controller, PingApiController $p
     $router->get('/add', [$controller, 'add']);
     $router->get('/games', [$controller, 'games']);
     $router->get('/random', [$controller, 'random']);
+    $router->get('/tasks', [$taskController, 'index']);
     $router->post('/add', [$controller, 'handleAddGame']);
     $router->getRegex('#^/games/(\d+)$#', function (Request $req, Response $res, array $m) use ($controller) {
         $controller->gameById((int)$m[1]);
