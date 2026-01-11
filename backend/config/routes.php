@@ -1,33 +1,27 @@
 <?php
 
-use Controller\UserController;
+use Controller\AppController;
+use Controller\GameApiController;
+use Controller\PingApiController;
+use Core\Request;
+use Core\Response;
 use Core\Router;
 
-return function (Router $router, UserController $userController) {
-
-    // Page d'accueil ou dashboard
-    $router->get('/', [$userController, 'index']);
-
-    // CRUD utilisateurs
-    $router->get('/users', [$userController, 'index']); // liste
-    $router->get('/users/create', [$userController, 'create']); // formulaire création
-    $router->post('/users/store', [$userController, 'store']); // envoi création
-    $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
-        $userController->edit((int)$matches[1]);
-    });
-    $router->post('/users/update/(\d+)', function($matches) use ($userController) {
-        $userController->update((int)$matches[1]);
-    });
-    $router->post('/users/delete/(\d+)', function($matches) use ($userController) {
-        $userController->delete((int)$matches[1]);
+return function (Router $router, AppController $controller, PingApiController $pingApiController, GameApiController $gameApiController) {
+    $router->get('/', [$controller, 'home']);
+    $router->get('/add', [$controller, 'add']);
+    $router->get('/games', [$controller, 'games']);
+    $router->get('/random', [$controller, 'random']);
+    $router->post('/add', [$controller, 'handleAddGame']);
+    $router->getRegex('#^/games/(\d+)$#', function (Request $req, Response $res, array $m) use ($controller) {
+        $controller->gameById((int)$m[1]);
     });
 
-    $router->get('/users/(\d+)/change-password', function($matches) use ($userController) {
-        $userController->changePassword((int)$matches[1]);
-    });
+    // Routes API
+    $router->get('/api/ping', [$pingApiController, 'ping']);
 
-    $router->post('/users/(\d+)/update-password', function($matches) use ($userController) {
-        $userController->updatePassword((int)$matches[1]);
-    });
-
+    // A3) Nouvelles routes API pour les jeux
+    $router->get('/api/games/top', [$gameApiController, 'top']);
+    $router->get('/api/games/recent', [$gameApiController, 'recent']);
+    $router->get('/api/stats/ratings', [$gameApiController, 'ratingsStats']);
 };
