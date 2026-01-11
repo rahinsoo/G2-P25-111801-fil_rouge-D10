@@ -11,11 +11,16 @@
 <body>
 <header class="topbar">
     <div class="container topbar__inner">
-        <a href="/"><strong class="brand">Game Catalog</strong></a>
+        <a href="/home"><strong class="brand">Data Time</strong></a>
         <nav class="nav">
-            <a class="nav__link" href="/">Home</a>
-            <a class="nav__link" href="/games">Games</a>
-            <a class="nav__link" href="/add">Add Game</a>
+            <a class="nav__link" href="/home">Tableau de Bord</a>
+            <a class="nav__link" href="/client">Client</a>
+            <a class="nav__link" href="">Activités</a>
+            <a class="nav__link" href="">Tâches</a>
+            <a class="nav__link" href="">Activités par Salarié</a>
+            <a class="nav__link" href="">Profil</a>
+            <a class="nav__link" href="">Paramètres</a>
+            <a class="nav__link" href="">Déconnexion</a>
         </nav>
     </div>
 </header>
