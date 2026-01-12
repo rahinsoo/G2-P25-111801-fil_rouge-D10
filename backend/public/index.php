@@ -26,13 +26,13 @@ $router = new Router();
 $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 
 
-//$appController = new AppController($response, $session, $request);
+$AppController = new AppController($response,$homeRepository);
 //$userRepository = new UserRepository(Database::makePdo($config['db']));
 //$roleRepository = new RoleRepository(Database::makePdo($config['db']));
 //$userController = new UserController($userRepository, $roleRepository);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-//$registerRoutes($router, $AppController);
+$registerRoutes($router, $AppController);
 $router->dispatch($request, $response);
 
 

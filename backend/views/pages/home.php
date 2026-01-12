@@ -3,7 +3,7 @@
 //$total = $total ?? 0;
 ?>
 
-    <h1>Bienvenue dans ton espace</h1>
+    <h1>Bienvenue dans ton espace (home)</h1>
     <!--<p class="sub">Home — featuring --><?php //= count($games) ?><!-- games.</p>-->
     <!---->
     <!--<section class="card">-->
