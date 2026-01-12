@@ -3,28 +3,55 @@
 namespace Controller;
 
 use Model\User;
+
 use Repository\RoleRepository;
 use Repository\UserRepository;
-use JetBrains\PhpStorm\NoReturn;
+
 use Core\Request;
 use Core\Response;
 use Core\Session;
+
+use JetBrains\PhpStorm\NoReturn;
 
 readonly class UserController
 {
     public function __construct(
         private UserRepository $userRepository,
-        private RoleRepository $roleRepository
+        private RoleRepository $roleRepository,
+        private Session        $session
     ) {}
+
+    private function denyIfNotLogged(): void
+    {
+        if (!$this->session->get('user')) {
+            header('Location: /login');
+            exit;
+        }
+    }
+
+    private function denyIfNotAdmin(): void
+    {
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
+        if (!$this->session->isAdmin()) {
+            header('Location: /dashboard');
+            exit;
+        }
+    }
 
     public function index(): void
     {
+        $this->denyIfNotAdmin();
         $users = $this->userRepository->readAll();
         require __DIR__ . '/../../views/pages/user/liste.php';
     }
 
     public function create(): void
     {
+        $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
         require __DIR__ . '/../../views/pages/user/create.php';
     }
@@ -32,6 +59,7 @@ readonly class UserController
     #[NoReturn]
     public function store(): void
     {
+        $this->denyIfNotAdmin();
         $this->userRepository->createUser(
             $_POST['nom'],
             $_POST['prenom'],
@@ -46,6 +74,7 @@ readonly class UserController
 
     public function edit(int $id_user): void
     {
+        $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
         $user = $this->userRepository->readOne($id_user);
         require __DIR__ . '/../../views/pages/user/edit.php';
@@ -54,6 +83,7 @@ readonly class UserController
     #[NoReturn]
     public function update(int $id_user): void
     {
+        $this->denyIfNotAdmin();
         $user = $this->userRepository->readOne($id_user);
         if (!$user) {
             header('Location: /users');
@@ -78,28 +108,29 @@ readonly class UserController
 
     public function changePassword(int $id_user): void
     {
-        // Affiche le formulaire de changement de mot de passe
+        $this->denyIfNotLogged();
         $user = $this->userRepository->readOne($id_user);
         require __DIR__ . '/../../views/pages/user/change-password.php';
     }
 
-
+    #[NoReturn]
     public function updatePassword(int $id_user): void
     {
-        // Vérifie l'ancien mot de passe (optionnel mais recommandé)
-        $user = $this->userRepository->readOne($id_user);
+        $this->denyIfNotLogged();
 
+        // Vérifie l'ancien mot de passe
+        $user = $this->userRepository->readOne($id_user);
         if (!password_verify($_POST['old_password'], $user->getPassword())) {
-            // Mauvais ancien mot de passe
-            $_SESSION['error'] = 'Ancien mot de passe incorrect';
+            $this->session->flash('error', 'Ancien mot de passe incorrect');
             header('Location: /users/' . $id_user . '/change-password');
             exit;
         }
 
         // Met à jour le mot de passe
-        $this->userRepository->updatePassword($id_user, $_POST['new_password']);
+        $newPasswordHashed = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+        $this->userRepository->updatePassword($id_user, $newPasswordHashed);
 
-        $_SESSION['success'] = 'Mot de passe modifié avec succès';
+        $this->session->flash('success', 'Mot de passe modifié avec succès');
         header('Location: /users');
         exit;
     }
@@ -107,6 +138,7 @@ readonly class UserController
     #[NoReturn]
     public function delete(int $id_user): void
     {
+        $this->denyIfNotAdmin();
         $this->userRepository->deleteUser($id_user);
         header('Location: /users');
         exit;

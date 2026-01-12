@@ -30,10 +30,8 @@ final class Router {
     }
 
     public function dispatch (Request $request, Response $response) : void {
-        // Connaître le path.
         $path = $request->path();
 
-        // Connaître la méthode.
         $method = $request->method();
 
         if ($method === 'GET' && isset($this->getRoutes[$path])) {

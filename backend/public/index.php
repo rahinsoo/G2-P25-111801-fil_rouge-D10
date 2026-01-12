@@ -1,6 +1,10 @@
 <?php
 
 use Controller\UserController;
+use Controller\AuthController;
+use Controller\DashboardController;
+use Controller\PasswordController;
+
 use Repository\RoleRepository;
 use Repository\UserRepository;
 
@@ -24,10 +28,14 @@ $router = new Router();
 
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
-$userController = new UserController($userRepository, $roleRepository);
+
+$authController = new AuthController($userRepository, $session);
+$userController = new UserController($userRepository, $roleRepository, $session);
+$dashboardController = new DashboardController($session);
+$passwordController = new PasswordController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $userController);
+$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController);
 $router->dispatch($request, $response);
 
 

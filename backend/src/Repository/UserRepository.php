@@ -136,4 +136,18 @@ readonly class UserRepository
 
         return $stmt->execute(['id_user' => $id_user]);
     }
+
+    public function findByIdentifiant(string $identifiant): ?array
+    {
+        $sql = $this->pdo->prepare(
+            "SELECT * FROM utilisateur WHERE identifiant = :identifiant"
+        );
+
+        $sql->bindValue(':identifiant', $identifiant);
+        $sql->execute();
+
+        $user = $sql->fetch(\PDO::FETCH_ASSOC);
+
+        return $user ?: null;
+    }
 }
