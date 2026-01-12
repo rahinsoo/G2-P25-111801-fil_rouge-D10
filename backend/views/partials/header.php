@@ -11,7 +11,7 @@
 <body>
 <header class="topbar">
     <div class="container topbar__inner">
-        <a href="/home"><strong class="brand">Data Time</strong></a>
+        <a href="/"><strong class="brand">Data Time</strong></a>
         <nav class="nav">
             <a class="nav__link" href="/home">Tableau de Bord</a>
             <a class="nav__link" href="/client">Client</a>
