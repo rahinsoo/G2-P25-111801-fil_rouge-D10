@@ -4,6 +4,7 @@ use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
+use Controller\API\UserApiController;
 
 use Repository\RoleRepository;
 use Repository\UserRepository;
@@ -33,9 +34,10 @@ $authController = new AuthController($userRepository, $session);
 $userController = new UserController($userRepository, $roleRepository, $session);
 $dashboardController = new DashboardController($session);
 $passwordController = new PasswordController($userRepository, $session);
+$userApiController = new UserApiController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController);
+$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
 
 

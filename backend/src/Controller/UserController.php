@@ -46,7 +46,7 @@ readonly class UserController
     {
         $this->denyIfNotAdmin();
         $users = $this->userRepository->readAll();
-        require __DIR__ . '/../../views/pages/user/liste.php';
+        require __DIR__ . '/../../views/pages/user/list.php';
     }
 
     public function create(): void
@@ -60,11 +60,13 @@ readonly class UserController
     public function store(): void
     {
         $this->denyIfNotAdmin();
+
+        $passwordHashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $this->userRepository->createUser(
             $_POST['nom'],
             $_POST['prenom'],
             $_POST['identifiant'],
-            $_POST['password'],
+            $passwordHashed,
             (int)$_POST['id_user_role']
         );
 

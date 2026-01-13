@@ -4,6 +4,7 @@ use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
+use Controller\API\UserApiController;
 
 use Core\Router;
 
@@ -12,7 +13,9 @@ return function (
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
-    PasswordController $passwordController)
+    PasswordController $passwordController,
+    UserApiController $userApiController
+)
 {
     // routes pour CRUD utilisateurs
     $router->get('/users', [$userController, 'index']); // liste
@@ -48,4 +51,38 @@ return function (
 
     // routes pour la page principale Dashboard
     $router->get('/dashboard', [$dashboardController, 'index']);
+
+    // route test API //
+    $router->post('/api/test-login', function() {
+        $_SESSION['user'] = [
+            'id_user' => 1,
+            'id_user_role' => 1,
+            'role' => 'admin'
+        ];
+        echo json_encode(['ok' => true, 'role' => 'admin']);
+    });
+
+    $router->delete('/api/test', function () {
+        echo json_encode(['ok' => true]);
+    });
+
+    $router->get('/api/users', function() use ($userApiController) {
+        $userApiController->index();
+    });
+
+    $router->get('/api/users/(\d+)', function($matches) use ($userApiController) {
+        $userApiController->show((int)$matches[1]);
+    });
+
+    $router->post('/api/users', function() use ($userApiController) {
+        $userApiController->store();
+    });
+
+    $router->patch('/api/users/(\d+)', function($matches) use ($userApiController) {
+        $userApiController->update((int)$matches[1]);
+    });
+
+    $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
+        $userApiController->destroy((int)$matches[1]);
+    });
 };
