@@ -1,5 +1,5 @@
 <?php
-//$games = $featuredGames ?? [];
+$clients = $featuredClient ?? [];
 //$total = $total ?? 0;
 ?>
 
@@ -15,16 +15,16 @@
     <!---->
     <!--<a href="/random" class="btn">🎲 Random game</a>-->
     <!---->
-<?php //foreach ($games as $game): ?>
-    <!--    <article class="card">-->
-    <!--        <h2 class="card__title">--><?php //= $game['title'] ?><!--</h2>-->
-    <!---->
-    <!--        <div class="meta">-->
-    <!--            <span class="badge">--><?php //= $game['platform'] ?><!--</span>-->
-    <!--            <span class="badge">--><?php //= $game['genre'] ?><!--</span>-->
-    <!--            <span class="badge">--><?php //= (int)$game['releaseYear'] ?><!--</span>-->
-    <!--            <span class="badge">--><?php //= (int)$game['rating'] ?><!--/10</span>-->
-    <!--        </div>-->
-    <!--        <a href="/games/--><?php //= $game['id'] ?><!--">Naviguer vers le détail</a>-->
-    <!--    </article>-->
-<?php //endforeach; ?>
+<?php foreach ($clients as $client): ?>
+        <article class="card">
+            <h2 class="card__title"><?= $client['nom'] ?></h2>
+
+            <div class="meta">
+                <span class="badge"><?= (int) $client['numero_SIRET'] ?></span>
+                <span class="badge"><?= $client['type'] ?></span>
+                <span class="badge"><?= $client['information'] ?></span>
+                <span class="badge"><?= $client['adresse'] ?></span>
+            </div>
+<!--            <a href="/games/--><?php //= $client['id'] ?><!--">Naviguer vers le détail</a>-->
+        </article>
+<?php endforeach; ?>

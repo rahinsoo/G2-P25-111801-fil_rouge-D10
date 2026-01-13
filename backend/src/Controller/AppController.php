@@ -21,11 +21,25 @@ final readonly class AppController {
     ) {}
 
     public function home() : void {
-        $client = $this->homeRepository->findAllClients(3);
+        $clients = $this->homeRepository->findAllClients();
 
         $this->response->render('home', [
-            'featuredClient' => $client,
+            'featuredClient' => $clients,
             'total' => $this->homeRepository->countAll()
+        ]);
+    }
+
+    public function customer() : void
+    {
+        $clients = $this->homeRepository->findAllClients();
+        $this->response->render('/customer/listCustomer', [
+            'featuredClient' => $clients
+        ]);
+    }
+
+    public function pagetest() : void
+    {
+        $this->response->render('pagetest', [
         ]);
     }
 

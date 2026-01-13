@@ -11,11 +11,11 @@
 <body>
 <header class="topbar">
     <div class="container topbar__inner">
-        <a href="/"><strong class="brand">Data Time</strong></a>
+        <a href="/"><img src="/img/DATAPUNCH.png"></a>
         <nav class="nav">
             <a class="nav__link" href="/home">Tableau de Bord</a>
-            <a class="nav__link" href="/client">Client</a>
-            <a class="nav__link" href="">Activités</a>
+            <a class="nav__link" href="/customer/listCustomer">Client</a>
+            <a class="nav__link" href="/pagetest">Activités</a>
             <a class="nav__link" href="">Tâches</a>
             <a class="nav__link" href="">Activités par Salarié</a>
             <a class="nav__link" href="">Profil</a>
