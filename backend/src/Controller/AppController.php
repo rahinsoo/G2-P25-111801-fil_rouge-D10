@@ -8,6 +8,7 @@ use Helper\Debug;
 use JetBrains\PhpStorm\NoReturn;
 use Core\Response;
 use Repository\HomeRepository;
+use Repository\CustomerRepository;
 
 require_once __DIR__ . '/../Helper/Debug.php';
 
@@ -16,6 +17,7 @@ final readonly class AppController {
     public function __construct(
         private Response $response,
         private HomeRepository $homeRepository,
+        private CustomerRepository $customerRepository,
         //private Session $session,
         //private Request $request,
     ) {}
@@ -31,9 +33,9 @@ final readonly class AppController {
 
     public function customer() : void
     {
-        $clients = $this->homeRepository->findAllClients();
+        $clients = $this->customerRepository->findAllClients();
         $this->response->render('/customer/listCustomer', [
-            'featuredClient' => $clients
+            'listClient' => $clients
         ]);
     }
 

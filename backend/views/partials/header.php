@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Data Time</title>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/modal.css">
+    <script src="../src/js/modal.js" defer></script>
 </head>
 <body>
 <header class="topbar">

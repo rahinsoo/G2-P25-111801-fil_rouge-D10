@@ -3,7 +3,7 @@
 
 namespace Repository;
 
-//use Model\Client;
+//use Model\Home;
 use PDO;
 
 readonly final class HomeRepository {

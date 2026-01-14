@@ -562,14 +562,3 @@ HTTP Response
 ```
 
 ---
-
-## 💡 Voulez-vous que je crée une PR ?
-
-Je peux créer une **pull request** qui ajoute :
-- ✅ La classe `Model\Game`
-- ✅ Le Repository modifié pour utiliser les Models
-- ✅ Les Controllers adaptés
-- ✅ Des exemples de vues utilisant les Models
-- ✅ Des commentaires détaillés en français
-
-**Souhaitez-vous que j'ouvre cette pull request ?**

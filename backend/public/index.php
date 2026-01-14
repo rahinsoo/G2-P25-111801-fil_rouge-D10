@@ -2,6 +2,7 @@
 
 use Controller\AppController;
 use Repository\HomeRepository;
+use Repository\CustomerRepository;
 use Controller\UserController;
 use Repository\RoleRepository;
 use Repository\UserRepository;
@@ -24,9 +25,10 @@ $request = new Request();
 $response = new Response();
 $router = new Router();
 $homeRepository = new HomeRepository(Database::makePdo($config['db']));
+$CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
 
-$AppController = new AppController($response,$homeRepository);
+$AppController = new AppController($response,$homeRepository, $CustomerRepository);
 //$userRepository = new UserRepository(Database::makePdo($config['db']));
 //$roleRepository = new RoleRepository(Database::makePdo($config['db']));
 //$userController = new UserController($userRepository, $roleRepository);
