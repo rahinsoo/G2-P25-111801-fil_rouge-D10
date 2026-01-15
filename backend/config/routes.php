@@ -11,18 +11,9 @@ use Controller\API\UserApiController;
 
 use Core\Router;
 
-return function (Router $router, AppController $controller) {
-    $router->get('/', [$controller, 'home']);
-    $router->get('/home', [$controller, 'home']);
-    $router->get('/customer/listCustomer', [$controller, 'customer']);
-    $router->get('/pagetest', [$controller, 'pagetest']);
-//    $router->get('', [$controller, '']);
-//    $router->post('', [$controller, '']);
-//    $router->getRegex('#^/games/(\d+)$#', function (Request $req, Response $res, array $m) use ($controller) {
-//        $controller->gameById((int)$m[1]);
-//    });
 return function (
     Router $router,
+    AppController $controller,
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
@@ -30,6 +21,11 @@ return function (
     UserApiController $userApiController
 )
 {
+    // routes home et customer
+    $router->get('/', [$controller, 'home']);
+    $router->get('/home', [$controller, 'home']);
+    $router->get('/customer/listCustomer', [$controller, 'customer']);
+    $router->get('/pagetest', [$controller, 'pagetest']);
     // routes pour CRUD utilisateurs
     $router->get('/users', [$userController, 'index']); // liste
     $router->get('/users/create', [$userController, 'create']); // formulaire création

@@ -44,8 +44,8 @@ $passwordController = new PasswordController($userRepository, $session);
 $userApiController = new UserApiController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $AppController);
-$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
+$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController);
+//$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
 
 
