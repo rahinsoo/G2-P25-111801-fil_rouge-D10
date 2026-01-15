@@ -1,34 +1,43 @@
 <?php
 
-use Controller\AppController;
-use Controller\GameApiController;
-use Controller\PingApiController;
+use Controller\UserController;
+use Controller\AuthController;
+use Controller\DashboardController;
+use Controller\PasswordController;
+use Controller\API\UserApiController;
+
+use Repository\RoleRepository;
+use Repository\UserRepository;
+
 use Core\Cors;
 use Core\Database;
 use Core\Request;
 use Core\Response;
 use Core\Router;
 use Core\Session;
-use Repository\GamesRepository;
 
 session_start();
 require __DIR__ . '/../autoload.php';
-
 $config = require_once __DIR__ . '/../config/db.php';
 
 Cors::handle();
 
-$response = new Response();
 $session = new Session();
 $request = new Request();
+$response = new Response();
 $router = new Router();
-$repository = new GamesRepository(Database::makePdo($config['db']));
 
-$appController = new AppController($response, $repository, $session, $request);
-$pingApiController = new PingApiController();
-$gameApiController = new GameApiController($response, $repository);
+$userRepository = new UserRepository(Database::makePdo($config['db']));
+$roleRepository = new RoleRepository(Database::makePdo($config['db']));
+
+$authController = new AuthController($userRepository, $session);
+$userController = new UserController($userRepository, $roleRepository, $session);
+$dashboardController = new DashboardController($session);
+$passwordController = new PasswordController($userRepository, $session);
+$userApiController = new UserApiController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $appController, $pingApiController, $gameApiController);
+$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
+
 

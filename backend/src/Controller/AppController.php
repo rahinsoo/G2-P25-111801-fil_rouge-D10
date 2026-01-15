@@ -4,9 +4,11 @@ namespace Controller;
 
 use Core\Request;
 use Core\Session;
+use Core\Response;
+
 use Helper\Debug;
 use JetBrains\PhpStorm\NoReturn;
-use Core\Response;
+
 use Repository\GamesRepository;
 
 require_once __DIR__ . '/../Helper/Debug.php';
