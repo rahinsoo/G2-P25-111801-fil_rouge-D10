@@ -3,15 +3,12 @@
 namespace Controller;
 
 use Model\User;
-
 use Repository\RoleRepository;
 use Repository\UserRepository;
-
+use JetBrains\PhpStorm\NoReturn;
 use Core\Request;
 use Core\Response;
 use Core\Session;
-
-use JetBrains\PhpStorm\NoReturn;
 
 readonly class UserController
 {

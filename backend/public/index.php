@@ -1,13 +1,16 @@
 <?php
 
+use Controller\AppController;
+use Repository\HomeRepository;
+use Repository\CustomerRepository;
+use Repository\RoleRepository;
+use Repository\UserRepository;
+
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
-
-use Repository\RoleRepository;
-use Repository\UserRepository;
 
 use Core\Cors;
 use Core\Database;
@@ -26,7 +29,11 @@ $session = new Session();
 $request = new Request();
 $response = new Response();
 $router = new Router();
+$homeRepository = new HomeRepository(Database::makePdo($config['db']));
+$CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
+
+$AppController = new AppController($response,$homeRepository, $CustomerRepository);
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
 
@@ -37,6 +44,7 @@ $passwordController = new PasswordController($userRepository, $session);
 $userApiController = new UserApiController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
+$registerRoutes($router, $AppController);
 $registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
 
