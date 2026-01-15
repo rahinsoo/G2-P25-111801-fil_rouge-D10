@@ -78,6 +78,10 @@ return function (
         $userApiController->store();
     });
 
+    $router->put('/api/users/(\d+)', function($matches) use ($userApiController) {
+        $userApiController->update((int)$matches[1]);
+    });
+
     $router->patch('/api/users/(\d+)', function($matches) use ($userApiController) {
         $userApiController->update((int)$matches[1]);
     });
