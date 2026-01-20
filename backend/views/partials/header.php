@@ -50,7 +50,10 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
             <?php else: ?>
             <!-- NAVIGATION POUR UTILISATEUR NON CONNECTÉ -->
             <nav class="nav">
-                <a class="nav__link" href="/login">Se connecter</a>
+                <span class="nav__username">
+                    On The World
+                </span>
+<!--                <a class="nav__link" href="/login">Se connecter</a>-->
             </nav>
         <?php endif; ?>
     </div>

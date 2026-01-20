@@ -26,7 +26,7 @@
     </label>
     <br><br>
 
-    <button type="submit">Se connecter</button>
+    <button class="nav__link" type="submit">Se connecter</button>
 </form>
 
 <p>
