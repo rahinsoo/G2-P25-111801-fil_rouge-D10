@@ -13,9 +13,11 @@ use Core\Session;
 readonly class UserController
 {
     public function __construct(
+        private Response $response,
         private UserRepository $userRepository,
         private RoleRepository $roleRepository,
-        private Session        $session
+        private Session $session,
+        private Request $request
     ) {}
 
     private function denyIfNotLogged(): void
@@ -43,14 +45,18 @@ readonly class UserController
     {
         $this->denyIfNotAdmin();
         $users = $this->userRepository->readAll();
-        require __DIR__ . '/../../views/pages/user/list.php';
+        $this->response->render('user/list', [
+            'users' => $users
+        ]);
     }
 
     public function create(): void
     {
         $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
-        require __DIR__ . '/../../views/pages/user/create.php';
+        $this->response->render('user/create', [
+            'roles' => $roles
+        ]);
     }
 
     #[NoReturn]
@@ -76,7 +82,10 @@ readonly class UserController
         $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
         $user = $this->userRepository->readOne($id_user);
-        require __DIR__ . '/../../views/pages/user/edit.php';
+        $this->response->render('user/edit', [
+            'roles' => $roles,
+            'user' => $user
+        ]);
     }
 
     #[NoReturn]
@@ -109,7 +118,9 @@ readonly class UserController
     {
         $this->denyIfNotLogged();
         $user = $this->userRepository->readOne($id_user);
-        require __DIR__ . '/../../views/pages/user/change-password.php';
+        $this->response->render('user/change-password', [
+            'user' => $user
+        ]);
     }
 
     #[NoReturn]

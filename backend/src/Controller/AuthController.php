@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Core\Request;
+use Core\Response;
 use Core\Session;
 use Repository\UserRepository;
 use JetBrains\PhpStorm\NoReturn;
@@ -9,13 +11,15 @@ use JetBrains\PhpStorm\NoReturn;
 readonly class AuthController
 {
     public function __construct(
+        private Response $response,
         private UserRepository $userRepository,
-        private Session $session
+        private Session $session,
+        private Request $request
     ) {}
 
     public function login(): void
     {
-        require __DIR__ . '/../../views/pages/auth/login.php';
+        $this->response->render('auth/login', []);
     }
 
     #[NoReturn]
