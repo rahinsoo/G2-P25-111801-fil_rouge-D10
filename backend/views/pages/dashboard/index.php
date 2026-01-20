@@ -12,5 +12,6 @@
         <a href="/users">Gestion des utilisateurs</a>
         <?php endif; ?>
     </li>
+    <li><a href="/activites">Gestion des activités</a></li>
     <li><a href="/logout">Déconnexion</a></li>
 </ul>

@@ -8,6 +8,7 @@ use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
+use Controller\ActiviteController;
 
 use Core\Router;
 
@@ -18,7 +19,8 @@ return function (
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
-    UserApiController $userApiController
+    UserApiController $userApiController,
+    ActiviteController $activiteController
 )
 {
     // routes home et customer
@@ -98,4 +100,9 @@ return function (
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
         $userApiController->destroy((int)$matches[1]);
     });
+
+    /// routes pour les activités ///
+    $router->get('/activites', [$activiteController, 'index']); // liste
+    $router->get('/activites/create', [$activiteController, 'create']); // formulaire création
+    $router->post('/activites/store', [$activiteController, 'store']); // envoi création
 };
