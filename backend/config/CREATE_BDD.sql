@@ -14,32 +14,32 @@ data_punch;
 --- création de table ---
 -------------------------
 CREATE TABLE user_role(
-   id_user_role SMALLINT,
+   id_user_role SMALLINT AUTO_INCREMENT,
    role VARCHAR(50),
    PRIMARY KEY(id_user_role),
    UNIQUE(role)
 );
 
 CREATE TABLE STATUS(
-   id_status SMALLINT,
+   id_status SMALLINT AUTO_INCREMENT,
    status VARCHAR(50),
    PRIMARY KEY(id_status)
 );
 
 CREATE TABLE FICHE_INFO(
-   id_competence INT,
+   id_competence INT AUTO_INCREMENT,
    nom VARCHAR(50),
    commentaire VARCHAR(50),
    PRIMARY KEY(id_competence)
 );
 
 CREATE TABLE utilisateur(
-   id_user SMALLINT,
+   id_user SMALLINT AUTO_INCREMENT,
    nom VARCHAR(100),
    prenom VARCHAR(100),
    identifiant VARCHAR(100) NOT NULL,
    password VARCHAR(100) NOT NULL,
-   adresse INT,
+   adresse VARCHAR(250),
    id_user_role SMALLINT NOT NULL,
    PRIMARY KEY(id_user),
    UNIQUE(identifiant),
@@ -48,7 +48,7 @@ CREATE TABLE utilisateur(
 );
 
 CREATE TABLE ACTIVITE(
-   id_projet SMALLINT,
+   id_projet SMALLINT AUTO_INCREMENT,
    nom VARCHAR(50),
    commentaire VARCHAR(255),
    date_creation DATE,
@@ -60,7 +60,7 @@ CREATE TABLE ACTIVITE(
 );
 
 CREATE TABLE TACHE(
-   id_tache SMALLINT,
+   id_tache SMALLINT AUTO_INCREMENT,
    description VARCHAR(50),
    commentaire VARCHAR(255),
    duree_jour_homme DECIMAL(15,1),
@@ -76,7 +76,7 @@ CREATE TABLE TACHE(
 );
 
 CREATE TABLE ABSENCES(
-   id_absence INT,
+   id_absence INT AUTO_INCREMENT,
    type VARCHAR(50),
    commentaire VARCHAR(255),
    date_debut DATETIME,
@@ -88,20 +88,20 @@ CREATE TABLE ABSENCES(
 );
 
 CREATE TABLE ENTREPRISE(
-   id_entreprise SMALLINT,
+   id_entreprise SMALLINT AUTO_INCREMENT,
    nom VARCHAR(100),
-   numero_SIRET VARCHAR(100),
+   numero_SIRET INT,
    type VARCHAR(100),
    information VARCHAR(50),
    is_facturable BOOLEAN,
-   adresse SMALLINT,
+   adresse VARCHAR(250),
    id_projet SMALLINT,
    PRIMARY KEY(id_entreprise),
    FOREIGN KEY(id_projet) REFERENCES ACTIVITE(id_projet)
 );
 
 CREATE TABLE USER_ACTIVITE(
-   id_user SMALLINT,
+   id_user SMALLINT AUTO_INCREMENT,
    id_projet SMALLINT,
    tjm VARCHAR(50),
    PRIMARY KEY(id_user, id_projet),
@@ -110,7 +110,7 @@ CREATE TABLE USER_ACTIVITE(
 );
 
 CREATE TABLE USER_FICHE_INFO(
-   id_user SMALLINT,
+   id_user SMALLINT AUTO_INCREMENT,
    id_competence INT,
    PRIMARY KEY(id_user, id_competence),
    FOREIGN KEY(id_user) REFERENCES utilisateur(id_user),
@@ -121,4 +121,23 @@ CREATE TABLE USER_FICHE_INFO(
 --------------------------
 --- création de nouvelles colonnes ---
 --------------------------
+
+INSERT INTO `user_role` (`id_user_role`, `role`)
+VALUES (NULL, 'administrateur'),
+       (NULL, 'collaborateur'),
+       (NULL, 'compta'),
+       (NULL, 'directeur'),
+       (NULL, 'compta');
+
+INSERT INTO `utilisateur` (`id_user`, `nom`, `prenom`, `identifiant`, `password`, `adresse`, `id_user_role`)
+VALUES (NULL, 'admin', 'admin', 'admin', 'admin', NULL, '1'),
+       (NULL, 'Estanove', 'Xavier', 'estxav', 'estxav', NULL, '2'),
+       (NULL, 'Henin', 'Laetitia', 'leahen', 'leahen', NULL, '4'),
+       (NULL, 'Caucat', 'Mattéo', 'matcau', 'matcau', NULL, '3'),
+       (NULL, 'Compta', 'Compta', 'compta', 'compta', NULL, '5');
+
+INSERT INTO `ENTREPRISE` (`id_entreprise`, `nom`, `numero_SIRET`, `type`, `information`, `is_facturable`, `adresse`,
+                          `id_projet`)
+VALUES (NULL, 'DIGINAMIC', '818241978', 'Formation continue d’adultes', 'Informatique', NULL, 'PARC MEDITERRANEE 40 RUE LOUIS LEPINE 34470 PEROLS', NULL);
+
 
