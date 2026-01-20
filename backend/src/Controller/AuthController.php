@@ -35,12 +35,7 @@ readonly class AuthController
         unset($user['password']);
         $this->session->set('user', $user);
 
-        /*if ($this->session->isAdmin()) {
-            header('Location: /users');
-        } else {
-            header('Location: /dashboard');
-        }*/
-        header('Location: /dashboard');
+        header('Location: /home');
         exit;
     }
 

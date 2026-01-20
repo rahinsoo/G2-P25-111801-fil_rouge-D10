@@ -33,7 +33,7 @@ $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
 
-$AppController = new AppController($response,$homeRepository, $CustomerRepository);
+$AppController = new AppController($response,$homeRepository, $CustomerRepository, $session, $request);
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
 
@@ -45,7 +45,6 @@ $userApiController = new UserApiController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 $registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController);
-//$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
 
 
