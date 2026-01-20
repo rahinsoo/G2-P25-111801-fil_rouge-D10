@@ -27,28 +27,25 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
         </a>
         <?php if ($isLogged): ?>
             <!-- NAVIGATION POUR UTILISATEUR CONNECTÉ -->
+            <div class="nav__user">
+                    <span class="nav__username">
+                        <?= htmlspecialchars($user['prenom'] ??  '') ?>
+                        <?= htmlspecialchars($user['nom'] ??  '') ?>
+                    </span>
+            </div>
             <nav class="nav">
-                <a class="nav__link" href="/home">🏠 Tableau de Bord</a>
+                <a class="nav__link" href="/home">📊 Tableau de Bord</a>
                 <a class="nav__link" href="/customer/listCustomer">🏢 Clients</a>
                 <a class="nav__link" href="/pagetest">📅 Activités</a>
                 <a class="nav__link" href="">✅ Tâches</a>
                 <a class="nav__link" href="">Activités par Salarié</a>
                 <a class="nav__link" href="">Profil</a>
                 <a class="nav__link" href="">Paramètres</a>
-
                 <?php if ($isAdmin): ?>
                     <a class="nav__link" href="/users">👥 Utilisateurs</a>
-                    <?php endif; ?>
+                <?php endif; ?>
+                <a class="nav__link " href="/logout">🚪 Déconnexion</a>
 
-                <a class="nav__link" href="/home">📊 Dashboard</a>
-
-                <div class="nav__user">
-                    <span class="nav__username">
-                        <?= htmlspecialchars($user['prenom'] ??  '') ?>
-                        <?= htmlspecialchars($user['nom'] ??  '') ?>
-                    </span>
-                    <a class="nav__link nav__link--logout" href="/logout">🚪 Déconnexion</a>
-                </div>
             </nav>
             <?php else: ?>
             <!-- NAVIGATION POUR UTILISATEUR NON CONNECTÉ -->

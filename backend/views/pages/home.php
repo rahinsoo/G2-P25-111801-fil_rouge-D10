@@ -1,20 +1,14 @@
 <?php
 $clients = $featuredClient ?? [];
-$total = $total ?? 0;
+//$total = $total ?? 0;
 $user = $_SESSION['user'] ?? null;
 ?>
 
-    <section class="welcome-section">
-        <h1>Bienvenue <?= htmlspecialchars($user['prenom'] ?? '') ?> !  👋</h1>
-        <p>Vous êtes connecté sur votre espace DataTime</p>
-    </section>
+<section class="welcome-section">
+    <h1>Bienvenue <?= htmlspecialchars($user['prenom'] ?? '') ?> ! 👋</h1>
+    <p>Vous êtes connecté sur votre espace DataTime</p>
+</section>
 
-    <section class="stats">
-        <div class="card">
-            <h3>Total clients</h3>
-            <p class="stat-number"><?= (int)$total ?></p>
-        </div>
-    </section>
 
 <section class="clients-list">
     <h2>Vos clients</h2>
