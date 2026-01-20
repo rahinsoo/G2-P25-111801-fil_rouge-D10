@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Core\Request;
+use Core\Response;
 use Core\Session;
 use Repository\UserRepository;
 
@@ -10,13 +12,15 @@ use JetBrains\PhpStorm\NoReturn;
 readonly class PasswordController
 {
     public function __construct(
+        private Response $response,
         private UserRepository $userRepository,
-        private Session $session
+        private Session $session,
+        private Request $request
     ) {}
 
     public function forgot(): void
     {
-        require __DIR__ . '/../../views/pages/auth/forgot-password.php';
+        $this->response->render('auth/forgot-password', []);
     }
 
     #[NoReturn]
