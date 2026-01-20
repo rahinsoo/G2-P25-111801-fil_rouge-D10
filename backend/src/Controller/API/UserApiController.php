@@ -2,15 +2,17 @@
 
 namespace Controller\API;
 
+use Core\Request;
 use Model\User;
 use Repository\UserRepository;
 use Core\Session;
 
 readonly class UserApiController
 {
-    public function __construct (
+    public function __construct(
         private UserRepository $userRepository,
         private Session $session,
+        private Request $request
     ) {}
 
     private function denyIfNotAdmin(): void

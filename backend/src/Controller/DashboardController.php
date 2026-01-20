@@ -2,11 +2,17 @@
 
 namespace Controller;
 
+use Core\Request;
+use Core\Response;
 use Core\Session;
 
 readonly class DashboardController
 {
-    public function __construct(private Session $session) {}
+    public function __construct(
+        private Response $response,
+        private Session $session,
+        private Request $request
+    ) {}
 
     public function index(): void
     {
@@ -16,7 +22,9 @@ readonly class DashboardController
         }
 
         $user = $this->session->get('user');
-        require __DIR__ . '/../../views/pages/dashboard/index.php';
+        $this->response->render('dashboard/index', [
+            'user' => $user
+        ]);
     }
 
 }

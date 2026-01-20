@@ -8,7 +8,6 @@ use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
-
 use Core\Router;
 
 return function (
@@ -21,12 +20,30 @@ return function (
     UserApiController $userApiController
 )
 {
-    // routes home et customer
-    $router->get('/', [$controller, 'home']);
+    // ============================================
+    // ROUTE PRINCIPALE (redirige selon connexion)
+    // ============================================
+
+    $router->get('/', function() use ($controller, $authController) {
+        if (isset($_SESSION['user'])) {
+            $controller->home();  // ← Affiche home. php si connecté
+        } else {
+            $authController->login();  // ← Affiche login si non connecté
+        }
+    });
+
+    // ============================================
+    // ROUTES HOME ET CUSTOMER
+    // ============================================
+
     $router->get('/home', [$controller, 'home']);
     $router->get('/customer/listCustomer', [$controller, 'customer']);
     $router->get('/pagetest', [$controller, 'pagetest']);
-    // routes pour CRUD utilisateurs
+
+    // ============================================
+    // ROUTES AUTHENTIFICATION
+    // ============================================
+
     $router->get('/users', [$userController, 'index']); // liste
     $router->get('/users/create', [$userController, 'create']); // formulaire création
     $router->post('/users/store', [$userController, 'store']); // envoi création
@@ -48,18 +65,21 @@ return function (
         $userController->updatePassword((int)$matches[1]);
     });
 
+    // ============================================
     // routes pour l'authentification/connexion
+    // ============================================
+    
     $router->get('/', [$authController, 'login']);
     $router->get('/login', [$authController, 'login']);
     $router->post('/login', [$authController, 'authenticate']);
     $router->get('/logout', [$authController, 'logout']);
 
+    // ============================================
     // routes pour mot de passe oublié
+    // ============================================
+
     $router->get('/forgot-password', [$passwordController, 'forgot']);
     $router->post('/forgot-password', [$passwordController, 'reset']);
-
-    // routes pour la page principale Dashboard
-    $router->get('/dashboard', [$dashboardController, 'index']);
 
     // route test API //
     $router->post('/api/test-login', function() {

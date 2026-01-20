@@ -33,19 +33,18 @@ $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
 
-$AppController = new AppController($response,$homeRepository, $CustomerRepository);
+$AppController = new AppController($response,$homeRepository, $CustomerRepository, $session, $request);
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
 
-$authController = new AuthController($userRepository, $session);
-$userController = new UserController($userRepository, $roleRepository, $session);
-$dashboardController = new DashboardController($session);
-$passwordController = new PasswordController($userRepository, $session);
-$userApiController = new UserApiController($userRepository, $session);
+$authController = new AuthController($response, $userRepository, $session, $request);
+$userController = new UserController($response, $userRepository, $roleRepository, $session, $request);
+$dashboardController = new DashboardController($response, $session, $request);
+$passwordController = new PasswordController($response, $userRepository, $session, $request);
+$userApiController = new UserApiController($userRepository, $session, $request);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 $registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController);
-//$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
 
 

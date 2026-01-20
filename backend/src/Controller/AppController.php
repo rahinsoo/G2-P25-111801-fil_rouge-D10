@@ -18,11 +18,17 @@ final readonly class AppController {
         private Response $response,
         private HomeRepository $homeRepository,
         private CustomerRepository $customerRepository,
-        //private Session $session,
-        //private Request $request,
+        private Session $session,
+        private Request $request,
     ) {}
 
     public function home() : void {
+        // ✅ SÉCURISATION :  vérifier si connecté
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
         $clients = $this->homeRepository->findAllClients();
 
         $this->response->render('home', [
@@ -33,8 +39,14 @@ final readonly class AppController {
 
     public function customer() : void
     {
+        // ✅ SÉCURISATION
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
         $clients = $this->customerRepository->findAllClients();
-        $this->response->render('/customer/listCustomer', [
+        $this->response->render('customer/listCustomer', [  // ✅ Corrigé (sans / au début)
             'listClient' => $clients
         ]);
     }
