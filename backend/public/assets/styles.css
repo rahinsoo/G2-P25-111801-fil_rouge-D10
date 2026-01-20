@@ -1,13 +1,13 @@
 :root {
-    --bg: #e8f0c9;
-    --ink: #1a2a1a;
-    --ink-soft: #2e3f2e;
+    --bg: #CCC5B9;
+    --ink: #FFFCF2;
+    --ink-soft: #FFFCF2;
     --shell: #c9c3e6;
-    --shell-dark: #a9a3c8;
+    --shell-dark: #252422;
     --accent: #ff4d6d;
     --accent2: #3a86ff;
-    --card: #f7f7ea;
-    --border: #1a2a1a;
+    --card: #403D39;
+    --border: #EB5E28;
     --shadow: rgba(0, 0, 0, .18);
 }
 
@@ -74,7 +74,7 @@ body {
 .nav__link {
     text-decoration: none;
     color: var(--ink);
-    background: var(--bg);
+    background: var(--card);
     padding: 8px 10px;
     border: 3px solid var(--border);
     border-radius: 12px;
