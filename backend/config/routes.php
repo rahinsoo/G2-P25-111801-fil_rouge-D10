@@ -65,18 +65,21 @@ return function (
         $userController->updatePassword((int)$matches[1]);
     });
 
+    // ============================================
     // routes pour l'authentification/connexion
+    // ============================================
+    
     $router->get('/', [$authController, 'login']);
     $router->get('/login', [$authController, 'login']);
     $router->post('/login', [$authController, 'authenticate']);
     $router->get('/logout', [$authController, 'logout']);
 
+    // ============================================
     // routes pour mot de passe oublié
+    // ============================================
+
     $router->get('/forgot-password', [$passwordController, 'forgot']);
     $router->post('/forgot-password', [$passwordController, 'reset']);
-
-    // routes pour la page principale Dashboard
-    $router->get('/dashboard', [$dashboardController, 'index']);
 
     // route test API //
     $router->post('/api/test-login', function() {
