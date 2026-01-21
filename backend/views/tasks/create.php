@@ -10,5 +10,4 @@
     <button type="submit">Créer</button>
 </form>
 
-<br>
-<a href="/tasks">⬅ Retour</a>
+<a href="/tasks">Retour</a>

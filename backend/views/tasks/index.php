@@ -1,21 +1,20 @@
 <h1>Mes tâches</h1>
 
-<a href="/tasks/create"> Nouvelle tâche</a>
-<hr>
+<a href="/tasks/create">Nouvelle tâche</a>
 
-<?php if (empty($tasks)): ?>
-    <p>Aucune tâche</p>
-<?php endif; ?>
-
+<ul>
 <?php foreach ($tasks as $task): ?>
-    <div style="margin-bottom:10px;">
+    <li>
         <strong><?= htmlspecialchars($task['title']) ?></strong><br>
-        <?= htmlspecialchars($task['description']) ?><br>
+        <?= nl2br(htmlspecialchars($task['description'])) ?><br>
 
-        <a href="/tasks/edit/<?= $task['id_tache'] ?>"> Modifier</a>
+        <a href="/tasks/edit/<?= $task['id_tache'] ?>">Modifier</a>
 
         <form method="POST" action="/tasks/delete/<?= $task['id_tache'] ?>" style="display:inline">
-            <button type="submit"> Supprimer</button>
+            <button type="submit" onclick="return confirm('Supprimer cette tâche ?')">
+                Supprimer
+            </button>
         </form>
-    </div>
+    </li>
 <?php endforeach; ?>
+</ul>

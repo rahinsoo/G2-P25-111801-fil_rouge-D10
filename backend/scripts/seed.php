@@ -1,32 +1,24 @@
 <?php
 
-require __DIR__ . '/../config/db.php';
+require __DIR__ . '/../autoload.php';
 
-$pdo = db();
+use Repository\UserRepository;
+use Core\Database;
 
-$jsonPath = __DIR__ . '/../data/games.json';
-$items = json_decode(file_get_contents($jsonPath), true);
+$config = require __DIR__ . '/../config/db.php';
+$pdo = Database::makePdo($config['db']);
 
-if (!is_array($items)) {
-    die("JSON invalide\n");
-}
+$userRepository = new UserRepository($pdo);
+
+$users = [
+    ['Martin', 'Alice', 'amartin@datatime.com', 'password', 2]
+];
 
 $pdo->beginTransaction();
 
-$stmt = $pdo->prepare("INSERT INTO games (title, platform, genre, releaseYear, rating, description, notes)  VALUES (:title, :platform, :genre, :releaseYear, :rating, :description, :notes)");
-
-foreach ($items as $g) {
-    $stmt->execute([
-        'title' => $g['title'],
-        'platform' => $g['platform'],
-        'genre' => $g['genre'],
-        'releaseYear' => (int)$g['releaseYear'],
-        'rating' => (int)$g['rating'],
-        'description' => $g['description'],
-        'notes' => $g['notes'],
-    ]);
+foreach ($users as [$nom, $prenom, $identifiant, $password, $id_user_role]) {
+    $userRepository->createUser($nom, $prenom, $identifiant, $password, $id_user_role);
 }
 
 $pdo->commit();
-
-echo "Seed OK : " . count($items) . " jeux insérés.\n";
+echo "Seed users OK\n";

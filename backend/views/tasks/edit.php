@@ -7,8 +7,7 @@
     <label>Description</label><br>
     <textarea name="description"><?= htmlspecialchars($task['description']) ?></textarea><br><br>
 
-    <button type="submit">Mettre à jour</button>
+    <button type="submit">Modifier</button>
 </form>
 
-<br>
-<a href="/tasks">Retour</a>
+<a href="/tasks">⬅ Retour</a>
