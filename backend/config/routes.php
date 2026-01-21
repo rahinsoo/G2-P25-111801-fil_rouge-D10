@@ -68,7 +68,7 @@ return function (
     // ============================================
     // routes pour l'authentification/connexion
     // ============================================
-    
+
     $router->get('/', [$authController, 'login']);
     $router->get('/login', [$authController, 'login']);
     $router->post('/login', [$authController, 'authenticate']);
@@ -102,6 +102,7 @@ return function (
     $router->get('/api/users/(\d+)', function($matches) use ($userApiController) {
         $userApiController->show((int)$matches[1]);
     });
+    $taskController = new TaskController();
 
     $router->post('/api/users', function() use ($userApiController) {
         $userApiController->store();
@@ -117,5 +118,28 @@ return function (
 
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
         $userApiController->destroy((int)$matches[1]);
+    });
+    $router->get('/tasks', function() use ($taskController) {
+        $taskController->index();
+    });
+
+    $router->get('/tasks/create', function() use ($taskController) {
+        $taskController->create();
+    });
+
+    $router->post('/tasks/create', function() use ($taskController) {
+        $taskController->create();
+    });
+
+    $router->get('/tasks/edit/{id}', function(Request $req) use ($taskController) {
+        $taskController->edit($req);
+    });
+
+    $router->post('/tasks/edit/{id}', function(Request $req) use ($taskController) {
+        $taskController->edit($req);
+    });
+
+    $router->post('/tasks/delete/{id}', function(Request $req) use ($taskController) {
+        $taskController->delete($req);
     });
 };
