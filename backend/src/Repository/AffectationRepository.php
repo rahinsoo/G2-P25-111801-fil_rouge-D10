@@ -103,4 +103,29 @@ readonly class AffectationRepository
 
         return $affectations;
     }
+
+    public function findAllWithDetails(): array
+    {
+        $sql = $this->pdo->query("
+        SELECT a.id_user, u.nom AS user_nom, u.prenom AS user_prenom,
+               a.id_activite, act.nom AS activite_nom, a.tjm
+        FROM affecter a
+        INNER JOIN utilisateur u ON u.id_user = a.id_user
+        INNER JOIN activite act ON act.id_activite = a.id_activite
+        ORDER BY u.nom, act.nom
+    ");
+
+        $rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
+
+        return array_map(function ($row) {
+            return [
+                'id_user' => $row['id_user'],
+                'user_nom' => $row['user_nom'],
+                'user_prenom' => $row['user_prenom'],
+                'id_activite' => $row['id_activite'],
+                'activite_nom' => $row['activite_nom'],
+                'tjm' => (float)$row['tjm']
+            ];
+        }, $rows);
+    }
 }

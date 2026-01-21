@@ -38,8 +38,7 @@ readonly class AffectationController
     {
         /*$this->denyIfNotAdmin();*/
 
-        $users = $this->userRepository->readAll();
-        $activites = $this->activiteRepository->readAll();
+        $affectations = $this->affectationRepository->findAllWithDetails();
 
         // Vue : list des affectations ou formulaire
         require __DIR__ . '/../../views/pages/affectations/list.php';

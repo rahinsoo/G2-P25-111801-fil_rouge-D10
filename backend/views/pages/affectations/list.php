@@ -23,24 +23,20 @@
             <td colspan="4">Aucune affectation trouvée.</td>
         </tr>
     <?php else: ?>
-        <?php foreach ($affectations as $row):
-            $user = $row['user'];
-            $aff = $row['affectation'];
-            $activite = $row['activite'];
-            ?>
+        <?php foreach ($affectations as $aff): ?>
             <tr>
-                <td><?= htmlspecialchars($user->getNom()) ?> <?= htmlspecialchars($user->getPrenom()) ?></td>
-                <td><?= $activite ? htmlspecialchars($activite->getNom()) : 'Activité inconnue' ?></td>
-                <td><?= number_format($aff->getTjm(), 2, ',', ' ') ?></td>
+                <td><?= htmlspecialchars($aff['user_nom']) ?> <?= htmlspecialchars($aff['user_prenom']) ?></td>
+                <td><?= htmlspecialchars($aff['activite_nom']) ?></td>
+                <td><?= number_format($aff['tjm'], 2, ',', ' ') ?></td>
                 <td>
                     <!-- Modifier TJM -->
-                    <form action="/affectations/updateTjm/<?= $user->getId() ?>/<?= $aff->getIdActivite() ?>" method="post" style="display:inline;">
-                        <input type="number" name="tjm" step="0.01" value="<?= $aff->getTjm() ?>" required>
+                    <form action="/affectations/updateTjm/<?= $aff['id_user'] ?>/<?= $aff['id_activite'] ?>" method="post" style="display:inline;">
+                        <input type="number" name="tjm" step="0.01" value="<?= $aff['tjm'] ?>" required>
                         <button type="submit">Modifier</button>
                     </form>
 
                     <!-- Supprimer affectation -->
-                    <form action="/affectations/delete/<?= $user->getId() ?>/<?= $aff->getIdActivite() ?>" method="post" style="display:inline;">
+                    <form action="/affectations/delete/<?= $aff['id_user'] ?>/<?= $aff['id_activite'] ?>" method="post" style="display:inline;">
                         <button type="submit" onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
                     </form>
                 </td>
@@ -53,4 +49,3 @@
 <p>
     <a href="/affectations/create">Nouvelle Affectation</a>
 </p>
-
