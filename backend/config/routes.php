@@ -21,7 +21,6 @@ return function (
     DashboardController $dashboardController,
     PasswordController $passwordController,
     UserApiController $userApiController,
-    PingApiController $pingApiController
 ) {
 
     $router->get('/', function() use ($appController) {
@@ -70,10 +69,6 @@ return function (
 
     $router->get('/users', function() use ($userController) {
         $userController->index();
-    });
-
-    $router->get('/api/ping', function() use ($pingApiController) {
-        $pingApiController->ping();
     });
 
     $router->getRegex('#^/games/(\d+)$#', function (Request $req, Response $res, array $m) use ($appController) {

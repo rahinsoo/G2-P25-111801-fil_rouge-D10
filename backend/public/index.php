@@ -45,8 +45,6 @@ $dashboardController = new DashboardController($session);
 $passwordController = new PasswordController($userRepository, $session);
 $userApiController = new UserApiController($userRepository, $session);
 
-$pingApiController = new PingApiController();
-
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 
 $registerRoutes(
@@ -57,7 +55,6 @@ $registerRoutes(
     $dashboardController,
     $passwordController,
     $userApiController,
-    $pingApiController
 );
 
 $router->dispatch($request, $response);
