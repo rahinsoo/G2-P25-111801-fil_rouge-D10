@@ -1,17 +1,20 @@
 <?php
 
 use Controller\AppController;
+
 use Repository\ActiviteRepository;
 use Repository\HomeRepository;
 use Repository\CustomerRepository;
 use Repository\RoleRepository;
 use Repository\UserRepository;
+use Repository\AffectationRepository;
 
 use Controller\UserController;
 use Controller\ActiviteController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
+use Controller\AffectationController;
 use Controller\API\UserApiController;
 
 use Core\Cors;
@@ -31,24 +34,27 @@ $session = new Session();
 $request = new Request();
 $response = new Response();
 $router = new Router();
+
+
 $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $customerRepository = new CustomerRepository(Database::makePdo($config['db']));
-
-
 $AppController = new AppController($response,$homeRepository, $customerRepository);
+
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
 $activiteRepository = new ActiviteRepository(Database::makePdo($config['db']));
+$affectationRepository = new AffectationRepository(Database::makePdo($config['db']));
 
 $authController = new AuthController($userRepository, $session);
 $userController = new UserController($userRepository, $roleRepository, $session);
 $activiteController = new ActiviteController($activiteRepository, $customerRepository);
 $dashboardController = new DashboardController($session);
 $passwordController = new PasswordController($userRepository, $session);
+$affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session);
 $userApiController = new UserApiController($userRepository, $session);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $activiteController);
+$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $activiteController, $affectationController);
 //$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
 $router->dispatch($request, $response);
 

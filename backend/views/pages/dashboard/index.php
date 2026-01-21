@@ -13,5 +13,6 @@
         <?php endif; ?>
     </li>
     <li><a href="/activites">Gestion des activités</a></li>
+    <li><a href="/affectations">Gestion des affectations</a></li>
     <li><a href="/logout">Déconnexion</a></li>
 </ul>

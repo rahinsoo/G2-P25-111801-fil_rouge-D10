@@ -9,6 +9,7 @@ use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
 use Controller\ActiviteController;
+use Controller\AffectationController;
 
 use Core\Router;
 
@@ -20,7 +21,8 @@ return function (
     DashboardController $dashboardController,
     PasswordController $passwordController,
     UserApiController $userApiController,
-    ActiviteController $activiteController
+    ActiviteController $activiteController,
+    AffectationController $affectationController
 )
 {
     // routes home et customer
@@ -77,6 +79,7 @@ return function (
         echo json_encode(['ok' => true]);
     });
 
+    /// routes UserAPi ///
     $router->get('/api/users', function() use ($userApiController) {
         $userApiController->index();
     });
@@ -105,4 +108,27 @@ return function (
     $router->get('/activites', [$activiteController, 'index']); // liste
     $router->get('/activites/create', [$activiteController, 'create']); // formulaire création
     $router->post('/activites/store', [$activiteController, 'store']); // envoi création
+    $router->get('/activites/edit/(\d+)', function($matches) use ($activiteController) {
+        $activiteController->edit((int)$matches[1]);
+    });
+    $router->post('/activites/update/(\d+)', function($matches) use ($activiteController) {
+        $activiteController->update((int)$matches[1]);
+    });
+    $router->post('/activites/delete/(\d+)', function($matches) use ($activiteController) {
+        $activiteController->delete((int)$matches[1]);
+    });
+
+    /// routes pour les affectations ///
+    $router->get('/affectations', [$affectationController, 'index']); // liste
+    $router->get('/affectations/create', [$affectationController, 'create']); // formulaire création
+    $router->post('/affectations/store', [$affectationController, 'store']); // envoi création
+    $router->get('/affectations/edit/(\d+)', function($matches) use ($affectationController) {
+        $affectationController->edit((int)$matches[1]);
+    });
+    $router->post('/affectations/update/(\d+)', function($matches) use ($affectationController) {
+        $affectationController->updateTjm((int)$matches[1]);
+    });
+    $router->post('/affectations/delete/(\d+)', function($matches) use ($affectationController) {
+        $affectationController->delete((int)$matches[1]);
+    });
 };
