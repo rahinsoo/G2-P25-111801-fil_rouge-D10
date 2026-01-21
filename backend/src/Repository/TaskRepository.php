@@ -2,28 +2,34 @@
 
 namespace Repository;
 
-use Core\Database;
 use PDO;
 
-class TaskRepository
+readonly class TaskRepository
 {
-    public static function findByUser($userId)
+    public function __construct(private PDO $pdo)
+    {}
+
+    /**
+     * Récupère toutes les tâches d'un utilisateur
+     */
+    public function findByUser(int $userId): array
     {
-        $db = Database::getPDO();
-        $stmt = $db->prepare("
+        $stmt = $this->pdo->prepare("
             SELECT *
             FROM tache
-            WHERE id_user = :id_user
+            WHERE id_user = : id_user
             ORDER BY id_tache DESC
         ");
         $stmt->execute(['id_user' => $userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO:: FETCH_ASSOC);
     }
 
-    public static function findOneByUser($taskId, $userId)
+    /**
+     * Récupère une tâche spécifique d'un utilisateur
+     */
+    public function findOneByUser(int $taskId, int $userId): array|false
     {
-        $db = Database::getPDO();
-        $stmt = $db->prepare("
+        $stmt = $this->pdo->prepare("
             SELECT *
             FROM tache
             WHERE id_tache = :id AND id_user = :user
@@ -35,41 +41,47 @@ class TaskRepository
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function create($title, $description, $userId)
+    /**
+     * Crée une nouvelle tâche
+     */
+    public function create(string $title, string $description, int $userId): bool
     {
-        $db = Database::getPDO();
-        $stmt = $db->prepare("
+        $stmt = $this->pdo->prepare("
             INSERT INTO tache (title, description, id_user)
             VALUES (:title, :description, :user)
         ");
-        $stmt->execute([
+        return $stmt->execute([
             'title' => $title,
             'description' => $description,
             'user' => $userId
         ]);
     }
 
-    public static function update($taskId, $title, $description)
+    /**
+     * Met à jour une tâche
+     */
+    public function update(int $taskId, string $title, string $description): bool
     {
-        $db = Database::getPDO();
-        $stmt = $db->prepare("
+        $stmt = $this->pdo->prepare("
             UPDATE tache
             SET title = :title, description = :description
-            WHERE id_tache = :id
+            WHERE id_tache = : id
         ");
-        $stmt->execute([
+        return $stmt->execute([
             'title' => $title,
             'description' => $description,
             'id' => $taskId
         ]);
     }
 
-    public static function delete($taskId)
+    /**
+     * Supprime une tâche
+     */
+    public function delete(int $taskId): bool
     {
-        $db = Database::getPDO();
-        $stmt = $db->prepare("
+        $stmt = $this->pdo->prepare("
             DELETE FROM tache WHERE id_tache = :id
         ");
-        $stmt->execute(['id' => $taskId]);
+        return $stmt->execute(['id' => $taskId]);
     }
 }

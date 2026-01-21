@@ -37,7 +37,7 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
                 <a class="nav__link" href="/home">📊 Tableau de Bord</a>
                 <a class="nav__link" href="/customer/listCustomer">🏢 Clients</a>
                 <a class="nav__link" href="/pagetest">📅 Activités</a>
-                <a class="nav__link" href="">✅ Tâches</a>
+                <a class="nav__link" href="/tasks">✅ Tâches</a>
                 <a class="nav__link" href="">Activités par Salarié</a>
                 <a class="nav__link" href="">Profil</a>
                 <a class="nav__link" href="">Paramètres</a>

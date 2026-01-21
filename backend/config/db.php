@@ -2,12 +2,12 @@
 
 $config = [
     'db' => [
-        'host' => '127.0.0.1',
-        'port' => 3306,
-        'db' => 'data_punch',
-        'user' => 'root',
+        'host' => '',
+        'port' => null,
+        'db' => '',
+        'user' => '',
         'pass' => '',
-        'charset' => 'utf8mb4',
+        'charset' => '',
     ]
 ];
 

@@ -34,18 +34,17 @@ $router = new Router();
 $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
-
-
 $AppController = new AppController($response,$homeRepository, $CustomerRepository, $session, $request);
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
+$taskRepository = new TaskRepository(Database::makePdo($config['db']));
 
 $authController = new AuthController($response, $userRepository, $session, $request);
 $userController = new UserController($response, $userRepository, $roleRepository, $session, $request);
 $dashboardController = new DashboardController($response, $session, $request);
 $passwordController = new PasswordController($response, $userRepository, $session, $request);
 $userApiController = new UserApiController($userRepository, $session, $request);
-$taskController = new TaskController($response, $session, $request);
+$taskController = new TaskController($response, $taskRepository, $session, $request);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 $registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $taskController);

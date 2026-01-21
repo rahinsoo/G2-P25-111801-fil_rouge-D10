@@ -86,7 +86,7 @@ return function (
     // ROUTES TASKS
     // ============================================
 
-    $router->get('/tasks', [$taskController, 'index']);
+    $router->get('/tasks', [$taskController, 'tasks']);
 
     $router->get('/tasks/create', [$taskController, 'create']);
     $router->post('/tasks/create', [$taskController, 'create']);

@@ -11,24 +11,23 @@ readonly class TaskController
 {
     public function __construct(
         private Response $response,
+        private TaskRepository $TaskRepository,
         private Session  $session,
         private Request  $request
+
     ) {}
 
     private function denyIfNotLogged(): void
     {
-        if (!$this->session->isLogged()) {
+        if (!$this->session->get('user')) {
             header('Location: /login');
             exit;
         }
     }
 
-    public function index(): void
+    public function tasks(): void
     {
-        $this->denyIfNotLogged();
-
-        $tasks = TaskRepository::findByUser($this->session->get('user')['id_user']);
-
+        $tasks = $this->TaskRepository->findByUser(1); // --> rechercher id_user
         $this->response->render('tasks/index', [
             'tasks' => $tasks
         ]);
