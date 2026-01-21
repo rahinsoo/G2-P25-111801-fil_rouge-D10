@@ -1,11 +1,11 @@
 <?php
 
-namespace Model;
+namespace Repository;
 
 use Core\Database;
 use PDO;
 
-class TaskModel
+class TaskRepository
 {
     public static function findByUser($userId)
     {

@@ -8,6 +8,7 @@ use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
+use Controller\TaskController;
 use Core\Router;
 
 return function (
@@ -17,7 +18,8 @@ return function (
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
-    UserApiController $userApiController
+    UserApiController $userApiController,
+    TaskController $taskController
 )
 {
     // ============================================
@@ -102,7 +104,6 @@ return function (
     $router->get('/api/users/(\d+)', function($matches) use ($userApiController) {
         $userApiController->show((int)$matches[1]);
     });
-    $taskController = new TaskController();
 
     $router->post('/api/users', function() use ($userApiController) {
         $userApiController->store();

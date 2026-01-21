@@ -5,6 +5,7 @@ use Repository\HomeRepository;
 use Repository\CustomerRepository;
 use Repository\RoleRepository;
 use Repository\UserRepository;
+use Repository\TaskRepository;
 
 use Controller\UserController;
 use Controller\AuthController;
@@ -33,6 +34,7 @@ $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
 
+
 $AppController = new AppController($response,$homeRepository, $CustomerRepository, $session, $request);
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
@@ -42,6 +44,7 @@ $userController = new UserController($response, $userRepository, $roleRepository
 $dashboardController = new DashboardController($response, $session, $request);
 $passwordController = new PasswordController($response, $userRepository, $session, $request);
 $userApiController = new UserApiController($userRepository, $session, $request);
+$taskController = new TaskController();
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 $registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController);
