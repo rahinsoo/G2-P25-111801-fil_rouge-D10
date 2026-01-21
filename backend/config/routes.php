@@ -1,82 +1,124 @@
 <?php
 
-use Core\Router;
+use Controller\AppController;
 use Core\Request;
 use Core\Response;
-
-use Controller\AppController;
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
-use Controller\PingApiController;
-use Controller\TaskController;
+use Core\Router;
 
 return function (
     Router $router,
-    AppController $appController,
+    AppController $controller,
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
-    UserApiController $userApiController,
-) {
+    UserApiController $userApiController
+)
+{
+    // ============================================
+    // ROUTE PRINCIPALE (redirige selon connexion)
+    // ============================================
 
-    $router->get('/', function() use ($appController) {
-        $appController->home();
+    $router->get('/', function() use ($controller, $authController) {
+        if (isset($_SESSION['user'])) {
+            $controller->home();  // ← Affiche home. php si connecté
+        } else {
+            $authController->login();  // ← Affiche login si non connecté
+        }
     });
 
-    $router->get('/add', function() use ($appController) {
-        $appController->add();
+    // ============================================
+    // ROUTES HOME ET CUSTOMER
+    // ============================================
+
+    $router->get('/home', [$controller, 'home']);
+    $router->get('/customer/listCustomer', [$controller, 'customer']);
+    $router->get('/pagetest', [$controller, 'pagetest']);
+
+    // ============================================
+    // ROUTES AUTHENTIFICATION
+    // ============================================
+
+    $router->get('/users', [$userController, 'index']); // liste
+    $router->get('/users/create', [$userController, 'create']); // formulaire création
+    $router->post('/users/store', [$userController, 'store']); // envoi création
+    $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
+        $userController->edit((int)$matches[1]);
+    });
+    $router->post('/users/update/(\d+)', function($matches) use ($userController) {
+        $userController->update((int)$matches[1]);
+    });
+    $router->post('/users/delete/(\d+)', function($matches) use ($userController) {
+        $userController->delete((int)$matches[1]);
     });
 
-    $router->post('/add', function() use ($appController) {
-        $appController->handleAddGame();
+    $router->get('/users/(\d+)/change-password', function($matches) use ($userController) {
+        $userController->changePassword((int)$matches[1]);
     });
 
-    $router->get('/games', function() use ($appController) {
-        $appController->games();
+    $router->post('/users/(\d+)/update-password', function($matches) use ($userController) {
+        $userController->updatePassword((int)$matches[1]);
     });
 
-    $router->get('/random', function() use ($appController) {
-        $appController->random();
+    // ============================================
+    // routes pour l'authentification/connexion
+    // ============================================
+
+    $router->get('/', [$authController, 'login']);
+    $router->get('/login', [$authController, 'login']);
+    $router->post('/login', [$authController, 'authenticate']);
+    $router->get('/logout', [$authController, 'logout']);
+
+    // ============================================
+    // routes pour mot de passe oublié
+    // ============================================
+
+    $router->get('/forgot-password', [$passwordController, 'forgot']);
+    $router->post('/forgot-password', [$passwordController, 'reset']);
+
+    // route test API //
+    $router->post('/api/test-login', function() {
+        $_SESSION['user'] = [
+            'id_user' => 1,
+            'id_user_role' => 1,
+            'role' => 'admin'
+        ];
+        echo json_encode(['ok' => true, 'role' => 'admin']);
     });
 
-    $router->get('/login', function() use ($authController) {
-        $authController->login();
+    $router->delete('/api/test', function () {
+        echo json_encode(['ok' => true]);
     });
 
-    $router->post('/login', function() use ($authController) {
-        $authController->login();
+    $router->get('/api/users', function() use ($userApiController) {
+        $userApiController->index();
     });
 
-    $router->get('/logout', function() use ($authController) {
-        $authController->logout();
+    $router->get('/api/users/(\d+)', function($matches) use ($userApiController) {
+        $userApiController->show((int)$matches[1]);
     });
-
-    $router->get('/dashboard', function() use ($dashboardController) {
-        $dashboardController->index();
-    });
-
-    $router->get('/password', function() use ($passwordController) {
-        $passwordController->index();
-    });
-
-    $router->post('/password', function() use ($passwordController) {
-        $passwordController->index();
-    });
-
-    $router->get('/users', function() use ($userController) {
-        $userController->index();
-    });
-
-    $router->getRegex('#^/games/(\d+)$#', function (Request $req, Response $res, array $m) use ($appController) {
-        $appController->gameById((int)$m[1]);
-    });
-
     $taskController = new TaskController();
 
+    $router->post('/api/users', function() use ($userApiController) {
+        $userApiController->store();
+    });
+
+    $router->put('/api/users/(\d+)', function($matches) use ($userApiController) {
+        $userApiController->update((int)$matches[1]);
+    });
+
+    $router->patch('/api/users/(\d+)', function($matches) use ($userApiController) {
+        $userApiController->update((int)$matches[1]);
+    });
+
+    $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
+        $userApiController->destroy((int)$matches[1]);
+    });
     $router->get('/tasks', function() use ($taskController) {
         $taskController->index();
     });
