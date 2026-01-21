@@ -12,6 +12,7 @@ use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
+use Controller\TaskController;
 
 use Core\Cors;
 use Core\Database;
@@ -44,10 +45,10 @@ $userController = new UserController($response, $userRepository, $roleRepository
 $dashboardController = new DashboardController($response, $session, $request);
 $passwordController = new PasswordController($response, $userRepository, $session, $request);
 $userApiController = new UserApiController($userRepository, $session, $request);
-$taskController = new TaskController();
+$taskController = new TaskController($response, $session, $request);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController);
+$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $taskController);
 $router->dispatch($request, $response);
 
 

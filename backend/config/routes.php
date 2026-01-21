@@ -28,9 +28,9 @@ return function (
 
     $router->get('/', function() use ($controller, $authController) {
         if (isset($_SESSION['user'])) {
-            $controller->home();  // ← Affiche home. php si connecté
+            $controller->home();
         } else {
-            $authController->login();  // ← Affiche login si non connecté
+            $authController->login();
         }
     });
 
@@ -46,9 +46,9 @@ return function (
     // ROUTES AUTHENTIFICATION
     // ============================================
 
-    $router->get('/users', [$userController, 'index']); // liste
-    $router->get('/users/create', [$userController, 'create']); // formulaire création
-    $router->post('/users/store', [$userController, 'store']); // envoi création
+    $router->get('/users', [$userController, 'index']);
+    $router->get('/users/create', [$userController, 'create']);
+    $router->post('/users/store', [$userController, 'store']);
     $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
         $userController->edit((int)$matches[1]);
     });
@@ -71,7 +71,6 @@ return function (
     // routes pour l'authentification/connexion
     // ============================================
 
-    $router->get('/', [$authController, 'login']);
     $router->get('/login', [$authController, 'login']);
     $router->post('/login', [$authController, 'authenticate']);
     $router->get('/logout', [$authController, 'logout']);
@@ -83,7 +82,31 @@ return function (
     $router->get('/forgot-password', [$passwordController, 'forgot']);
     $router->post('/forgot-password', [$passwordController, 'reset']);
 
-    // route test API //
+    // ============================================
+    // ROUTES TASKS
+    // ============================================
+
+    $router->get('/tasks', [$taskController, 'index']);
+
+    $router->get('/tasks/create', [$taskController, 'create']);
+    $router->post('/tasks/create', [$taskController, 'create']);
+
+    $router->get('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+        $taskController->edit((int)$matches[1]);
+    });
+
+    $router->post('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+        $taskController->edit((int)$matches[1]);
+    });
+
+    $router->post('/tasks/delete/(\d+)', function($matches) use ($taskController) {
+        $taskController->delete((int)$matches[1]);
+    });
+
+    // ============================================
+    // ROUTES API
+    // ============================================
+
     $router->post('/api/test-login', function() {
         $_SESSION['user'] = [
             'id_user' => 1,
@@ -119,28 +142,5 @@ return function (
 
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
         $userApiController->destroy((int)$matches[1]);
-    });
-    $router->get('/tasks', function() use ($taskController) {
-        $taskController->index();
-    });
-
-    $router->get('/tasks/create', function() use ($taskController) {
-        $taskController->create();
-    });
-
-    $router->post('/tasks/create', function() use ($taskController) {
-        $taskController->create();
-    });
-
-    $router->get('/tasks/edit/{id}', function(Request $req) use ($taskController) {
-        $taskController->edit($req);
-    });
-
-    $router->post('/tasks/edit/{id}', function(Request $req) use ($taskController) {
-        $taskController->edit($req);
-    });
-
-    $router->post('/tasks/delete/{id}', function(Request $req) use ($taskController) {
-        $taskController->delete($req);
     });
 };
