@@ -34,7 +34,7 @@ body {
 }
 
 .container {
-    max-width: 920px;
+    /*max-width: 920px;*/
     margin: 0 auto;
     padding: 16px;
 }
@@ -86,11 +86,32 @@ h1 {
     font-size: 28px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .sub {
     margin: 0 0 16px;
     color: var(--ink-soft);
+}
+
+.row {
+    display: inline-block;
+    flex-wrap: wrap;
+}
+
+.col {
+    /*flex: 5 0 0;*/
+}
+
+.cardsquare {
+    width: 200px;
+    /*height: 200px;*/
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+    margin: 14px 0;
+    /*box-shadow: 0 10px 0 var(--shadow);*/
 }
 
 .card {

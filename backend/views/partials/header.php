@@ -15,9 +15,9 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
     <title>Data Time</title>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/modal.css">
-    <?php if ($isLogged): ?>
-        <script src="/js/modal.js" defer></script>
-    <?php endif; ?>
+<!--    --><?php //if ($isLogged): ?>
+<!--        <script src="/js/modal.js" defer></script>-->
+<!--    --><?php //endif; ?>
 </head>
 <body>
 <header class="topbar">

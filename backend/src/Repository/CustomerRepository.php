@@ -3,7 +3,6 @@
 
 namespace Repository;
 
-//use Model\Customer;
 use PDO;
 
 readonly final class CustomerRepository {
@@ -21,27 +20,25 @@ readonly final class CustomerRepository {
 /// CREATE ///
     public function createClient(
         string $nom,
-        string $numero_siret,
+        string $numero_siren,
         string $type,
         string $information,
         bool $is_facturable,
         string $adresse,
-        int $id_projet
 
     ): bool
     {
-        $sql = "INSERT INTO ENTREPRISE (nom, numero_SIRET, type, information, is_facturable,adresse, id_projet) 
-                VALUES (:nom, :prenom, :identifiant, :password, :role)";
+        $sql = "INSERT INTO ENTREPRISE (nom, numero_SIREN, type, information, is_facturable,adresse) 
+                VALUES (:nom, :prenom, :identifiant, :password)";
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
             'nom' => $nom,
-            'numero_SIRET' => $numero_siret,
+            'numero_SIREN' => $numero_siren,
             'type' => $type,
             'information' => $information,
             'is_facturable' => $is_facturable,
             'adresse' => $adresse,
-            'id_projet' => $id_projet
         ]);
     }
 

@@ -39,8 +39,14 @@ return function (
     // ============================================
 
     $router->get('/home', [$controller, 'home']);
-    $router->get('/customer/listCustomer', [$controller, 'customer']);
     $router->get('/pagetest', [$controller, 'pagetest']);
+
+    // ============================================
+    // ROUTES CUSTOMER
+    // ============================================
+
+    $router->get('/customer/listCustomer', [$controller, 'customer']);
+    $router->get('/customer/createCustomer', [$controller, 'createcustomer']);
 
     // ============================================
     // ROUTES AUTHENTIFICATION

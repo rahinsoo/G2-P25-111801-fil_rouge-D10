@@ -4,25 +4,28 @@ $clients = $listClient ?? [];
 <h1>Bienvenue dans ton espace de client</h1>
 
 <?php foreach ($clients as $client): ?>
-    <article class="card">
-        <h2 class="card__title"><?= $client['nom'] ?></h2>
+    <div class="row">
+        <article class="cardsquare col">
+            <h2 class="card__title"><?= $client['nom'] ?></h2>
 
-        <div class="meta">
-            <span class="badge"><?= (int) $client['numero_SIRET'] ?></span>
-            <span class="badge"><?= $client['type'] ?></span>
-            <span class="badge"><?= $client['information'] ?></span>
-            <span class="badge"><?= $client['adresse'] ?></span>
-            <span class="">Suppr</span>
-            <span class="">Edit</span>
-            <span class="">Creation activité</span>
-        </div>
-    </article>
+            <div class="meta">
+                <span class="badge"><?= (int) $client['numero_SIREN'] ?></span>
+                <!--            <span class="badge">--><?php //= $client['type'] ?><!--</span>-->
+                <!--            <span class="badge">--><?php //= $client['information'] ?><!--</span>-->
+                <!--            <span class="badge">--><?php //= $client['adresse'] ?><!--</span>-->
+                <span class="">Suppr</span>
+                <span class="">Edit</span>
+            </div>
+        </article>
+    </div>
+
 <?php endforeach; ?>
-
+<div class="row">
 <!--<article class="card">-->
-<h2 class="card__title card">
+<h2 class="card__title cardsquare">
     <button type="button" id="openModalBtn" class="btn-create">Création entreprise</button>
 </h2>
+</div>
 <!--</article>-->
 
 <div class="meta">
@@ -34,7 +37,7 @@ $clients = $listClient ?? [];
     <div class="modal__content card">
         <span class="modal__close">&times;</span>
         <h2>Créer un nouveau client</h2>
-        <form id="createCustomerForm" action="/customer/listCustomer" method="POST">
+        <form id="createCustomerForm" action="/customer/createCustomer" method="POST">
             <div class="form-group">
                 <label for="nom">Nom</label>
                 <input type="text" id="nom" name="nom" required>
@@ -59,3 +62,4 @@ $clients = $listClient ?? [];
         </form>
     </div>
 </div>
+<script src="/js/modal.js"></script>
