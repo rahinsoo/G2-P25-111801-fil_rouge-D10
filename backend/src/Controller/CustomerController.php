@@ -8,7 +8,7 @@ use Core\Response;
 use Core\Session;
 use Repository\CustomerRepository;
 
-readonly class UserController
+readonly class CustomerController
 {
     public function __construct(
         private Response           $response,
@@ -40,7 +40,7 @@ readonly class UserController
             $_POST['adresse']
         );
 
-        header('Location: /customer/storeCustomer');
+        header('Location: /customer/createCustomer');
         exit;
     }
 
