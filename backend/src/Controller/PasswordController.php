@@ -15,7 +15,7 @@ readonly class PasswordController
         private Response $response,
         private UserRepository $userRepository,
         private Session $session,
-        private Request $request
+        //private Request $request
     ) {}
 
     public function forgot(): void
