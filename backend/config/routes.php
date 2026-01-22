@@ -28,9 +28,9 @@ return function (
 
     $router->get('/', function() use ($controller, $authController) {
         if (isset($_SESSION['user'])) {
-            $controller->home();
+            $controller->home();  // ← Affiche home. php si connecté
         } else {
-            $authController->login();
+            $authController->login();  // ← Affiche login si non connecté
         }
     });
 
@@ -46,15 +46,16 @@ return function (
     // ROUTES AUTHENTIFICATION
     // ============================================
 
-    $router->get('/users', [$userController, 'index']);
-    $router->get('/users/create', [$userController, 'create']);
-    $router->post('/users/store', [$userController, 'store']);
+    $router->get('/users', [$userController, 'index']); // liste
+    $router->get('/users/create', [$userController, 'create']); // formulaire
+    $router->post('/users/store', [$userController, 'store']); // envoi création
     $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
         $userController->edit((int)$matches[1]);
     });
     $router->post('/users/update/(\d+)', function($matches) use ($userController) {
         $userController->update((int)$matches[1]);
     });
+
     $router->post('/users/delete/(\d+)', function($matches) use ($userController) {
         $userController->delete((int)$matches[1]);
     });
