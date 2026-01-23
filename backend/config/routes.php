@@ -48,7 +48,24 @@ return function (
     // ============================================
 
     $router->get('/customer/listCustomer', [$customerController, 'listClient']); // liste des clients
-    //$router->post('/customer/createCustomer', [$customerController, 'createcustomer']); // Page (envoie?) de création
+
+    // Récupérer un client spécifique (pour pré-remplir le modal)
+$router->get('/customer/get/(\d+)', function($matches) use ($customerController) {
+    $customerController->getClient((int)$matches[1]);
+});
+
+// Mettre à jour un client
+$router->post('/customer/update/(\d+)', function($matches) use ($customerController) {
+    $customerController->updateClient((int)$matches[1]);
+});
+
+// Créer un client
+$router->post('/customer/createCustomer', [$customerController, 'createCustomer']);
+
+// Supprimer un client
+$router->post('/customer/delete/(\d+)', function($matches) use ($customerController) {
+    $customerController->deleteClient((int)$matches[1]);
+});
 
     // ============================================
     // ROUTES AUTHENTIFICATION

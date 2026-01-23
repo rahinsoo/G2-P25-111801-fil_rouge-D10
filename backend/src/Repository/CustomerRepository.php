@@ -56,7 +56,7 @@ readonly class CustomerRepository {
             UPDATE ENTREPRISE
             SET nom = :nom,
                 numero_SIREN = :numero_SIREN,
-                type = : type,
+                type = :type,
                 information = :information,
                 is_facturable = :is_facturable,
                 adresse = :adresse
@@ -84,7 +84,7 @@ readonly class CustomerRepository {
 
     /// READ ONE ///
     public function findClientById(int $id_entreprise): ?array {
-        $sql = "SELECT * FROM ENTREPRISE WHERE id_entreprise = : id_entreprise";
+        $sql = "SELECT * FROM ENTREPRISE WHERE id_entreprise = :id_entreprise";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id_entreprise' => $id_entreprise]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

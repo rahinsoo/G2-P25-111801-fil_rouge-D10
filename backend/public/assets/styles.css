@@ -96,7 +96,7 @@ h1 {
 
 .row {
     display: inline-block;
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
 }
 
 .col {
