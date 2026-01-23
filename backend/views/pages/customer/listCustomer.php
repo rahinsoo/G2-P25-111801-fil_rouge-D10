@@ -18,7 +18,7 @@ $clients = $listClient ?? [];
         <h2 class="card__title"><?= htmlspecialchars($client['nom']) ?></h2>
 
         <div class="meta">
-            <span class="badge"><?= htmlspecialchars((string)$client['numero_SIRET']) ?></span>
+            <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
             <span class="badge"><?= htmlspecialchars($client['type']) ?></span>
             <span class="badge"><?= htmlspecialchars($client['information']) ?></span>
             <span class="badge"><?= htmlspecialchars($client['adresse']) ?></span>
@@ -43,14 +43,14 @@ $clients = $listClient ?? [];
         <span class="modal__close">&times;</span>
         <h2>Créer un nouveau client</h2>
         <!-- ✅ CORRECTION : action pointe vers /customer/listCustomer -->
-        <form id="createCustomerForm" action="/customer/listCustomer" method="POST">
+        <form id="createCustomerForm" action="/customer/createCustomer" method="POST">
             <div class="form-group">
                 <label for="nom">Nom *</label>
                 <input type="text" id="nom" name="nom" required>
             </div>
             <div class="form-group">
                 <label for="numero_SIRET">Numéro SIRET *</label>
-                <input type="text" id="numero_SIRET" name="numero_SIRET" required
+                <input type="text" id="numero_SIREN" name="numero_SIREN" required
                        pattern="[0-9]{14}"
                        title="Le SIRET doit contenir 14 chiffres">
             </div>

@@ -40,7 +40,7 @@ readonly class CustomerController
 //    }
 
     // GET /customers
-    public function list(): void
+    public function listClient(): void
     {
         if (!$this->session->isLogged()) {
             header('Location: /login');
@@ -69,7 +69,7 @@ readonly class CustomerController
     {
         // Récupération des données du formulaire
         $nom = $this->request->getPostParam('nom');
-        $numero_siret = $this->request->getPostParam('numero_SIREN');
+        $numero_siren = $this->request->getPostParam('numero_SIREN');
         $type = $this->request->getPostParam('type');
         $information = $this->request->getPostParam('information') ?? '';
         $adresse = $this->request->getPostParam('adresse');

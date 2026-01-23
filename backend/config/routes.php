@@ -48,10 +48,8 @@ return function (
     // ============================================
 
     $router->get('/customer/listCustomer', [$customerController, 'listClient']); // liste des clients
-    $router->post('/customer/createCustomer', [$customerController, 'createcustomer']); // Page (envoie?) de création
-    $router->get('/users/edit/(\d+)', function($matches) use ($customerController) {
-        $customerController->edit((int)$matches[1]);
-    });
+    //$router->post('/customer/createCustomer', [$customerController, 'createcustomer']); // Page (envoie?) de création
+
     // ============================================
     // ROUTES AUTHENTIFICATION
     // ============================================

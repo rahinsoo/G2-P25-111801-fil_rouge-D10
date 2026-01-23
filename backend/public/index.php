@@ -49,7 +49,19 @@ $userApiController = new UserApiController($userRepository, $session, $request);
 $CustomerController = new CustomerController($response, $CustomerRepository, $session, $request);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $CustomerController);
+
+// Respecter l'ordre défini dans routes.php
+$registerRoutes(
+    $router,              // #1 Router
+    $AppController,       // #2 AppController
+    $CustomerController,  // #3 CustomerController
+    $userController,      // #4 UserController
+    $authController,      // #5 AuthController
+    $dashboardController, // #6 DashboardController
+    $passwordController,  // #7 PasswordController
+    $userApiController    // #8 UserApiController
+);
+
 $router->dispatch($request, $response);
 
 
