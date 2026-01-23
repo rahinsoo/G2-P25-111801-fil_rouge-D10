@@ -18,29 +18,88 @@ readonly class CustomerController
     )
     {}
 
-    private function denyIfNotLogged(): void
+//    public function customer() : void
+//    {
+//        // ✅ SÉCURISATION
+//        if (!$this->session->isLogged()) {
+//            header('Location: /login');
+//            exit;
+//        }
+//
+//        // ✅ GESTION POST :  création d'entreprise
+//        if ($this->request->getMethod() === 'POST') {
+//            $this->createCustomer();
+//            return;
+//        }
+//
+//        // ✅ AFFICHAGE GET : liste des clients
+//        $clients = $this->customerRepository->findAllClients();
+//        $this->response->render('customer/listCustomer', [
+//            'listClient' => $clients
+//        ]);
+//    }
+
+    // GET /customers
+    public function list(): void
     {
-        if (!$this->session->get('user')) {
+        if (!$this->session->isLogged()) {
             header('Location: /login');
             exit;
         }
+
+        $clients = $this->customerRepository->findAllClients();
+        $this->response->render('customer/listCustomer', [
+            'listClient' => $clients
+        ]);
     }
 
-    #[NoReturn]
-    public function create(): void
+    public function edit(): void
     {
-        //$this->denyIfNotAdmin();
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
 
-        $this->customerRepository->createClient(
-            $_POST['nom'],
-            $_POST['numero_SIREN'],
-            $_POST['type'],
-            $_POST['information'],
-            $_POST['is_facturable'],
-            $_POST['adresse']
+        $edit = $this->customerRepository->updateClient();
+        $this->response->render('customer/listCustomer', [
+            'editClient' => $edit
+        ]);
+    }
+    private function createCustomer(): void
+    {
+        // Récupération des données du formulaire
+        $nom = $this->request->getPostParam('nom');
+        $numero_siret = $this->request->getPostParam('numero_SIREN');
+        $type = $this->request->getPostParam('type');
+        $information = $this->request->getPostParam('information') ?? '';
+        $adresse = $this->request->getPostParam('adresse');
+        $is_facturable = $this->request->getPostParam('is_facturable') === 'on' ||
+            $this->request->getPostParam('is_facturable') === '1';
+
+        // Validation basique
+        if (empty($nom) || empty($numero_siren) || empty($type) || empty($adresse)) {
+            $this->session->setFlash('error', 'Tous les champs obligatoires doivent être remplis.');
+            header('Location: /customer/listCustomer');
+            exit;
+        }
+
+        // Insertion en base
+        $success = $this->customerRepository->createClient(
+            nom: $nom,
+            numero_siren: $numero_siren,
+            type: $type,
+            information: $information,
+            is_facturable: $is_facturable,
+            adresse:  $adresse
         );
 
-        header('Location: /customer/createCustomer');
+        if ($success) {
+            $this->session->setFlash('success', 'Entreprise créée avec succès !  ✅');
+        } else {
+            $this->session->setFlash('error', 'Erreur lors de la création de l\'entreprise.');
+        }
+
+        header('Location:  /customer/listCustomer');
         exit;
     }
 

@@ -1,25 +1,27 @@
 <?php
 
-use Controller\AppController;
 use Core\Request;
 use Core\Response;
+use Controller\AppController;
+use Controller\CustomerController;
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
-use Controller\TaskController;
+//use Controller\TaskController;
 use Core\Router;
 
 return function (
     Router $router,
     AppController $controller,
+    CustomerController $customerController,
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
-    UserApiController $userApiController,
-    TaskController $taskController
+    UserApiController $userApiController
+    //TaskController $taskController
 )
 {
     // ============================================
@@ -45,9 +47,11 @@ return function (
     // ROUTES CUSTOMER
     // ============================================
 
-    $router->get('/customer/listCustomer', [$controller, 'customer']);
-    $router->get('/customer/createCustomer', [$controller, 'createcustomer']);
-
+    $router->get('/customer/listCustomer', [$customerController, 'listClient']); // liste des clients
+    $router->post('/customer/createCustomer', [$customerController, 'createcustomer']); // Page (envoie?) de création
+    $router->get('/users/edit/(\d+)', function($matches) use ($customerController) {
+        $customerController->edit((int)$matches[1]);
+    });
     // ============================================
     // ROUTES AUTHENTIFICATION
     // ============================================
@@ -93,22 +97,22 @@ return function (
     // ROUTES TASKS
     // ============================================
 
-    $router->get('/tasks', [$taskController, 'tasks']);
-
-    $router->get('/tasks/create', [$taskController, 'create']);
-    $router->post('/tasks/create', [$taskController, 'create']);
-
-    $router->get('/tasks/edit/(\d+)', function($matches) use ($taskController) {
-        $taskController->edit((int)$matches[1]);
-    });
-
-    $router->post('/tasks/edit/(\d+)', function($matches) use ($taskController) {
-        $taskController->edit((int)$matches[1]);
-    });
-
-    $router->post('/tasks/delete/(\d+)', function($matches) use ($taskController) {
-        $taskController->delete((int)$matches[1]);
-    });
+//    $router->get('/tasks', [$taskController, 'tasks']);
+//
+//    $router->get('/tasks/create', [$taskController, 'create']);
+//    $router->post('/tasks/create', [$taskController, 'create']);
+//
+//    $router->get('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+//        $taskController->edit((int)$matches[1]);
+//    });
+//
+//    $router->post('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+//        $taskController->edit((int)$matches[1]);
+//    });
+//
+//    $router->post('/tasks/delete/(\d+)', function($matches) use ($taskController) {
+//        $taskController->delete((int)$matches[1]);
+//    });
 
     // ============================================
     // ROUTES API

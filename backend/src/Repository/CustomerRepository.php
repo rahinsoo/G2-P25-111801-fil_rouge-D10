@@ -1,11 +1,10 @@
 <?php
 
-
 namespace Repository;
 
 use PDO;
 
-readonly final class CustomerRepository {
+readonly class CustomerRepository {
     public function __construct(private readonly PDO $pdo) {}
 
     public function findAllClients() : array {
@@ -17,7 +16,8 @@ readonly final class CustomerRepository {
         $sql = $this->pdo->query("SELECT COUNT(*) FROM ENTREPRISE");
         return $sql->fetch(PDO::FETCH_COLUMN);
     }
-/// CREATE ///
+
+    /// CREATE ///
     public function createClient(
         string $nom,
         string $numero_siren,
@@ -25,11 +25,11 @@ readonly final class CustomerRepository {
         string $information,
         bool $is_facturable,
         string $adresse,
-
     ): bool
     {
-        $sql = "INSERT INTO ENTREPRISE (nom, numero_SIREN, type, information, is_facturable,adresse) 
-                VALUES (:nom, :prenom, :identifiant, :password)";
+        // ✅ CORRECTION : placeholders correspondent aux colonnes
+        $sql = "INSERT INTO ENTREPRISE (nom, numero_SIREN, type, information, is_facturable, adresse) 
+                VALUES (:nom, :numero_SIREN, :type, :information, :is_facturable, :adresse)";
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
@@ -37,39 +37,57 @@ readonly final class CustomerRepository {
             'numero_SIREN' => $numero_siren,
             'type' => $type,
             'information' => $information,
-            'is_facturable' => $is_facturable,
+            'is_facturable' => $is_facturable ?  1 : 0, // Conversion boolean → int
             'adresse' => $adresse,
         ]);
     }
 
-    public function addClient() : array
-    {
-        $sql = $this->pdo->query("INSERT INTO ENTREPRISE (nom, ) VALUES ('Test Corp', '123 Test St', '10001', 'Testville', 'Technology', 'TVA123456')");
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     /// UPDATE ///
-    public function updateUser(
-        User $user
+    public function updateClient(
+        int $id_entreprise,
+        string $nom,
+        string $numero_siren,
+        string $type,
+        string $information,
+        bool $is_facturable,
+        string $adresse
     ): bool {
         $sql = "
-            UPDATE utilisateur
+            UPDATE ENTREPRISE
             SET nom = :nom,
-                prenom = :prenom,
-                identifiant = :identifiant,
-                id_user_role = :role
-            WHERE id_user = :id_user
+                numero_SIREN = :numero_SIREN,
+                type = : type,
+                information = :information,
+                is_facturable = :is_facturable,
+                adresse = :adresse
+            WHERE id_entreprise = :id_entreprise
         ";
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
-            'id_user' => $user->getId(),
-            'nom' => $user->getNom(),
-            'prenom' => $user->getPrenom(),
-            'identifiant' => $user->getIdentifiant(),
-            'role' => $user->getRoleId()
+            'id_entreprise' => $id_entreprise,
+            'nom' => $nom,
+            'numero_SIREN' => $numero_siren,
+            'type' => $type,
+            'information' => $information,
+            'is_facturable' => $is_facturable ? 1 : 0,
+            'adresse' => $adresse,
         ]);
     }
 
+    /// DELETE ///
+    public function deleteClient(int $id_entreprise): bool {
+        $sql = "DELETE FROM ENTREPRISE WHERE id_entreprise = :id_entreprise";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['id_entreprise' => $id_entreprise]);
+    }
 
+    /// READ ONE ///
+    public function findClientById(int $id_entreprise): ?array {
+        $sql = "SELECT * FROM ENTREPRISE WHERE id_entreprise = : id_entreprise";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id_entreprise' => $id_entreprise]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
 }
