@@ -39,4 +39,9 @@ final class Session {
         return isset($_SESSION['user']['id_user_role'])
             && $_SESSION['user']['id_user_role'] === 1;
     }
+
+    public function destroy(): void
+    {
+        session_destroy();
+    }
 }

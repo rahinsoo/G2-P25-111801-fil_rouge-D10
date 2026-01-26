@@ -104,6 +104,7 @@ readonly class AffectationRepository
         return $affectations;
     }
 
+    /// lire toutes les affectations ///
     public function findAllWithDetails(): array
     {
         $sql = $this->pdo->query("

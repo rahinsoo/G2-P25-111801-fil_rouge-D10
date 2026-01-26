@@ -1,5 +1,7 @@
 <?php
 
+/// remplissage automatique de la table affecter ///
+
 require __DIR__ . '/../autoload.php';
 
 use Model\Affectation;

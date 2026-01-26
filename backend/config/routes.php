@@ -13,7 +13,7 @@ use Controller\AffectationController;
 
 use Core\Router;
 
-return function (
+return function ( // fonction injectée par l'appli
     Router $router,
     AppController $controller,
     UserController $userController,
@@ -30,20 +30,22 @@ return function (
     $router->get('/home', [$controller, 'home']);
     $router->get('/customer/listCustomer', [$controller, 'customer']);
     $router->get('/pagetest', [$controller, 'pagetest']);
-    // routes pour CRUD utilisateurs
-    $router->get('/users', [$userController, 'index']); // liste
-    $router->get('/users/create', [$userController, 'create']); // formulaire création
-    $router->post('/users/store', [$userController, 'store']); // envoi création
-    $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
+
+    /// routes pour CRUD utilisateurs ///
+    $router->get('/users', [$userController, 'index']); // affichage de la liste
+    $router->get('/users/create', [$userController, 'create']); // affichage du formulaire création utilisateur
+    $router->post('/users/store', [$userController, 'store']); // envoi des données de création en BDD
+    $router->get('/users/edit/(\d+)', function($matches) use ($userController) { // affichage du formulaire pré-rempli de modification utilisateur
         $userController->edit((int)$matches[1]);
     });
-    $router->post('/users/update/(\d+)', function($matches) use ($userController) {
+    $router->post('/users/update/(\d+)', function($matches) use ($userController) { // envoi des données de modification
         $userController->update((int)$matches[1]);
     });
-    $router->post('/users/delete/(\d+)', function($matches) use ($userController) {
+    $router->post('/users/delete/(\d+)', function($matches) use ($userController) { // envoi des données de suppression
         $userController->delete((int)$matches[1]);
     });
 
+    /// routes pour changer le password  ///
     $router->get('/users/(\d+)/change-password', function($matches) use ($userController) {
         $userController->changePassword((int)$matches[1]);
     });
@@ -52,21 +54,21 @@ return function (
         $userController->updatePassword((int)$matches[1]);
     });
 
-    // routes pour l'authentification/connexion
+    /// routes pour l'authentification/connexion ///
     $router->get('/', [$authController, 'login']);
     $router->get('/login', [$authController, 'login']);
     $router->post('/login', [$authController, 'authenticate']);
     $router->get('/logout', [$authController, 'logout']);
 
-    // routes pour mot de passe oublié
+    /// routes pour mot de passe oublié ///
     $router->get('/forgot-password', [$passwordController, 'forgot']);
     $router->post('/forgot-password', [$passwordController, 'reset']);
 
     // routes pour la page principale Dashboard
     $router->get('/dashboard', [$dashboardController, 'index']);
 
-    // route test API //
-    $router->post('/api/test-login', function() {
+    /// route test API ////
+    $router->post('/api/test-login', function() { // route pour mimer la connexion sur postman
         $_SESSION['user'] = [
             'id_user' => 1,
             'id_user_role' => 1,
@@ -80,55 +82,55 @@ return function (
     });
 
     /// routes UserAPi ///
-    $router->get('/api/users', function() use ($userApiController) {
+    $router->get('/api/users', function() use ($userApiController) { // affichage de tous les utilisateurs
         $userApiController->index();
     });
 
-    $router->get('/api/users/(\d+)', function($matches) use ($userApiController) {
+    $router->get('/api/users/(\d+)', function($matches) use ($userApiController) { // affichage d'un seul utilisateur
         $userApiController->show((int)$matches[1]);
     });
 
-    $router->post('/api/users', function() use ($userApiController) {
+    $router->post('/api/users', function() use ($userApiController) { // envoi données création
         $userApiController->store();
     });
 
-    $router->put('/api/users/(\d+)', function($matches) use ($userApiController) {
+    $router->put('/api/users/(\d+)', function($matches) use ($userApiController) { // modification complète, je dois mettre des values pour tous les paramètres
         $userApiController->update((int)$matches[1]);
     });
 
-    $router->patch('/api/users/(\d+)', function($matches) use ($userApiController) {
+    $router->patch('/api/users/(\d+)', function($matches) use ($userApiController) { // modification partielle
         $userApiController->update((int)$matches[1]);
     });
 
-    $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
+    $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) { // suppression
         $userApiController->destroy((int)$matches[1]);
     });
 
     /// routes pour les activités ///
-    $router->get('/activites', [$activiteController, 'index']); // liste
-    $router->get('/activites/create', [$activiteController, 'create']); // formulaire création
-    $router->post('/activites/store', [$activiteController, 'store']); // envoi création
-    $router->get('/activites/edit/(\d+)', function($matches) use ($activiteController) {
+    $router->get('/activites', [$activiteController, 'index']); // affichage liste des activités
+    $router->get('/activites/create', [$activiteController, 'create']); // formulaire création activité
+    $router->post('/activites/store', [$activiteController, 'store']); // envoi création en BDD
+    $router->get('/activites/edit/(\d+)', function($matches) use ($activiteController) { // formulaire pré-rempli modif activité
         $activiteController->edit((int)$matches[1]);
     });
-    $router->post('/activites/update/(\d+)', function($matches) use ($activiteController) {
+    $router->post('/activites/update/(\d+)', function($matches) use ($activiteController) { // envoi modif activité en BDD
         $activiteController->update((int)$matches[1]);
     });
-    $router->post('/activites/delete/(\d+)', function($matches) use ($activiteController) {
+    $router->post('/activites/delete/(\d+)', function($matches) use ($activiteController) { // suppression
         $activiteController->delete((int)$matches[1]);
     });
 
     /// routes pour les affectations ///
-    $router->get('/affectations', [$affectationController, 'index']); // liste
-    $router->get('/affectations/create', [$affectationController, 'create']); // formulaire création
-    $router->post('/affectations/store', [$affectationController, 'store']); // envoi création
-    $router->get('/affectations/edit/(\d+)', function($matches) use ($affectationController) {
+    $router->get('/affectations', [$affectationController, 'index']); // liste des affectations
+    $router->get('/affectations/create', [$affectationController, 'create']); // formulaire création affectation
+    $router->post('/affectations/store', [$affectationController, 'store']); // envoi création de l'affectation en BDD
+    $router->get('/affectations/edit/(\d+)', function($matches) use ($affectationController) { // formulaire modif du TJM
         $affectationController->edit((int)$matches[1]);
     });
-    $router->post('/affectations/update/(\d+)', function($matches) use ($affectationController) {
+    $router->post('/affectations/update/(\d+)', function($matches) use ($affectationController) { // envoi modif TJM en BDD
         $affectationController->updateTjm((int)$matches[1]);
     });
-    $router->post('/affectations/delete/(\d+)', function($matches) use ($affectationController) {
+    $router->post('/affectations/delete/(\d+)', function($matches) use ($affectationController) { // suppression
         $affectationController->delete((int)$matches[1]);
     });
 };

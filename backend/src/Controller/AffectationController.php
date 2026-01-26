@@ -17,7 +17,8 @@ readonly class AffectationController
         private AffectationRepository $affectationRepository,
         private UserRepository        $userRepository,
         private ActiviteRepository    $activiteRepository,
-        private Session               $session
+        private Session               $session,
+        private Response             $response
     ) {}
 
     /*private function denyIfNotAdmin(): void
@@ -40,11 +41,15 @@ readonly class AffectationController
 
         $affectations = $this->affectationRepository->findAllWithDetails();
 
-        // Vue : list des affectations ou formulaire
+        // Vue : liste des affectations
         require __DIR__ . '/../../views/pages/affectations/list.php';
+        $this->response->render('affectations/list', [
+            'affectations' => $affectations
+        ]);
     }
 
     /// Formulaire pour créer une nouvelle affectation ///
+    /// utilisation des jointures faites dans le Repo ///
     public function create(): void
     {
         /*$this->denyIfNotAdmin();*/
@@ -55,6 +60,7 @@ readonly class AffectationController
         require __DIR__ . '/../../views/pages/affectations/create.php';
     }
 
+    /// envoi des données de création en BDD ///
     #[NoReturn]
     public function store(): void
     {

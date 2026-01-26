@@ -15,27 +15,31 @@ readonly class UserController
     public function __construct(
         private UserRepository $userRepository,
         private RoleRepository $roleRepository,
-        private Session        $session
+        private Session        $session,
+        private Response        $response
     ) {}
 
     private function denyIfNotLogged(): void
     {
         if (!$this->session->get('user')) {
-            header('Location: /login');
-            exit;
+            /*header('Location: /login');
+            exit;*/
+            $this->response->redirect('/login');
         }
     }
 
     private function denyIfNotAdmin(): void
     {
         if (!$this->session->isLogged()) {
-            header('Location: /login');
-            exit;
+            /*header('Location: /login');
+            exit;*/
+            $this->response->redirect('/login');
         }
 
         if (!$this->session->isAdmin()) {
-            header('Location: /dashboard');
-            exit;
+            /*header('Location: /dashboard');
+            exit;*/
+            $this->response->redirect('/dashboard');
         }
     }
 
@@ -43,14 +47,16 @@ readonly class UserController
     {
         $this->denyIfNotAdmin();
         $users = $this->userRepository->readAll();
-        require __DIR__ . '/../../views/pages/user/list.php';
+        /*require __DIR__ . '/../../views/pages/user/list.php';*/
+        $this->response->render('user/list', ['users' => $users]);
     }
 
     public function create(): void
     {
         $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
-        require __DIR__ . '/../../views/pages/user/create.php';
+        /*require __DIR__ . '/../../views/pages/user/create.php';*/
+        $this->response->render('user/create', ['roles' => $roles]);
     }
 
     #[NoReturn]
@@ -67,8 +73,9 @@ readonly class UserController
             (int)$_POST['id_user_role']
         );
 
-        header('Location: /users');
-        exit;
+        /*header('Location: /users');
+        exit;*/
+        $this->response->redirect('/users');
     }
 
     public function edit(int $id_user): void

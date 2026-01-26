@@ -1,5 +1,7 @@
 <?php
 
+/// définition des requêtes SQL ///
+
 namespace Repository;
 
 use Model\Activite;
@@ -48,7 +50,7 @@ readonly class ActiviteRepository
         a.id_client,
         c.nom AS nom_client
         FROM activite a
-        LEFT JOIN client c ON a.id_client = c.id_client");
+        LEFT JOIN client c ON a.id_client = c.id_client"); // jointure afin de récupérer dans la liste des activités, le nom du client
         $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
 
         return array_map(function($row) {
@@ -66,6 +68,7 @@ readonly class ActiviteRepository
             $rows);
     }
 
+    /// Lire une seule, pour notamment le Update ///
     public function readOne(int $id_activite) : Activite | false {
         $sql = $this->pdo->prepare("SELECT
         a.id_activite,

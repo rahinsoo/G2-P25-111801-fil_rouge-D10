@@ -1,5 +1,6 @@
 <?php
 
+/// importations de toutes les classes dont on a besoin ///
 use Controller\AppController;
 
 use Repository\ActiviteRepository;
@@ -24,38 +25,51 @@ use Core\Response;
 use Core\Router;
 use Core\Session;
 
+/// activation des sessions ///
 session_start();
+
+/// chargement automatique des classes ///
 require __DIR__ . '/../autoload.php';
+
+/// contient la configuration de la BDD ///
 $config = require_once __DIR__ . '/../config/db.php';
 
+
+/// gère les Headers CORS ///
 Cors::handle();
 
-$session = new Session();
-$request = new Request();
-$response = new Response();
-$router = new Router();
+/// Création des objets ///
+$session = new Session(); // encapsule $_SESSION
+$request = new Request(); // infos de la requête (URL, GET, POST, headers...)
+$response = new Response(); // ce que l'on renvoie (HTML, JSON, redirection...)
+$router = new Router(); // fait le lien entre URL et Controller
 
-
+/// injection de dépendances (création connexion PDO) ///
 $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $customerRepository = new CustomerRepository(Database::makePdo($config['db']));
-$AppController = new AppController($response,$homeRepository, $customerRepository);
-
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
 $activiteRepository = new ActiviteRepository(Database::makePdo($config['db']));
 $affectationRepository = new AffectationRepository(Database::makePdo($config['db']));
 
-$authController = new AuthController($userRepository, $session);
-$userController = new UserController($userRepository, $roleRepository, $session);
-$activiteController = new ActiviteController($activiteRepository, $customerRepository);
-$dashboardController = new DashboardController($session);
+
+/// Instanciation des controllers avec SRP (Single Responsibility Principle) ///
+$AppController = new AppController($response,$homeRepository, $customerRepository);
+
+$authController = new AuthController($userRepository, $session, $request, $response);
+$userController = new UserController($userRepository, $roleRepository, $session, $response);
+$activiteController = new ActiviteController($activiteRepository, $customerRepository, $response);
+$dashboardController = new DashboardController($session, $response);
 $passwordController = new PasswordController($userRepository, $session);
-$affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session);
+$affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session, $response);
 $userApiController = new UserApiController($userRepository, $session);
 
+/// appel des routes ///
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 $registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $activiteController, $affectationController);
 //$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
+
+/// ligne qui lance l'appli ///
 $router->dispatch($request, $response);
 
 
