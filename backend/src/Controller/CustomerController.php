@@ -16,7 +16,8 @@ readonly class CustomerController
         private Session            $session,
         private Request            $request
     )
-    {}
+    {
+    }
 
 //    public function customer() : void
 //    {
@@ -65,6 +66,7 @@ readonly class CustomerController
             'editClient' => $edit
         ]);
     }
+
     #[NoReturn]
     public function createcustomer(): void
     {
@@ -79,7 +81,7 @@ readonly class CustomerController
 
         // Validation basique
         if (empty($nom) || empty($numero_siren) || empty($type) || empty($adresse)) {
-            $this->session->setFlash('error', 'Tous les champs obligatoires doivent être remplis.');
+            $this->session->flash('error', 'Tous les champs obligatoires doivent être remplis.');
             header('Location: /customer/listCustomer');
             exit;
         }
@@ -91,13 +93,13 @@ readonly class CustomerController
             type: $type,
             information: $information,
             is_facturable: $is_facturable,
-            adresse:  $adresse
+            adresse: $adresse
         );
 
         if ($success) {
-            $this->session->setFlash('success', 'Entreprise créée avec succès !  ✅');
+            $this->session->flash('success', 'Entreprise créée avec succès !  ✅');
         } else {
-            $this->session->setFlash('error', 'Erreur lors de la création de l\'entreprise.');
+            $this->session->flash('error', 'Erreur lors de la création de l\'entreprise.');
         }
 
         header('Location:  /customer/listCustomer');
@@ -144,7 +146,7 @@ readonly class CustomerController
             $this->request->getPostParam('is_facturable') === '1';
 
         if (empty($nom) || empty($numero_siren) || empty($type) || empty($adresse)) {
-            $this->session->setFlash('error', 'Tous les champs obligatoires doivent être remplis.');
+            $this->session->flash('error', 'Tous les champs obligatoires doivent être remplis.');
             header('Location: /customer/listCustomer');
             exit;
         }
@@ -160,9 +162,9 @@ readonly class CustomerController
         );
 
         if ($success) {
-            $this->session->setFlash('success', 'Client modifié avec succès ! ✅');
+            $this->session->flash('success', 'Client modifié avec succès ! ✅');
         } else {
-            $this->session->setFlash('error', 'Erreur lors de la modification.');
+            $this->session->flash('error', 'Erreur lors de la modification.');
         }
 
         header('Location: /customer/listCustomer');
@@ -181,9 +183,9 @@ readonly class CustomerController
         $success = $this->customerRepository->deleteClient($id);
 
         if ($success) {
-            $this->session->setFlash('success', 'Client supprimé avec succès ! 🗑️');
+            $this->session->flash('success', 'Client supprimé avec succès ! 🗑️');
         } else {
-            $this->session->setFlash('error', 'Erreur lors de la suppression.');
+            $this->session->flash('error', 'Erreur lors de la suppression.');
         }
 
         header('Location: /customer/listCustomer');

@@ -4,6 +4,10 @@
 
 ## Base de travail : Wareframe basique type Symfony (Game Catalog) et le merise étudié
 
+--> Récupération de la base du Wareframe de Game Catalogue  
+--> Réflexion sur la base de donnée créé --> évolution durant la préparation des CRUD  
+|--> allez voir le fichier Bakend/config/CREATE_BDD.sql.
+
 ## Répartition des tâches
 
 -> Travaux sur les CRUD
@@ -14,7 +18,9 @@
 
 ### ETUDE CRUD UTILISATEUR
 
--> lors du choix de faire une page en js pour faire un modal en JS : 
+-> lors du choix de faire une page en js pour faire un modal en JS :  
+-> read créé  
+-> erreur lors de la création avec le modal.  
 
 #### PLAN D'ORGANISATION DES FICHIERS
 
@@ -28,9 +34,13 @@ rahinsoo/G2-P25-111801-fil_rouge-D10/
 │   └── CREATE_BDD.sql  
 ├── public/  
 │   ├── assets/  
-│   │   └── styles. css  
+│   │   └── modal.css  
+│   │   └── styles.css  
 │   ├── img/  
+│   │   └── DATAPUNCH.png  
 │   └── index.php  
+│   └── JS  
+│       └── modal.js  
 ├── src/  
 │   ├── Controller/  
 │   │   ├── AppController.php  
@@ -43,9 +53,7 @@ rahinsoo/G2-P25-111801-fil_rouge-D10/
 │   │   ├── Router.php  
 │   │   └── Session.php  
 │   ├── Helper/  
-│   │   └── Debug.php  
-│   ├── js/  
-│   │   └── modal.js  ← À DÉPLACER  
+│   │   └── Debug.php
 │   ├── Model/  
 │   │   ├── Home.php  
 │   │   └── User.php  
@@ -144,4 +152,30 @@ Choix de la fusion des 2 CRUD et intégration au views :
                 ┌──────────┐  
                 │  /home   │  
                 └──────────┘  
+
+### Finalisation CRUD ENTREPRISE et Une partie du design
+
+Design par "cases" : 
+
+![Image du design pour les clients](IMG_xavier/CUSTOMER_read1.png)
+
+Création de l'espace de travail du crud
+- read -> lecture dans "home" et dans "client"
+  ![Image de la liste des clients](IMG_xavier/CUSTOMER_CRUD1.png)
+- delete -> bouton de suppression dans chaque carte client.
+  ![Message lors de la suppression](IMG_xavier/CUSTOMER_DELETE1.png)
+#### Important -> utilisation de JS pour utiliser une modale pour la création et la modification.
+
+- create -> bouton pour la création -> affichage des données à créer
+  ![Image de l'édition d'un client](IMG_xavier/CUSTOMER_CREATE1.png)
+- update -> bouton dans chaque carte client -> insertion de l'affichage de la BDD possibilité de la modifier en totalité.
+  ![Image de l'édition d'un client](IMG_xavier/CUSTOMER_EDIT1.png)
+
+
+#### Préparation de l'utilisation de l'api SIERN
+
+Création du compte 
+Connection API - SIREN  
+curl --header "X-INSEE-Api-Key-Integration: f03b71b1-35dc-4291-bb71-b135dcd2911a" \
+https://api.insee.fr/api-sirene/3.11
 

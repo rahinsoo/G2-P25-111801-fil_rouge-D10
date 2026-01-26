@@ -21,7 +21,7 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
 </head>
 <body>
 <header class="topbar">
-    <div class="container topbar__inner">
+    <div class="topbar__inner">
         <a href="<?= $isLogged ? '/home' : '/login' ?>">
             <img class="img_header" src="/img/DATAPUNCH.png" alt="DataTime">
         </a>
@@ -58,5 +58,5 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
         <?php endif; ?>
     </div>
 </header>
-<main class="container">
+<main class="">
 

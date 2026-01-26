@@ -12,26 +12,35 @@ $clients = $listClient ?? [];
     <?php endforeach; ?>
     <?php unset($_SESSION['flash']); ?>
 <?php endif; ?>
+<div class="container">
+    <?php foreach ($clients as $client): ?>
+    <div class="container__card">
+        <article class="card">
+            <h2 class="card__title"><?= htmlspecialchars($client['nom']) ?></h2>
 
-<?php foreach ($clients as $client): ?>
-    <article class="card">
-        <h2 class="card__title"><?= htmlspecialchars($client['nom']) ?></h2>
+            <div class="meta">
+                <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
+                <button class="btn-edit" onclick="openEditModal(<?= $client['id_entreprise'] ?>)">✏️ Edit</button>
+                <button class="btn-delete" onclick="deleteClient(<?= $client['id_entreprise'] ?>, '<?= htmlspecialchars($client['nom']) ?>')">🗑️ Suppr</button>
+                <span class="">Création activité</span>
+            </div>
+        </article>
+    </div>
 
-        <div class="meta">
-            <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
-            <button class="btn-edit" onclick="openEditModal(<?= $client['id_entreprise'] ?>)">✏️ Edit</button>
-            <button class="btn-delete" onclick="deleteClient(<?= $client['id_entreprise'] ?>, '<?= htmlspecialchars($client['nom']) ?>')">🗑️ Suppr</button>
-            <span class="">Création activité</span>
-        </div>
-    </article>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+    <div class="container__card">
+        <h2 class="card__title card">
+            <button type="button" id="openModalBtn" class="btn-create">➕ Création entreprise</button>
+        </h2>
+    </div>
+</div>
 
-<h2 class="card__title card">
-    <button type="button" id="openModalBtn" class="btn-create">➕ Création entreprise</button>
-</h2>
 
-<div class="meta">
-    <span class="card">Total clients: <?= count($clients) ?></span>
+
+<div class="container">
+    <div class="meta">
+        <span class="card">Total clients: <?= count($clients) ?></span>
+    </div>
 </div>
 
 <!-- Modale unique pour Création ET Édition -->
