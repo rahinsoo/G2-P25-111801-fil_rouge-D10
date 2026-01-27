@@ -179,3 +179,9 @@ Connection API - SIREN
 curl --header "X-INSEE-Api-Key-Integration: f03b71b1-35dc-4291-bb71-b135dcd2911a" \
 https://api.insee.fr/api-sirene/3.11
 
+Test Postman :
+https://api.insee.fr/api-sirene/3.11/siren/{siren}
+
+Image avec le siren de Diginamic (GET) :
+![Image de test avec siren de Diginamic](IMG_xavier/Test_API_SIREN_Postman.png)
+

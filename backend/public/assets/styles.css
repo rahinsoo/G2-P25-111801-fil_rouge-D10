@@ -53,7 +53,7 @@ main {
     height: auto;              /* Conserve le ratio de l'image */
     border-radius: 16px;       /* Coins arrondis */
     margin-bottom: 16px;
-    box-shadow: 0 10px 0 var(--shadow);  /* box-shadow: x y blur spread color */
+    /*box-shadow: 0 10px 0 var(--shadow);  !* box-shadow: x y blur spread color *!*/
 }
 
 /* ===================================
@@ -140,8 +140,8 @@ main {
     color: var(--ink);
     background: var(--card);
     padding: 10px 14px;
-    border: 3px solid var(--border);
-    border-radius: 12px;
+    /*border: 3px solid var(--border);*/
+    border-radius: 10px;
     box-shadow: 0 6px 0 var(--shadow);
     text-transform: uppercase;
     font-size: 14px;
@@ -207,7 +207,7 @@ p {
 .card {
     background: var(--card);
     border: 3px solid var(--border);
-    border-radius: 16px;
+    border-radius: 10px;
     padding: 18px;
     margin: 16px 0;
     box-shadow: 0 10px 0 var(--shadow);
@@ -265,11 +265,11 @@ button[type="submit"],        /* Sélecteur d'attribut - Cible les boutons de ty
     align-items: center;
     justify-content: center;   /* Centre le contenu horizontalement */
     text-decoration: none;
-    color: #fff;
-    background: var(--accent);
+    color: var(--ink);
+    background: var(--border);
     padding: 12px 18px;
-    border: 3px solid var(--border);
-    border-radius: 14px;
+    border: 0px solid var(--border);
+    border-radius: 10px;
     box-shadow: 0 8px 0 var(--shadow);
     margin-top: 12px;
     text-transform: uppercase;
@@ -285,9 +285,10 @@ button[type="submit"],        /* Sélecteur d'attribut - Cible les boutons de ty
 button[type="submit"]:hover,
 .btn-submit:hover,
 .btn-create:hover {
+    color: var(--ink-dark);
     transform: translateY(-2px);
     box-shadow: 0 10px 0 var(--shadow);
-    background: #ff3355;
+    background: var(--shell);;
 }
 
 .btn:active,
