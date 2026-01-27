@@ -25,7 +25,7 @@
 #### PLAN D'ORGANISATION DES FICHIERS
 
 Structure actuelle de votre projet :
-
+```
 rahinsoo/G2-P25-111801-fil_rouge-D10/  
 ├── config/  
 │   ├── db.php  
@@ -77,7 +77,7 @@ rahinsoo/G2-P25-111801-fil_rouge-D10/
 ├── scripts/  
 ├── autoload.php  
 └── docker-compose.yml  
-
+```
 
 ### PULL REQUEST CRUD UTILISATEUR puis avec CRUD ENTREPRISE
 
@@ -90,6 +90,7 @@ De base, la connection est en dehors du front initial :
 Choix de la fusion des 2 CRUD et intégration au views :  
 #### Schéma du flux de connexion
 
+```
 ┌─────────────────┐  
 │   / ou /login   │  ← Page d'entrée  
 └────────┬────────┘  
@@ -119,16 +120,18 @@ Choix de la fusion des 2 CRUD et intégration au views :
 │ views/pages/dashboard/   │  
 │ index.php                │  
 └──────────────────────────┘  
+```
 
 #### FLUX DE NAVIGATION FINAL
 
+```
 ┌─────────────────────┐  
 │   Utilisateur       │  
 │   visite "/"        │  
 └──────────┬──────────┘  
            │  
      ┌─────▼─────┐  
-     │ Connecté ? │  
+     │ Connecté ?│  
      └─────┬─────┘  
            │  
     ┌──────┴──────┐
@@ -151,13 +154,18 @@ Choix de la fusion des 2 CRUD et intégration au views :
                      ▼  
                 ┌──────────┐  
                 │  /home   │  
-                └──────────┘  
+                └──────────┘ 
+```
+
 
 ### Finalisation CRUD ENTREPRISE et Une partie du design
 
 Design par "cases" : 
 
 ![Image du design pour les clients](IMG_xavier/CUSTOMER_read1.png)
+Modification du design sur certaines parties.
+![Image du design pour les clients](IMG_xavier/Mod_design_2.png)
+![Image du design pour les clients](IMG_xavier/Mod_design_3.png)
 
 Création de l'espace de travail du crud
 - read -> lecture dans "home" et dans "client"
@@ -174,7 +182,7 @@ Création de l'espace de travail du crud
 
 #### Préparation de l'utilisation de l'api SIERN
 
-Création du compte 
+Création du compte à mon nom pour cette application Data Punch
 Connection API - SIREN  
 curl --header "X-INSEE-Api-Key-Integration: f03b71b1-35dc-4291-bb71-b135dcd2911a" \
 https://api.insee.fr/api-sirene/3.11

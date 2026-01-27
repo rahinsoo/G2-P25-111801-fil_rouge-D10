@@ -19,27 +19,6 @@ readonly class CustomerController
     {
     }
 
-//    public function customer() : void
-//    {
-//        // ✅ SÉCURISATION
-//        if (!$this->session->isLogged()) {
-//            header('Location: /login');
-//            exit;
-//        }
-//
-//        // ✅ GESTION POST :  création d'entreprise
-//        if ($this->request->getMethod() === 'POST') {
-//            $this->createCustomer();
-//            return;
-//        }
-//
-//        // ✅ AFFICHAGE GET : liste des clients
-//        $clients = $this->customerRepository->findAllClients();
-//        $this->response->render('customer/listCustomer', [
-//            'listClient' => $clients
-//        ]);
-//    }
-
     // GET /customers
     public function listClient(): void
     {
@@ -51,19 +30,6 @@ readonly class CustomerController
         $clients = $this->customerRepository->findAllClients();
         $this->response->render('customer/listCustomer', [
             'listClient' => $clients
-        ]);
-    }
-
-    public function edit(): void
-    {
-        if (!$this->session->isLogged()) {
-            header('Location: /login');
-            exit;
-        }
-
-        $edit = $this->customerRepository->updateClient();
-        $this->response->render('customer/listCustomer', [
-            'editClient' => $edit
         ]);
     }
 

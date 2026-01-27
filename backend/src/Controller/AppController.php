@@ -35,6 +35,34 @@ final readonly class AppController {
         ]);
     }
 
+    public function profile(): void
+    {
+        // Vérifier l'authentification
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
+        // Afficher la page de paramètres
+        $this->response->render('profile', [
+            'user' => $this->session->get('user')
+        ]);
+    }
+
+    public function settings(): void
+    {
+        // Vérifier l'authentification
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
+        // Afficher la page de paramètres
+        $this->response->render('settings', [
+            'user' => $this->session->get('user')
+        ]);
+    }
+
     public function pagetest() : void
     {
         $this->response->render('pagetest', [
@@ -44,6 +72,5 @@ final readonly class AppController {
     public function notFound() : void {
         $this->response->render('not-found', [], 404);
     }
-
 
 }

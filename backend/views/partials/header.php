@@ -38,9 +38,9 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
                 <a class="nav__link" href="/customer/listCustomer">🏢 Clients</a>
                 <a class="nav__link" href="/pagetest">📅 Activités</a>
                 <a class="nav__link" href="/tasks">✅ Tâches</a>
-                <a class="nav__link" href="">Activités par Salarié</a>
-                <a class="nav__link" href="">Profil</a>
-                <a class="nav__link" href="">Paramètres</a>
+                <a class="nav__link" href="/pagetest">Activités par Salarié</a>
+                <a class="nav__link" href="/profile">Profil</a>
+                <a class="nav__link" href="/settings">⚙️ Paramètres</a>
                 <?php if ($isAdmin): ?>
                     <a class="nav__link" href="/users">👥 Utilisateurs</a>
                 <?php endif; ?>

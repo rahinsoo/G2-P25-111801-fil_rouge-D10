@@ -102,7 +102,7 @@ main {
     align-items: center;       /* Alignement vertical au centre */
     justify-content: space-between;  /* Espace maximum entre les éléments */
     gap: 16px;                 /* Espacement entre éléments flex */
-    padding: 12px 0;           /* padding: vertical horizontal */
+    padding: 12px;
 }
 
 .brand {

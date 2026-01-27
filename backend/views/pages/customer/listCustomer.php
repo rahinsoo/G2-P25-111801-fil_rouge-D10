@@ -15,16 +15,21 @@ $clients = $listClient ?? [];
 <div class="container">
     <?php foreach ($clients as $client): ?>
     <div class="container__card">
-        <article class="card">
-            <h2 class="card__title"><?= htmlspecialchars($client['nom']) ?></h2>
+            <article class="card">
+                <a href="/customer/infoCustomer) ?>">
+                    <h2 class="card__title"><?= htmlspecialchars($client['nom']) ?></h2>
+                </a>
 
-            <div class="meta">
-                <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
-                <button class="btn-edit" onclick="openEditModal(<?= $client['id_entreprise'] ?>)">✏️ Edit</button>
-                <button class="btn-delete" onclick="deleteClient(<?= $client['id_entreprise'] ?>, '<?= htmlspecialchars($client['nom']) ?>')">🗑️ Suppr</button>
-                <span class="">Création activité</span>
-            </div>
-        </article>
+                <div class="meta">
+                    <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
+                </div>
+                <div class="meta">
+                    <button class="btn-edit" onclick="openEditModal(<?= $client['id_entreprise'] ?>)">✏️ Edit</button>
+                    <button class="btn-delete" onclick="deleteClient(<?= $client['id_entreprise'] ?>, '<?= htmlspecialchars($client['nom']) ?>')">🗑️ Suppr</button>
+                    <span class="">Création activité</span>
+                </div>
+
+            </article>
     </div>
 
     <?php endforeach; ?>

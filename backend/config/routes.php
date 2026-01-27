@@ -37,17 +37,20 @@ return function (
     });
 
     // ============================================
-    // ROUTES HOME ET CUSTOMER
+    // ROUTES HOME
     // ============================================
 
     $router->get('/home', [$controller, 'home']);
     $router->get('/pagetest', [$controller, 'pagetest']);
+    $router->get('/profile', [$controller, 'profile']);
+    $router->get('/settings', [$controller, 'settings']);
 
     // ============================================
     // ROUTES CUSTOMER
     // ============================================
 
     $router->get('/customer/listCustomer', [$customerController, 'listClient']); // liste des clients
+    $router->get('/customer/infoCustomer', [$customerController, 'getClient']); // lire un client
 
     // Récupérer un client spécifique (pour pré-remplir le modal)
 $router->get('/customer/get/(\d+)', function($matches) use ($customerController) {
