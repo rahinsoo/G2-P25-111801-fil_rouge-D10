@@ -187,9 +187,19 @@ Connection API - SIREN
 curl --header "X-INSEE-Api-Key-Integration: f03b71b1-35dc-4291-bb71-b135dcd2911a" \
 https://api.insee.fr/api-sirene/3.11
 
-Test Postman :
-https://api.insee.fr/api-sirene/3.11/siren/{siren}
+Test Postman :  
+https://api.insee.fr/api-sirene/3.11/siren/{siren}  
+|-> permet d'avoir le nom de l'ets  
+https://api.insee.fr/api-sirene/3.11/siret/{siret}  
+|-> permet d'avoir le nom de l'ets et surtout son adresse
 
 Image avec le siren de Diginamic (GET) :
 ![Image de test avec siren de Diginamic](IMG_xavier/Test_API_SIREN_Postman.png)
+
+--> pour mettre l'adresse --> utiliser le siret.  
+|--> par exemple siret Diginamic sur Montpellier = 81824197800050  
+|--> et Diginamic sur Nante = 81824197800035  
+
+Image avec le siret de Diginamic (de Nantes) (GET) :
+![Image de test avec siren de Diginamic](IMG_xavier/Test_API_SIRET_Postman.png)
 
