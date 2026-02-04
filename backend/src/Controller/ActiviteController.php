@@ -21,14 +21,29 @@ readonly class ActiviteController
         private ActiviteRepository $activiteRepository,
         private CustomerRepository $customerRepository,
         private Response $response,
-        /*private Session        $session*/
+        private Session $session,
+        private Request $request
     ) {}
 
-    /// le controller récupère les données Activités,
+    /// restriction des possibilités d'écriture/lecture à certains rôles ///
+    private function denyIfNotManager(): void
+    {
+        if (!$this->session->isLogged()) {
+            $this->response->redirect('/login');
+        }
+
+        if (!$this->session->isManager()) {
+            $this->session->flash('error', 'Accès réservé aux recruteurs et directeurs');
+            $this->response->redirect('/dashboard');
+        }
+    }
+
+        /// le controller récupère les données Activités,
     /// et charge la vue list.php qui utilise $activites
     public function index(): void
     {
-        /*$this->denyIfNotAdmin();*/
+        $this->denyIfNotManager();
+
         $activites = $this->activiteRepository->readAll();
         /*require __DIR__ . '/../../views/pages/activites/list.php';*/
         $this->response->render('activites/list', [
@@ -40,7 +55,8 @@ readonly class ActiviteController
     /// affichage du formulaire
     public function create(): void
     {
-        /*$this->denyIfNotAdmin();*/
+        $this->denyIfNotManager();
+
         $nomsClients = $this->customerRepository->findAllClients();
         /*require __DIR__ . '/../../views/pages/activites/create.php';*/
         $this->response->render('activites/create', [
@@ -52,31 +68,32 @@ readonly class ActiviteController
     #[NoReturn]
     public function store(): void
     {
-        /*$this->denyIfNotAdmin();*/
+        $this->denyIfNotManager();
+
+        if (!$this->request->isPost()) {
+            $this->response->redirect('/activites');
+        }
 
         $this->activiteRepository->createActivite(
-            $_POST['nom'],
-            $_POST['description'],
-            new \DateTimeImmutable($_POST['date_creation']),
-            new \DateTimeImmutable($_POST['date_fin']),
-            $_POST['statut'],
-            (int)$_POST['id_client']
+            $this->request->post('nom'),
+            $this->request->post('description'),
+            new \DateTimeImmutable($this->request->post('date_creation')),
+            new \DateTimeImmutable($this->request->post('date_fin')),
+            $this->request->post('statut'),
+            (int)$this->request->post('id_client')
         );
 
-        /*header('Location: /activites');
-        exit;*/
         $this->response->redirect('/activites'); // redirection après la soumission du formulaire
     }
 
     /// affichage du formulaire pré-rempli de modification ///
     public function edit(int $id_activite): void
     {
+        $this->denyIfNotManager();
         $activite = $this->activiteRepository->readOne($id_activite);
         if (!$activite) {
             $this->response->redirect('/activites');
         }
-
-        /*$this->denyIfNotAdmin();*/
 
         $nomsClients = $this->customerRepository->findAllClients();
 
@@ -91,29 +108,30 @@ readonly class ActiviteController
     #[NoReturn]
     public function update(int $id_activite): void
     {
-        /*$this->denyIfNotAdmin();*/
+        $this->denyIfNotManager();
+
+        if (!$this->request->isPost()) {
+            $this->response->redirect('/activites');
+        }
+
         $activite = $this->activiteRepository->readOne($id_activite);
         if (!$activite) {
-            /*header('Location: /activites');
-            exit;*/
             $this->response->redirect('/activites'); // redirection si l'id de l'activité demandée n'existe pas
         }
 
         $updatedActivite = new Activite(
             $id_activite,
-            $_POST['nom'],
-            $_POST['description'],
-            new \DateTimeImmutable($_POST['date_creation']),
-            new \DateTimeImmutable($_POST['date_fin']),
-            $_POST['statut'],
-            (int)$_POST['id_client'],
+            $this->request->post('nom'),
+            $this->request->post('description'),
+            new \DateTimeImmutable($this->request->post('date_creation')),
+            new \DateTimeImmutable($this->request->post('date_fin')),
+            $this->request->post('statut'),
+            (int)$this->request->post('id_client'),
             $activite->getNomClient()
         );
 
         $this->activiteRepository->updateActivite($updatedActivite);
 
-        /*header('Location: /activites');
-        exit;*/
         $this->response->redirect('/activites'); // redirection après soumission du formulaire
 
     }
@@ -122,10 +140,8 @@ readonly class ActiviteController
     #[NoReturn]
     public function delete(int $id_activite): void
     {
-        /*$this->denyIfNotAdmin();*/
+        $this->denyIfNotManager();
         $this->activiteRepository->deleteActivite($id_activite);
-        /*header('Location: /activites');
-        exit;*/
         $this->response->redirect('/activites');
     }
 }

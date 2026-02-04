@@ -34,8 +34,9 @@
         <select name="id_user_role" required>
             <option value="">-- Choisir un rôle --</option>
             <?php foreach ($roles as $role): ?>
-                <option value="<?= $role['id_user_role'] ?>">
-                    <?= htmlspecialchars($role['role']) ?>
+                <option value="<?= $role['id_user_role'] ?>"
+                        <?= $role['id_user_role'] == $user->getRoleId() ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($role['role']) ?>
                 </option>
             <?php endforeach; ?>
         </select>

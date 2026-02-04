@@ -12,22 +12,29 @@ readonly class DashboardController
     /// le controller reçoit la session, il ne la crée pas ///
     public function __construct(private Session $session, private Response $response) {}
 
-    public function index(): void
+    /// affichage du dashboard seulement quand on est connecté ///
+    private function denyIfNotLogged(): void
     {
-        if (!$this->session->isLogged()) {
-            /*header('Location: /login');
-            exit;*/
-            $this->response->redirect('auth/login');
+        if (!$this->session->get('user')) {
+            $this->response->redirect('/login');
         }
-
-        /// récupération de l'user stocké en session ///
-        $user = $this->session->get('user');
-        $isAdmin = $this->session->isAdmin();
-        /*require __DIR__ . '/../../views/pages/dashboard/index.php';*/
-        $this->response->render('dashboard/index', [
-            'user' => $user,
-            'isAdmin' => $isAdmin
-        ]);
     }
 
+    public function index(): void
+    {
+        $this->denyIfNotLogged();
+        /*if (!$this->session->isLogged()) {
+            $this->response->redirect('auth/login');
+        }*/
+
+        /// récupération de l'user stocké en session ///
+        /*require __DIR__ . '/../../views/pages/dashboard/index.php';*/
+        $this->response->render('dashboard/index', [
+            'user' => $this->session->get('user'),
+            'isAdmin' => $this->session->isAdmin(),
+            'isManager' => $this->session->isManager(),
+            'isRecruteur' => $this->session->isRecruteur(),
+            'isCollaborateur' => $this->session->isCollaborateur()
+        ]);
+    }
 }

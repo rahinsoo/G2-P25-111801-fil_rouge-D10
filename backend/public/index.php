@@ -57,11 +57,11 @@ $affectationRepository = new AffectationRepository(Database::makePdo($config['db
 $AppController = new AppController($response,$homeRepository, $customerRepository);
 
 $authController = new AuthController($userRepository, $session, $request, $response);
-$userController = new UserController($userRepository, $roleRepository, $session, $response);
-$activiteController = new ActiviteController($activiteRepository, $customerRepository, $response);
+$userController = new UserController($userRepository, $roleRepository, $session, $response, $request);
+$activiteController = new ActiviteController($activiteRepository, $customerRepository, $response, $session, $request);
 $dashboardController = new DashboardController($session, $response);
-$passwordController = new PasswordController($userRepository, $session);
-$affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session, $response);
+$passwordController = new PasswordController($userRepository, $session, $response);
+$affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session, $response, $request);
 $userApiController = new UserApiController($userRepository, $session);
 
 /// appel des routes ///

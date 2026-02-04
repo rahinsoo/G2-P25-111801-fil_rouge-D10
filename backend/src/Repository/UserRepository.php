@@ -149,4 +149,14 @@ readonly class UserRepository
 
         return $user ?: null;
     }
+
+    public function findCollaborateurs(): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM utilisateur WHERE id_user_role = :id_user_role"
+        );
+        $stmt->execute(['id_user_role' => 2]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

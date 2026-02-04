@@ -4,10 +4,10 @@
 <h2>Nouvelle Affectation</h2>
 
 <form action="/affectations/store" method="post">
-    <label for="id_user">Utilisateur :</label>
+    <label for="id_user">Collaborateur :</label>
     <select name="id_user" id="id_user" required>
         <?php foreach ($users as $user): ?>
-            <option value="<?= $user->getId() ?>"><?= htmlspecialchars($user->getNom()) ?></option>
+            <option value="<?= $user['id_user'] ?>"><?= htmlspecialchars($user['nom']) ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -23,6 +23,8 @@
 
     <button type="submit">Affecter</button>
 </form>
+
+<a href="/affectations">⬅️ Retour à la liste</a>
 
 
 <?php /* if ($session->hasFlash('error')): ?>

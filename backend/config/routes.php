@@ -124,13 +124,13 @@ return function ( // fonction injectée par l'appli
     $router->get('/affectations', [$affectationController, 'index']); // liste des affectations
     $router->get('/affectations/create', [$affectationController, 'create']); // formulaire création affectation
     $router->post('/affectations/store', [$affectationController, 'store']); // envoi création de l'affectation en BDD
-    $router->get('/affectations/edit/(\d+)', function($matches) use ($affectationController) { // formulaire modif du TJM
-        $affectationController->edit((int)$matches[1]);
+    ///$router->get('/affectations/edit/(\d+)', function($matches) use ($affectationController) { // formulaire modif du TJM
+        ///$affectationController->edit((int)$matches[1]);
+    ///});
+    $router->post('/affectations/updateTjm/(\d+)/(\d+)', function($matches) use ($affectationController) { // envoi modif TJM en BDD
+        $affectationController->updateTjm((int)$matches[1], (int)$matches[2]);
     });
-    $router->post('/affectations/update/(\d+)', function($matches) use ($affectationController) { // envoi modif TJM en BDD
-        $affectationController->updateTjm((int)$matches[1]);
-    });
-    $router->post('/affectations/delete/(\d+)', function($matches) use ($affectationController) { // suppression
-        $affectationController->delete((int)$matches[1]);
+    $router->post('/affectations/delete/(\d+)/(\d+)', function($matches) use ($affectationController) { // suppression
+        $affectationController->delete((int)$matches[1], (int)$matches[2]);
     });
 };

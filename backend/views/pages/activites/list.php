@@ -50,6 +50,9 @@
     </tbody>
 </table>
 
+<a href="/dashboard">⬅️ Retour au tableau de bord</a>
+<a href="/logout">Déconnexion</a>
+
 </body>
 </html>
 

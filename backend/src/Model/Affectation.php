@@ -24,5 +24,4 @@ readonly class Affectation
     {
         return $this->tjm;
     }
-
 }

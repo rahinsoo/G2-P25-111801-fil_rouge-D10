@@ -43,9 +43,10 @@
         Nom du client :
         <select name="id_client" required>
             <option value="">-- Choisir un client --</option>
-            <?php foreach ($nomsClients as $nomsClient) : ?>
-                <option value="<?= $nomsClient['id_client'] ?>">
-                    <?= htmlspecialchars($nomsClient['nom']) ?>
+            <?php foreach ($nomsClients as $client) : ?>
+                <option value="<?= $client['id_client'] ?>"
+                        <?= $client['id_client'] == $activite->getIdClient() ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($client['nom']) ?>
                 </option>
             <?php endforeach; ?>
         </select>

@@ -1,10 +1,10 @@
 <h2>Liste des Affectations</h2>
 
-<?php /* if ($session->hasFlash('error')): ?>
+<?php /*if ($session->hasFlash('error')): ?>
     <p style="color:red;"><?= $session->getFlash('error') ?></p>
 <?php endif; ?>
 
-<?php if ($session->hasFlash('success')): ?>
+<?php  if ($session->hasFlash('success')): ?>
     <p style="color:green;"><?= $session->getFlash('success') ?></p>
 <?php endif; */ ?>
 
@@ -49,3 +49,6 @@
 <p>
     <a href="/affectations/create">Nouvelle Affectation</a>
 </p>
+
+<a href="/dashboard">⬅️ Retour au tableau de bord</a>
+<a href="/logout">Déconnexion</a>
