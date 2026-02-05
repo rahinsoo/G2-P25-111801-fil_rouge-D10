@@ -60,7 +60,7 @@ $authController = new AuthController($userRepository, $session, $request, $respo
 $userController = new UserController($userRepository, $roleRepository, $session, $response, $request);
 $activiteController = new ActiviteController($activiteRepository, $customerRepository, $response, $session, $request);
 $dashboardController = new DashboardController($session, $response);
-$passwordController = new PasswordController($userRepository, $session, $response);
+$passwordController = new PasswordController($userRepository, $session, $response, $request);
 $affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session, $response, $request);
 $userApiController = new UserApiController($userRepository, $session);
 

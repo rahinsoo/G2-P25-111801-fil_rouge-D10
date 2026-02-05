@@ -1,10 +1,14 @@
+<?php
+/** @var \Core\Session $session */
+?>
+
 <h1>Mot de passe oublié</h1>
 
-<?php if ($message = $this->session->pullFlash('error')): ?>
+<?php if ($message = $session->pullFlash('error')): ?>
     <p style="color:red"><?= htmlspecialchars($message) ?></p>
 <?php endif; ?>
 
-<?php if ($message = $this->session->pullFlash('success')): ?>
+<?php if ($message = $session->pullFlash('success')): ?>
     <p style="color:green"><?= htmlspecialchars($message) ?></p>
 <?php endif; ?>
 

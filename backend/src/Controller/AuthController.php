@@ -20,6 +20,7 @@ readonly class AuthController
         private Response $response
     ) {}
 
+    /// affichage du formulaire de connexion ///
     public function login(): void
     {
         /*require __DIR__ . '/../../views/pages/auth/login.php';*/
@@ -30,6 +31,10 @@ readonly class AuthController
     #[NoReturn]
     public function authenticate(): void
     {
+        if (!$this->request->isPost()) {
+            $this->response->redirect('/login');
+        }
+
         $identifiant = $this->request->post('identifiant');
         $password = $this->request->post('password');
 
@@ -48,6 +53,7 @@ readonly class AuthController
 
         /// on stocke le reste dans la session ///
         $this->session->set('user', $user);
+        $this->session->regenerate();
 
         /*if ($this->session->isAdmin()) {
             header('Location: /users');

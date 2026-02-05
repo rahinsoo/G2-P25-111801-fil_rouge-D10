@@ -115,34 +115,37 @@ readonly class UserController
         $this->response->redirect('/users');
     }
 
-    public function changePassword(int $id_user): void
+    public function changePassword(): void
     {
         $this->denyIfNotLogged();
-        $user = $this->userRepository->readOne($id_user);
-        require __DIR__ . '/../../views/pages/user/change-password.php';
+        $user = $this->session->get('user');
+        /*require __DIR__ . '/../../views/pages/user/change-password.php';*/
+        $this->response->render('/profile/change-password');
     }
 
     #[NoReturn]
-    public function updatePassword(int $id_user): void
+    public function updatePassword(): void
     {
         $this->denyIfNotLogged();
 
         // Vérifie l'ancien mot de passe
-        $user = $this->userRepository->readOne($id_user);
+        $user = $this->session->get('user');
+
         if (!password_verify($this->request->post('old_password'), $user->getPassword())) {
             $this->session->flash('error', 'Ancien mot de passe incorrect');
-            header('Location: /users/' . $id_user . '/change-password');
-            exit;
+            $this->response->redirect('/profile/change-password');
         }
 
         // Met à jour le mot de passe
-        $newPasswordHashed = password_hash($this->request->post('new_password'), PASSWORD_DEFAULT);
-        $this->userRepository->updatePassword($id_user, $newPasswordHashed);
+        $newPassword = $this->request->post('new_password');
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $this->userRepository->updatePassword($user->getId(), $hashed);
 
         $this->session->flash('success', 'Mot de passe modifié avec succès');
         /*header('Location: /users');
         exit;*/
-        $this->response->redirect('/users');
+        $this->response->redirect('/profile');
     }
 
     #[NoReturn]

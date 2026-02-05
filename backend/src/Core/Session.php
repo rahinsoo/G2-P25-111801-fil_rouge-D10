@@ -76,6 +76,11 @@ final class Session {
         $_SESSION['last_activity'] = time();
     }
 
+    public function regenerate(): void
+    {
+        session_regenerate_id(true);
+    }
+
     public function destroy(): void
     {
         session_unset();
