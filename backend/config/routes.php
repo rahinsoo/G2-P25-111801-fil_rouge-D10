@@ -4,6 +4,7 @@ use Core\Request;
 use Core\Response;
 use Controller\AppController;
 use Controller\CustomerController;
+use Controller\API\SireneApiController;
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
@@ -20,7 +21,8 @@ return function (
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
-    UserApiController $userApiController
+    UserApiController $userApiController,
+    SireneApiController $sireneApiController
     //TaskController $taskController
 )
 {
@@ -171,5 +173,8 @@ $router->post('/customer/delete/(\d+)', function($matches) use ($customerControl
 
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
         $userApiController->destroy((int)$matches[1]);
+    });
+    $router->get('/api/sirene/siret/(\d+)', function($matches) use ($sireneApiController) {
+        $sireneApiController->rechercherSiret($matches[1]);
     });
 };
