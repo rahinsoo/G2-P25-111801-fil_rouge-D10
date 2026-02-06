@@ -23,7 +23,7 @@ final class Router {
         }
     }
 
-    public function post(string $path, callable $handler) :void {
+    public function post(string $path, callable $handler): void {
         if (str_contains($path, '(')) {
             $this->postRegexRoutes[$path] = $handler;
         } else {
@@ -31,12 +31,7 @@ final class Router {
         }
     }
 
-    public function getRegex(string $pattern, callable $handler) : void {
-        $this->getRegexRoutes[$pattern] = $handler;
-    }
-
-    public function put(string $path, callable $handler): void
-    {
+    public function put(string $path, callable $handler): void {
         if (str_contains($path, '(')) {
             $this->putRegexRoutes[$path] = $handler;
         } else {
@@ -44,8 +39,7 @@ final class Router {
         }
     }
 
-    public function patch(string $path, callable $handler): void
-    {
+    public function patch(string $path, callable $handler): void {
         if (str_contains($path, '(')) {
             $this->patchRegexRoutes[$path] = $handler;
         } else {
@@ -53,8 +47,7 @@ final class Router {
         }
     }
 
-    public function delete(string $path, callable $handler): void
-    {
+    public function delete(string $path, callable $handler): void {
         if (str_contains($path, '(')) {
             $this->deleteRegexRoutes[$path] = $handler;
         } else {
@@ -62,26 +55,34 @@ final class Router {
         }
     }
 
-    public function dispatch (Request $request, Response $response) : void {
+    public function dispatch(Request $request, Response $response): void {
         $path = $request->path();
         $method = $request->method();
 
+        // ---------------------------------------
+        // GET REGEX ROUTES
+        // ---------------------------------------
         if ($method === 'GET') {
             foreach ($this->getRegexRoutes as $pattern => $handler) {
-                // Transforme le pattern en regex valide
                 $regex = '#^' . $pattern . '$#';
                 if (preg_match($regex, $path, $matches)) {
-                    $handler($matches);  // ← Passe les matches à la closure
+                    $handler($matches);
                     return;
                 }
             }
         }
 
+        // ---------------------------------------
+        // GET SIMPLE ROUTES
+        // ---------------------------------------
         if ($method === 'GET' && isset($this->getRoutes[$path])) {
-            $this->getRoutes[$path]($request, $response);
+            $this->getRoutes[$path]();
             return;
         }
 
+        // ---------------------------------------
+        // POST REGEX ROUTES
+        // ---------------------------------------
         if ($method === 'POST') {
             foreach ($this->postRegexRoutes as $pattern => $handler) {
                 $regex = '#^' . $pattern . '$#';
@@ -92,62 +93,81 @@ final class Router {
             }
         }
 
+        // ---------------------------------------
+        // POST SIMPLE ROUTES
+        // ---------------------------------------
         if ($method === 'POST' && isset($this->postRoutes[$path])) {
-            $this->postRoutes[$path]($request, $response);
+            $this->postRoutes[$path]();
             return;
         }
 
+        // ---------------------------------------
+        // PUT REGEX ROUTES
+        // ---------------------------------------
         if ($method === 'PUT') {
             foreach ($this->putRegexRoutes as $pattern => $handler) {
-                // Transforme le pattern en regex valide
                 $regex = '#^' . $pattern . '$#';
                 if (preg_match($regex, $path, $matches)) {
-                    $handler($matches);  // ← Passe les matches à la closure
+                    $handler($matches);
                     return;
                 }
             }
         }
 
+        // ---------------------------------------
+        // PUT SIMPLE ROUTES
+        // ---------------------------------------
         if ($method === 'PUT' && isset($this->putRoutes[$path])) {
-            $this->putRoutes[$path]($request, $response);
+            $this->putRoutes[$path]();
             return;
         }
 
+        // ---------------------------------------
+        // PATCH REGEX ROUTES
+        // ---------------------------------------
         if ($method === 'PATCH') {
             foreach ($this->patchRegexRoutes as $pattern => $handler) {
-                // Transforme le pattern en regex valide
                 $regex = '#^' . $pattern . '$#';
                 if (preg_match($regex, $path, $matches)) {
-                    $handler($matches);  // ← Passe les matches à la closure
+                    $handler($matches);
                     return;
                 }
             }
         }
 
+        // ---------------------------------------
+        // PATCH SIMPLE ROUTES
+        // ---------------------------------------
         if ($method === 'PATCH' && isset($this->patchRoutes[$path])) {
-            $this->patchRoutes[$path]($request, $response);
+            $this->patchRoutes[$path]();
             return;
         }
 
+        // ---------------------------------------
+        // DELETE REGEX ROUTES
+        // ---------------------------------------
         if ($method === 'DELETE') {
             foreach ($this->deleteRegexRoutes as $pattern => $handler) {
-                // Transforme le pattern en regex valide
                 $regex = '#^' . $pattern . '$#';
                 if (preg_match($regex, $path, $matches)) {
-                    $handler($matches);  // ← Passe les matches à la closure
+                    $handler($matches);
                     return;
                 }
             }
         }
 
+        // ---------------------------------------
+        // DELETE SIMPLE ROUTES
+        // ---------------------------------------
         if ($method === 'DELETE' && isset($this->deleteRoutes[$path])) {
-            $this->deleteRoutes[$path]($request, $response);
+            $this->deleteRoutes[$path]();
             return;
         }
 
+        // ---------------------------------------
+        // 404
+        // ---------------------------------------
         http_response_code(404);
         echo "Page non trouvée";
-
-        /*$response->render('not-found', [], 404);*/
     }
 }
