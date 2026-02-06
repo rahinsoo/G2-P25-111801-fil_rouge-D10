@@ -372,10 +372,10 @@ ALTER TABLE ENTREPRISE MODIFY COLUMN numero_SIRET BIGINT;
 - ✅ L'utilisateur peut toujours modifier manuellement les champs pré-remplis
 - ✅ Le code est commenté en français
 
-Test de création Diginamic (de Nantes) avec sont siret (GET) :
+Test de création Diginamic (de Nantes) avec sont siret (GET) :  
 ![Création de Diginamic (de Nantes) avec sont siret](IMG_xavier/CUSTOMER_CREATE2.png)
 
-Test modification d'un client avec le siret de Diginamic (de Nantes), j'ai modifié le titre :
+Test modification d'un client avec le siret de Diginamic (de Nantes), j'ai modifié le titre :  
 ![ajout de Diginamic (de Nantes) avec sont siret](IMG_xavier/CUSTOMER_EDIT2.png)  
 Les infos du nom et adresse se sont mis automatiquement à jour
 
