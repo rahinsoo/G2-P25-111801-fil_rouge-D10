@@ -1,13 +1,16 @@
 <?php
 
-use Controller\AppController;
 use Core\Request;
 use Core\Response;
+use Controller\AppController;
+use Controller\CustomerController;
+use Controller\API\SireneApiController;
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
+//use Controller\TaskController;
 use Controller\ActiviteController;
 use Controller\AffectationController;
 
@@ -16,31 +19,79 @@ use Core\Router;
 return function ( // fonction injectée par l'appli
     Router $router,
     AppController $controller,
+    CustomerController $customerController,
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
     UserApiController $userApiController,
+    SireneApiController $sireneApiController,
+    //TaskController $taskController,
     ActiviteController $activiteController,
     AffectationController $affectationController
 )
 {
-    // routes home et customer
-    $router->get('/', [$controller, 'home']);
+    // ============================================
+    // ROUTE PRINCIPALE (redirige selon connexion)
+    // ============================================
+
+    $router->get('/', function() use ($controller, $authController) {
+        if (isset($_SESSION['user'])) {
+            $controller->home();  // ← Affiche home. php si connecté
+        } else {
+            $authController->login();  // ← Affiche login si non connecté
+        }
+    });
+
+    // ============================================
+    // ROUTES HOME
+    // ============================================
+
     $router->get('/home', [$controller, 'home']);
     $router->get('/customer/listCustomer', [$controller, 'customer']);
     $router->get('/pagetest', [$controller, 'pagetest']);
+    $router->get('/profile', [$controller, 'profile']);
+    $router->get('/settings', [$controller, 'settings']);
 
-    /// routes pour CRUD utilisateurs ///
-    $router->get('/users', [$userController, 'index']); // affichage de la liste
-    $router->get('/users/create', [$userController, 'create']); // affichage du formulaire création utilisateur
-    $router->post('/users/store', [$userController, 'store']); // envoi des données de création en BDD
-    $router->get('/users/edit/(\d+)', function($matches) use ($userController) { // affichage du formulaire pré-rempli de modification utilisateur
+    // ============================================
+    // ROUTES CUSTOMER
+    // ============================================
+
+    $router->get('/customer/listCustomer', [$customerController, 'listClient']); // liste des clients
+    $router->get('/customer/infoCustomer', [$customerController, 'getClient']); // lire un client
+
+    // Récupérer un client spécifique (pour pré-remplir le modal)
+$router->get('/customer/get/(\d+)', function($matches) use ($customerController) {
+    $customerController->getClient((int)$matches[1]);
+});
+
+// Mettre à jour un client
+$router->post('/customer/update/(\d+)', function($matches) use ($customerController) {
+    $customerController->updateClient((int)$matches[1]);
+});
+
+// Créer un client
+$router->post('/customer/createCustomer', [$customerController, 'createCustomer']);
+
+// Supprimer un client
+$router->post('/customer/delete/(\d+)', function($matches) use ($customerController) {
+    $customerController->deleteClient((int)$matches[1]);
+});
+
+    // ============================================
+    // ROUTES AUTHENTIFICATION
+    // ============================================
+
+    $router->get('/users', [$userController, 'index']); // liste
+    $router->get('/users/create', [$userController, 'create']); // formulaire
+    $router->post('/users/store', [$userController, 'store']); // envoi création
+    $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
         $userController->edit((int)$matches[1]);
     });
     $router->post('/users/update/(\d+)', function($matches) use ($userController) { // envoi des données de modification
         $userController->update((int)$matches[1]);
     });
+
     $router->post('/users/delete/(\d+)', function($matches) use ($userController) { // envoi des données de suppression
         $userController->delete((int)$matches[1]);
     });
@@ -54,20 +105,47 @@ return function ( // fonction injectée par l'appli
         $userController->updatePassword((int)$matches[1]);
     });
 
-    /// routes pour l'authentification/connexion ///
+    // ============================================
+    // routes pour l'authentification/connexion
+    // ============================================
+
     $router->get('/', [$authController, 'login']);
     $router->get('/login', [$authController, 'login']);
     $router->post('/login', [$authController, 'authenticate']);
     $router->get('/logout', [$authController, 'logout']);
 
-    /// routes pour mot de passe oublié ///
+    // ============================================
+    // routes pour mot de passe oublié
+    // ============================================
+
     $router->get('/forgot-password', [$passwordController, 'forgot']);
     $router->post('/forgot-password', [$passwordController, 'reset']);
 
-    // routes pour la page principale Dashboard
-    $router->get('/dashboard', [$dashboardController, 'index']);
+    // ============================================
+    // ROUTES TASKS
+    // ============================================
 
-    /// route test API ////
+//    $router->get('/tasks', [$taskController, 'tasks']);
+//
+//    $router->get('/tasks/create', [$taskController, 'create']);
+//    $router->post('/tasks/create', [$taskController, 'create']);
+//
+//    $router->get('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+//        $taskController->edit((int)$matches[1]);
+//    });
+//
+//    $router->post('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+//        $taskController->edit((int)$matches[1]);
+//    });
+//
+//    $router->post('/tasks/delete/(\d+)', function($matches) use ($taskController) {
+//        $taskController->delete((int)$matches[1]);
+//    });
+
+    // ============================================
+    // ROUTES API
+    // ============================================
+
     $router->post('/api/test-login', function() { // route pour mimer la connexion sur postman
         $_SESSION['user'] = [
             'id_user' => 1,
@@ -104,6 +182,9 @@ return function ( // fonction injectée par l'appli
 
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) { // suppression
         $userApiController->destroy((int)$matches[1]);
+    });
+    $router->get('/api/sirene/siret/(\d+)', function($matches) use ($sireneApiController) {
+        $sireneApiController->rechercherSiret($matches[1]);
     });
 
     /// routes pour les activités ///

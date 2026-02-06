@@ -8,6 +8,7 @@ use Repository\HomeRepository;
 use Repository\CustomerRepository;
 use Repository\RoleRepository;
 use Repository\UserRepository;
+use Repository\TaskRepository;
 use Repository\AffectationRepository;
 
 use Controller\UserController;
@@ -17,6 +18,9 @@ use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\AffectationController;
 use Controller\API\UserApiController;
+use Controller\API\SireneApiController;
+//use Controller\TaskController;
+use Controller\CustomerController;
 
 use Core\Cors;
 use Core\Database;
@@ -49,6 +53,7 @@ $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $customerRepository = new CustomerRepository(Database::makePdo($config['db']));
 $userRepository = new UserRepository(Database::makePdo($config['db']));
 $roleRepository = new RoleRepository(Database::makePdo($config['db']));
+//$taskRepository = new TaskRepository(Database::makePdo($config['db']));
 $activiteRepository = new ActiviteRepository(Database::makePdo($config['db']));
 $affectationRepository = new AffectationRepository(Database::makePdo($config['db']));
 
@@ -63,11 +68,25 @@ $dashboardController = new DashboardController($session, $response);
 $passwordController = new PasswordController($userRepository, $session, $response, $request);
 $affectationController = new AffectationController($affectationRepository, $userRepository, $activiteRepository, $session, $response, $request);
 $userApiController = new UserApiController($userRepository, $session);
+$sireneApiController = new SireneApiController($session);
+//$taskController = new TaskController($response, $taskRepository, $session, $request);
+$CustomerController = new CustomerController($response, $CustomerRepository, $session, $request);
 
 /// appel des routes ///
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController, $activiteController, $affectationController);
-//$registerRoutes($router, $userController, $authController, $dashboardController, $passwordController, $userApiController);
+$registerRoutes(
+    $router,                // Router
+    $AppController,         // AppController
+    $CustomerController,    // CustomerController
+    $userController,        // UserController
+    $authController,        // AuthController
+    $dashboardController,   // DashboardController
+    $passwordController,    // PasswordController
+    $userApiController,     // UserApiController
+    $activiteController,
+    $affectationController,
+    $sireneApiController    // SireneApiController
+);
 
 /// ligne qui lance l'appli ///
 $router->dispatch($request, $response);

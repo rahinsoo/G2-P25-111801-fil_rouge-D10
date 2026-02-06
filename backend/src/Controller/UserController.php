@@ -43,7 +43,9 @@ readonly class UserController
         $this->denyIfNotAdmin();
         $users = $this->userRepository->readAll();
         /*require __DIR__ . '/../../views/pages/user/list.php';*/
-        $this->response->render('user/list', ['users' => $users]);
+        $this->response->render('user/list', [
+            'users' => $users]
+        );
     }
 
     public function create(): void
@@ -51,7 +53,9 @@ readonly class UserController
         $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
         /*require __DIR__ . '/../../views/pages/user/create.php';*/
-        $this->response->render('user/create', ['roles' => $roles]);
+        $this->response->render('user/create', [
+            'roles' => $roles
+        ]);
     }
 
     #[NoReturn]

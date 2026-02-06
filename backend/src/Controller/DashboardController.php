@@ -37,4 +37,5 @@ readonly class DashboardController
             'isCollaborateur' => $this->session->isCollaborateur()
         ]);
     }
+
 }

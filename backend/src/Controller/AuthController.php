@@ -4,9 +4,9 @@
 
 namespace Controller;
 
-use Core\Session;
 use Core\Request;
 use Core\Response;
+use Core\Session;
 use Repository\UserRepository;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -40,20 +40,14 @@ readonly class AuthController
 
         $user = $this->userRepository->findByIdentifiant($identifiant);
 
-        /// compare le mot de passe en clair avec le hash en BDD ///
         if (!$user || !password_verify($password, $user['password'])) {
             $this->session->flash('error', 'Identifiants invalides');
-            /*header('Location: /login');
-            exit;*/
-            $this->response->redirect('/login');
+            header('Location: /login');
+            exit;
         }
 
-        /// on retire le mot de passe hashé ///
         unset($user['password']);
-
-        /// on stocke le reste dans la session ///
         $this->session->set('user', $user);
-        $this->session->regenerate();
 
         /*if ($this->session->isAdmin()) {
             header('Location: /users');
@@ -65,7 +59,6 @@ readonly class AuthController
         $this->response->redirect('/dashboard');
     }
 
-    /// déconnexion, suppression de la session ///
     #[NoReturn]
     public function logout(): void
     {
