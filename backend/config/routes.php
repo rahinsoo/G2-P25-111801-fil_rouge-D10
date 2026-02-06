@@ -1,145 +1,147 @@
 <?php
 
+use Core\Router;
 use Controller\AppController;
-use Core\Request;
-use Core\Response;
+use Controller\CustomerController;
 use Controller\UserController;
+use Controller\TaskController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
-use Core\Router;
 
 return function (
     Router $router,
     AppController $controller,
+    CustomerController $customerController,
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
-    UserApiController $userApiController
-)
-{
+    UserApiController $userApiController,
+) {
+
     // ============================================
-    // ROUTE PRINCIPALE (redirige selon connexion)
+    // ROUTE PRINCIPALE
     // ============================================
 
-    $router->get('/', function() use ($controller, $authController) {
+    $router->get('/', function () use ($controller, $authController) {
         if (isset($_SESSION['user'])) {
-            $controller->home();  // ← Affiche home. php si connecté
+            $controller->home();
         } else {
-            $authController->login();  // ← Affiche login si non connecté
+            $authController->login();
         }
     });
 
     // ============================================
-    // ROUTES HOME ET CUSTOMER
+    // ROUTES HOME
     // ============================================
 
-    $router->get('/home', [$controller, 'home']);
-    $router->get('/customer/listCustomer', [$controller, 'customer']);
-    $router->get('/pagetest', [$controller, 'pagetest']);
-
-    // ============================================
-    // ROUTES AUTHENTIFICATION
-    // ============================================
-
-    $router->get('/users', [$userController, 'index']); // liste
-    $router->get('/users/create', [$userController, 'create']); // formulaire création
-    $router->post('/users/store', [$userController, 'store']); // envoi création
-    $router->get('/users/edit/(\d+)', function($matches) use ($userController) {
-        $userController->edit((int)$matches[1]);
-    });
-    $router->post('/users/update/(\d+)', function($matches) use ($userController) {
-        $userController->update((int)$matches[1]);
-    });
-    $router->post('/users/delete/(\d+)', function($matches) use ($userController) {
-        $userController->delete((int)$matches[1]);
+    $router->get('/home', function () use ($controller) {
+        $controller->home();
     });
 
-    $router->get('/users/(\d+)/change-password', function($matches) use ($userController) {
-        $userController->changePassword((int)$matches[1]);
-    });
-
-    $router->post('/users/(\d+)/update-password', function($matches) use ($userController) {
-        $userController->updatePassword((int)$matches[1]);
+    $router->get('/pagetest', function () use ($controller) {
+        $controller->pagetest();
     });
 
     // ============================================
-    // routes pour l'authentification/connexion
+    // ROUTES CUSTOMER
     // ============================================
 
-    $router->get('/', [$authController, 'login']);
-    $router->get('/login', [$authController, 'login']);
-    $router->post('/login', [$authController, 'authenticate']);
-    $router->get('/logout', [$authController, 'logout']);
-
-    // ============================================
-    // routes pour mot de passe oublié
-    // ============================================
-
-    $router->get('/forgot-password', [$passwordController, 'forgot']);
-    $router->post('/forgot-password', [$passwordController, 'reset']);
-
-    // route test API //
-    $router->post('/api/test-login', function() {
-        $_SESSION['user'] = [
-            'id_user' => 1,
-            'id_user_role' => 1,
-            'role' => 'admin'
-        ];
-        echo json_encode(['ok' => true, 'role' => 'admin']);
+    $router->get('/customer/listCustomer', function () use ($customerController) {
+        $customerController->listClient();
     });
 
-    $router->delete('/api/test', function () {
-        echo json_encode(['ok' => true]);
+    // ============================================
+    // ROUTES USERS
+    // ============================================
+
+    $router->get('/users', function () use ($userController) {
+        $userController->index();
     });
 
-    $router->get('/api/users', function() use ($userApiController) {
+    $router->get('/users/create', function () use ($userController) {
+        $userController->create();
+    });
+
+    $router->post('/users/store', function () use ($userController) {
+        $userController->store();
+    });
+
+    $router->get('/users/edit/(\d+)', function ($matches) use ($userController) {
+        $userController->edit((int) $matches[1]);
+    });
+
+    $router->post('/users/update/(\d+)', function ($matches) use ($userController) {
+        $userController->update((int) $matches[1]);
+    });
+
+    $router->post('/users/delete/(\d+)', function ($matches) use ($userController) {
+        $userController->delete((int) $matches[1]);
+    });
+
+    $router->get('/users/(\d+)/change-password', function ($matches) use ($userController) {
+        $userController->changePassword((int) $matches[1]);
+    });
+
+    $router->post('/users/(\d+)/update-password', function ($matches) use ($userController) {
+        $userController->updatePassword((int) $matches[1]);
+    });
+
+    // ============================================
+    // ROUTES AUTH
+    // ============================================
+
+    $router->get('/login', function () use ($authController) {
+        $authController->login();
+    });
+
+    $router->post('/login', function () use ($authController) {
+        $authController->authenticate();
+    });
+
+    $router->get('/logout', function () use ($authController) {
+        $authController->logout();
+    });
+
+    // ============================================
+    // MOT DE PASSE OUBLIÉ
+    // ============================================
+
+    $router->get('/forgot-password', function () use ($passwordController) {
+        $passwordController->forgot();
+    });
+
+    $router->post('/forgot-password', function () use ($passwordController) {
+        $passwordController->reset();
+    });
+
+    // ============================================
+    // API
+    // ============================================
+
+    $router->get('/api/users', function () use ($userApiController) {
         $userApiController->index();
     });
 
-    $router->get('/api/users/(\d+)', function($matches) use ($userApiController) {
-        $userApiController->show((int)$matches[1]);
+    $router->get('/api/users/(\d+)', function ($matches) use ($userApiController) {
+        $userApiController->show((int) $matches[1]);
     });
-    $taskController = new TaskController();
 
-    $router->post('/api/users', function() use ($userApiController) {
+    $router->post('/api/users', function () use ($userApiController) {
         $userApiController->store();
     });
 
-    $router->put('/api/users/(\d+)', function($matches) use ($userApiController) {
-        $userApiController->update((int)$matches[1]);
+    $router->put('/api/users/(\d+)', function ($matches) use ($userApiController) {
+        $userApiController->update((int) $matches[1]);
     });
 
-    $router->patch('/api/users/(\d+)', function($matches) use ($userApiController) {
-        $userApiController->update((int)$matches[1]);
+    $router->patch('/api/users/(\d+)', function ($matches) use ($userApiController) {
+        $userApiController->update((int) $matches[1]);
     });
 
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
-        $userApiController->destroy((int)$matches[1]);
-    });
-    $router->get('/tasks', function() use ($taskController) {
-        $taskController->index();
-    });
-
-    $router->get('/tasks/create', function() use ($taskController) {
-        $taskController->create();
-    });
-
-    $router->post('/tasks/create', function() use ($taskController) {
-        $taskController->create();
-    });
-
-    $router->get('/tasks/edit/{id}', function(Request $req) use ($taskController) {
-        $taskController->edit($req);
-    });
-
-    $router->post('/tasks/edit/{id}', function(Request $req) use ($taskController) {
-        $taskController->edit($req);
-    });
-
-    $router->post('/tasks/delete/{id}', function(Request $req) use ($taskController) {
-        $taskController->delete($req);
+        $userApiController->destroy((int) $matches[1]);
     });
 };
