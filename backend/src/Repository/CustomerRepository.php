@@ -8,7 +8,7 @@ readonly class CustomerRepository {
     public function __construct(private readonly PDO $pdo) {}
 
     public function findAllClients() : array {
-        $sql = $this->pdo->query("SELECT * FROM ENTREPRISE");
+        $sql = $this->pdo->query("SELECT * FROM client");
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
