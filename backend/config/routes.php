@@ -1,25 +1,29 @@
 <?php
 
-use Controller\AppController;
 use Core\Request;
 use Core\Response;
+use Controller\AppController;
+use Controller\CustomerController;
+use Controller\API\SireneApiController;
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
-use Controller\TaskController;
+//use Controller\TaskController;
 use Core\Router;
 
 return function (
     Router $router,
     AppController $controller,
+    CustomerController $customerController,
     UserController $userController,
     AuthController $authController,
     DashboardController $dashboardController,
     PasswordController $passwordController,
     UserApiController $userApiController,
-    TaskController $taskController
+    SireneApiController $sireneApiController
+    //TaskController $taskController
 )
 {
     // ============================================
@@ -35,12 +39,38 @@ return function (
     });
 
     // ============================================
-    // ROUTES HOME ET CUSTOMER
+    // ROUTES HOME
     // ============================================
 
     $router->get('/home', [$controller, 'home']);
-    $router->get('/customer/listCustomer', [$controller, 'customer']);
     $router->get('/pagetest', [$controller, 'pagetest']);
+    $router->get('/profile', [$controller, 'profile']);
+    $router->get('/settings', [$controller, 'settings']);
+
+    // ============================================
+    // ROUTES CUSTOMER
+    // ============================================
+
+    $router->get('/customer/listCustomer', [$customerController, 'listClient']); // liste des clients
+    $router->get('/customer/infoCustomer', [$customerController, 'getClient']); // lire un client
+
+    // Récupérer un client spécifique (pour pré-remplir le modal)
+$router->get('/customer/get/(\d+)', function($matches) use ($customerController) {
+    $customerController->getClient((int)$matches[1]);
+});
+
+// Mettre à jour un client
+$router->post('/customer/update/(\d+)', function($matches) use ($customerController) {
+    $customerController->updateClient((int)$matches[1]);
+});
+
+// Créer un client
+$router->post('/customer/createCustomer', [$customerController, 'createCustomer']);
+
+// Supprimer un client
+$router->post('/customer/delete/(\d+)', function($matches) use ($customerController) {
+    $customerController->deleteClient((int)$matches[1]);
+});
 
     // ============================================
     // ROUTES AUTHENTIFICATION
@@ -87,22 +117,22 @@ return function (
     // ROUTES TASKS
     // ============================================
 
-    $router->get('/tasks', [$taskController, 'tasks']);
-
-    $router->get('/tasks/create', [$taskController, 'create']);
-    $router->post('/tasks/create', [$taskController, 'create']);
-
-    $router->get('/tasks/edit/(\d+)', function($matches) use ($taskController) {
-        $taskController->edit((int)$matches[1]);
-    });
-
-    $router->post('/tasks/edit/(\d+)', function($matches) use ($taskController) {
-        $taskController->edit((int)$matches[1]);
-    });
-
-    $router->post('/tasks/delete/(\d+)', function($matches) use ($taskController) {
-        $taskController->delete((int)$matches[1]);
-    });
+//    $router->get('/tasks', [$taskController, 'tasks']);
+//
+//    $router->get('/tasks/create', [$taskController, 'create']);
+//    $router->post('/tasks/create', [$taskController, 'create']);
+//
+//    $router->get('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+//        $taskController->edit((int)$matches[1]);
+//    });
+//
+//    $router->post('/tasks/edit/(\d+)', function($matches) use ($taskController) {
+//        $taskController->edit((int)$matches[1]);
+//    });
+//
+//    $router->post('/tasks/delete/(\d+)', function($matches) use ($taskController) {
+//        $taskController->delete((int)$matches[1]);
+//    });
 
     // ============================================
     // ROUTES API
@@ -143,5 +173,8 @@ return function (
 
     $router->delete('/api/users/(\d+)', function ($matches) use ($userApiController) {
         $userApiController->destroy((int)$matches[1]);
+    });
+    $router->get('/api/sirene/siret/(\d+)', function($matches) use ($sireneApiController) {
+        $sireneApiController->rechercherSiret($matches[1]);
     });
 };

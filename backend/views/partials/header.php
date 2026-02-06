@@ -15,13 +15,13 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
     <title>Data Time</title>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/modal.css">
-    <?php if ($isLogged): ?>
-        <script src="/js/modal.js" defer></script>
-    <?php endif; ?>
+<!--    --><?php //if ($isLogged): ?>
+<!--        <script src="/js/modal.js" defer></script>-->
+<!--    --><?php //endif; ?>
 </head>
 <body>
 <header class="topbar">
-    <div class="container topbar__inner">
+    <div class="topbar__inner">
         <a href="<?= $isLogged ? '/home' : '/login' ?>">
             <img class="img_header" src="/img/DATAPUNCH.png" alt="DataTime">
         </a>
@@ -38,9 +38,9 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
                 <a class="nav__link" href="/customer/listCustomer">🏢 Clients</a>
                 <a class="nav__link" href="/pagetest">📅 Activités</a>
                 <a class="nav__link" href="/tasks">✅ Tâches</a>
-                <a class="nav__link" href="">Activités par Salarié</a>
-                <a class="nav__link" href="">Profil</a>
-                <a class="nav__link" href="">Paramètres</a>
+                <a class="nav__link" href="/pagetest">Activités par Salarié</a>
+                <a class="nav__link" href="/profile">Profil</a>
+                <a class="nav__link" href="/settings">⚙️ Paramètres</a>
                 <?php if ($isAdmin): ?>
                     <a class="nav__link" href="/users">👥 Utilisateurs</a>
                 <?php endif; ?>
@@ -58,5 +58,5 @@ $isAdmin = $isLogged && isset($user['id_user_role']) && $user['id_user_role'] ==
         <?php endif; ?>
     </div>
 </header>
-<main class="container">
+<main class="">
 
