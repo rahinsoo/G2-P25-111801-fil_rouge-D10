@@ -2,84 +2,103 @@
 
 namespace Controller;
 
-use Core\Auth;
-use Model\TaskModel;
+use Core\Request;
+use Core\Response;
+use Core\Session;
+use Repository\TaskRepository;
 
 class TaskController
 {
-    public function index()
-    {
-        Auth::check();
+    public function __construct(
+        private Response $response,
+        private TaskRepository $taskRepository,
+        private Session $session,
+        private Request $request
+    ) {}
 
-        $tasks = TaskModel::findByUser($_SESSION['user']['id']);
-        require __DIR__ . '/../../views/tasks/index.php';
+    private function denyIfNotLogged(): void
+    {
+        if (!$this->session->get('user')) {
+            header('Location: /login');
+            exit;
+        }
     }
 
-    public function create()
+    public function index(): void
     {
-        Auth::check();
+        $this->denyIfNotLogged();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            TaskModel::create(
-                $_POST['title'],
-                $_POST['description'] ?? '',
-                $_SESSION['user']['id']
+        $user = $this->session->get('user');
+        $tasks = $this->taskRepository->findByUser($user['id_user']);
+
+        $this->response->render('tasks/index', [
+            'tasks' => $tasks
+        ]);
+    }
+
+    public function create(): void
+    {
+        $this->denyIfNotLogged();
+
+        if ($this->request->getMethod() === 'POST') {
+            $data = $this->request->getBody();
+
+            $this->taskRepository->create(
+                $data['title'] ?? '',
+                $data['description'] ?? '',
+                $this->session->get('user')['id_user']
             );
 
-            header('Location: /tasks');
+            $this->response->redirect('/tasks');
+        }
+
+        $this->response->render('tasks/create');
+    }
+
+    public function edit(int $id): void
+    {
+        $this->denyIfNotLogged();
+
+        $userId = $this->session->get('user')['id_user'];
+        $task = $this->taskRepository->findOneByUser($id, $userId);
+
+        if (!$task) {
+            http_response_code(403);
+            echo 'Accès interdit';
             exit;
         }
 
-        require __DIR__ . '/../../views/tasks/create.php';
-    }
+        if ($this->request->getMethod() === 'POST') {
+            $data = $this->request->getBody();
 
-    public function edit($id = null)
-    {
-        Auth::check();
-
-        if (!$id) {
-            http_response_code(400);
-            exit('ID manquant');
-        }
-
-        $task = TaskModel::findOneByUser($id, $_SESSION['user']['id']);
-        if (!$task) {
-            http_response_code(403);
-            exit('Accès interdit');
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            TaskModel::update(
+            $this->taskRepository->update(
                 $id,
-                $_POST['title'],
-                $_POST['description'] ?? ''
+                $data['title'] ?? '',
+                $data['description'] ?? ''
             );
 
-            header('Location: /tasks');
+            $this->response->redirect('/tasks');
+        }
+
+        $this->response->render('tasks/edit', [
+            'task' => $task
+        ]);
+    }
+
+    public function delete(int $id): void
+    {
+        $this->denyIfNotLogged();
+
+        $userId = $this->session->get('user')['id_user'];
+        $task = $this->taskRepository->findOneByUser($id, $userId);
+
+        if (!$task) {
+            http_response_code(403);
+            echo 'Accès interdit';
             exit;
         }
 
-        require __DIR__ . '/../../views/tasks/edit.php';
-    }
-
-    public function delete($id = null)
-    {
-        Auth::check();
-
-        if (!$id) {
-            http_response_code(400);
-            exit('ID manquant');
-        }
-
-        $task = TaskModel::findOneByUser($id, $_SESSION['user']['id']);
-        if (!$task) {
-            http_response_code(403);
-            exit('Accès interdit');
-        }
-
-        TaskModel::delete($id);
-        header('Location: /tasks');
-        exit;
+        $this->taskRepository->delete($id);
+        $this->response->redirect('/tasks');
     }
 }
-?>
