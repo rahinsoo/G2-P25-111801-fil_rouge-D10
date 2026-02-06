@@ -1,50 +1,67 @@
 <?php
 
-use Controller\AppController;
-use Repository\HomeRepository;
-use Repository\CustomerRepository;
-use Repository\RoleRepository;
-use Repository\UserRepository;
+require __DIR__ . '/../vendor/autoload.php';
 
+use Core\Router;
+use Core\Request;
+use Core\Response;
+use Core\Session;
+use Core\Database;
+
+use Controller\AppController;
+use Controller\CustomerController;
 use Controller\UserController;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
-use Controller\API\UserApiController;
+use Controller\Api\UserApiController;
+use Controller\TaskController;
 
-use Core\Cors;
-use Core\Database;
-use Core\Request;
-use Core\Response;
-use Core\Router;
-use Core\Session;
+use Repository\CustomerRepository;
+use Repository\UserRepository;
+use Repository\TaskRepository;
 
-session_start();
-require __DIR__ . '/../autoload.php';
-$config = require_once __DIR__ . '/../config/db.php';
+// Configuration DB
+$config = require __DIR__ . '/../config/db.php';
 
-Cors::handle();
-
-$session = new Session();
+// Core instances
 $request = new Request();
 $response = new Response();
-$router = new Router();
-$homeRepository = new HomeRepository(Database::makePdo($config['db']));
-$CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
+$session = new Session();
 
+$pdo = Database::makePdo($config['db']);
 
-$AppController = new AppController($response,$homeRepository, $CustomerRepository, $session, $request);
-$userRepository = new UserRepository(Database::makePdo($config['db']));
-$roleRepository = new RoleRepository(Database::makePdo($config['db']));
+// Repositories
+$customerRepository = new CustomerRepository($pdo);
+$userRepository = new UserRepository($pdo);
+$taskRepository = new TaskRepository($pdo);
 
-$authController = new AuthController($response, $userRepository, $session, $request);
-$userController = new UserController($response, $userRepository, $roleRepository, $session, $request);
-$dashboardController = new DashboardController($response, $session, $request);
-$passwordController = new PasswordController($response, $userRepository, $session, $request);
-$userApiController = new UserApiController($userRepository, $session, $request);
+// Controllers
+$appController = new AppController($response);
+$customerController = new CustomerController($response, $customerRepository);
+$userController = new UserController($response, $userRepository);
+$authController = new AuthController($response, $userRepository, $session);
+$dashboardController = new DashboardController($response, $session);
+$passwordController = new PasswordController($response, $userRepository);
+$userApiController = new UserApiController($response, $userRepository);
+$taskController = new TaskController($response, $taskRepository, $session, $request);
 
+$router = new Router($request, $response);
+
+// Routes
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $AppController, $userController, $authController, $dashboardController, $passwordController, $userApiController);
-$router->dispatch($request, $response);
 
+$registerRoutes(
+    $router,
+    $appController,
+    $customerController,
+    $userController,
+    $authController,
+    $dashboardController,
+    $passwordController,
+    $userApiController,
+    $taskController
+);
 
+// Resolve
+$router->resolve();
